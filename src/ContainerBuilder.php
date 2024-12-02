@@ -4,7 +4,6 @@ namespace Lemonade\EmailGenerator;
 
 use Lemonade\EmailGenerator\Services\AddressService;
 use Psr\Log\LoggerInterface;
-use Lemonade\EmailGenerator\EmailContext;
 use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Template\TemplateRenderer;
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
@@ -18,7 +17,7 @@ use Lemonade\EmailGenerator\Services\ContextService;
 use Lemonade\EmailGenerator\Factories\ProductFactory;
 use Lemonade\EmailGenerator\Factories\AttachmentFactory;
 
-class DependencyContainer
+class ContainerBuilder
 {
 
     private ?ProductCollectionService $productCollectionService = null;
@@ -38,55 +37,13 @@ class DependencyContainer
      * @param Translator $translator Translator pro překlad zpráv.
      * @param TemplateRenderer $templateRenderer Renderer pro vykreslování šablon.
      * @param BlockManager $blockManager Správce bloků obsahu emailu.
-     * @param EmailContext $context Kontext definující potřeby emailu.
      */
     public function __construct(
         protected readonly LoggerInterface $logger,
         protected readonly Translator $translator,
         protected readonly TemplateRenderer $templateRenderer,
-        protected readonly BlockManager $blockManager,
-        protected EmailContext $context
-    ) {
-        $this->initializeRequiredServices();
-    }
-
-    /**
-     * Inicializace povinných služeb na základě kontextu emailu.
-     *
-     * @return void
-     */
-    private function initializeRequiredServices(): void
-    {
-        if ($this->context->includeProducts) {
-            $this->productCollectionService = new ProductCollectionService(new ProductFactory());
-        }
-
-        if ($this->context->includeShipping) {
-            $this->shippingService = new ShippingService();
-        }
-
-        if ($this->context->includePayment) {
-            $this->paymentService = new PaymentService();
-        }
-
-        if ($this->context->includePickupPoint) {
-            $this->pickupPointService = new PickupPointService();
-        }
-
-        if ($this->context->includeAttachments) {
-            $this->attachmentCollectionService = new AttachmentCollectionService(new AttachmentFactory());
-        }
-
-        if ($this->context->includeSummary) {
-            $this->summaryService = new SummaryService();
-        }
-
-        // ContextService je obecně volitelný, ale můžeme ho inicializovat vždy, pokud je třeba.
-        $this->contextService = new ContextService();
-
-        // AddressService je obecně volitelný, ale můžeme ho inicializovat vždy, pokud je třeba.
-        $this->addressService = new AddressService();
-    }
+        protected readonly BlockManager $blockManager
+    ) {}
 
     /**
      * Obecná metoda pro lazy-loading služeb.
@@ -113,7 +70,7 @@ class DependencyContainer
      */
     public function getProductCollectionService(): ProductCollectionService
     {
-        if ($this->productCollectionService === null && $this->context->includeProducts) {
+        if ($this->productCollectionService === null) {
             $this->logger->warning('ProductCollectionService není nastavena, vytváří se nová instance.');
             $this->productCollectionService = new ProductCollectionService(new ProductFactory());
         }
@@ -128,7 +85,7 @@ class DependencyContainer
      */
     public function getShippingService(): ShippingService
     {
-        if ($this->shippingService === null && $this->context->includeShipping) {
+        if ($this->shippingService === null) {
             $this->logger->warning('ShippingService není nastavena, vytváří se nová instance.');
             $this->shippingService = new ShippingService();
         }
@@ -143,7 +100,7 @@ class DependencyContainer
      */
     public function getPaymentService(): PaymentService
     {
-        if ($this->paymentService === null && $this->context->includePayment) {
+        if ($this->paymentService === null) {
             $this->logger->warning('PaymentService není nastavena, vytváří se nová instance.');
             $this->paymentService = new PaymentService();
         }
@@ -158,7 +115,7 @@ class DependencyContainer
      */
     public function getPickupPointService(): PickupPointService
     {
-        if ($this->pickupPointService === null && $this->context->includePickupPoint) {
+        if ($this->pickupPointService === null) {
             $this->logger->warning('PickupPointService není nastavena, vytváří se nová instance.');
             $this->pickupPointService = new PickupPointService();
         }
@@ -173,7 +130,7 @@ class DependencyContainer
      */
     public function getAttachmentCollectionService(): AttachmentCollectionService
     {
-        if ($this->attachmentCollectionService === null && $this->context->includeAttachments) {
+        if ($this->attachmentCollectionService === null) {
             $this->logger->warning('AttachmentCollectionService není nastavena, vytváří se nová instance.');
             $this->attachmentCollectionService = new AttachmentCollectionService(new AttachmentFactory());
         }
@@ -188,7 +145,7 @@ class DependencyContainer
      */
     public function getSummaryService(): SummaryService
     {
-        if ($this->summaryService === null && $this->context->includeSummary) {
+        if ($this->summaryService === null) {
             $this->logger->warning('SummaryService není nastavena, vytváří se nová instance.');
             $this->summaryService = new SummaryService();
         }
