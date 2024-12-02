@@ -3,6 +3,7 @@
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
 use Lemonade\EmailGenerator\Blocks\Component\AttachmentList;
 use Lemonade\EmailGenerator\Blocks\Component\ComponentPickupPoint;
+use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
@@ -34,6 +35,7 @@ $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::ERROR)
 $translator = new Translator(logger: $logger);
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator);
+
 
 // 2. Inicializace ContainerBuilder s kontextem
 $container = new ContainerBuilder(
@@ -155,6 +157,7 @@ $currency = "CZK";
 $contextService = $container->getContextService();
 $blockManager->addBlock(new StaticBlockGreetingHeader());
 $blockManager->addBlock(new EccomerceNotify(context: $contextService->createContext(data: ["webName" => "Můj eshop"])));
+$blockManager->addBlock(new ComponentNotification(heading: "Upozornění!", notification: "Bude nutné zkontrolovat dostupnost, váhu a rozměry zboží, aby bylo možné je co nejdříve doručit. \n \n V případě, že zboží nebude možné zaslat v jedné zásilce, bude nutné kontaktovat zákazníka ohledně rozdělení na více balíků."));
 $blockManager->addBlock(new EccomerceHeader(context: $contextService->createContext(data: [
     "orderId" => "1234567890", "orderCode" => "XXX1234567890", "orderTotal" => 666, "orderCurrency" => "Kč", "orderDate" => date(format: "j.n.Y")
 ])));
