@@ -3,10 +3,10 @@
 namespace Lemonade\EmailGenerator\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticNotification;
+use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
 use InvalidArgumentException;
 
-class StaticNotificationTest extends TestCase
+class ComponentNotificationTest extends TestCase
 {
     /**
      * Testuje, zda je výchozí hodnota `heading` správně nastavena.
@@ -15,7 +15,7 @@ class StaticNotificationTest extends TestCase
     {
         $heading = "Moje vlastní heading";
         $notification = "Moje vlastní notifikace!";
-        $notificationBlock = new StaticNotification($heading, $notification);
+        $notificationBlock = new ComponentNotification($heading, $notification);
 
         $context = $notificationBlock->getContext();
 
@@ -31,7 +31,7 @@ class StaticNotificationTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Chybějící nebo prázdný požadovaný klíč: 'heading'.");
 
-        $notificationBlock = new StaticNotification("", "Moje vlastní notifikace!");
+        $notificationBlock = new ComponentNotification("", "Moje vlastní notifikace!");
         $notificationBlock->validateContext(); // Chybějící `heading` by měla vyvolat výjimku
     }
 
@@ -43,7 +43,7 @@ class StaticNotificationTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Chybějící nebo prázdný požadovaný klíč: 'notification'.");
 
-        $notificationBlock = new StaticNotification("Moje vlastní heading", "");
+        $notificationBlock = new ComponentNotification("Moje vlastní heading", "");
         $notificationBlock->validateContext(); // Chybějící nebo prázdný `notification` by měla vyvolat výjimku
     }
 
@@ -55,7 +55,7 @@ class StaticNotificationTest extends TestCase
         $heading = "Moje vlastní heading";
         $notification = "Moje vlastní notifikace!";
 
-        $notificationBlock = new StaticNotification($heading, $notification);
+        $notificationBlock = new ComponentNotification($heading, $notification);
 
         // Pokud je všechno v pořádku, validace nevyvolá žádnou výjimku
         $notificationBlock->validateContext();

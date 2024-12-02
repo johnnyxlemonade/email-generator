@@ -1,0 +1,45 @@
+{# Hlavní tabulka, která obaluje celý block ComponentNotification #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro konzistentní vzhled e-mailu #}
+        <td class="o_bg-white o_px-md o_py" align="center" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zobrazení a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="center">
+            <![endif]-->
+
+            {# Hlavní kontejner pro obsah, omezený na maximální šířku 600px pro lepší čitelnost #}
+            <div class="o_col-6s" style="max-width: 600px;">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                    <tbody>
+                    <tr>
+                        {# Tabulka pro jednotlivé bloky s pozadím, zaoblenými rohy a textovým stylem #}
+                        <td class="o_bg-primary o_br-r o_text-xs o_text-white o_sans o_px o_py-xs" align="left"
+                            style="vertical-align: top;font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;background-color: #ebf5fa;color: #242b3d;border-radius: 0px 4px 4px 0px;padding: 16px;border-radius: 4px;">
+
+                            {# Nadpis, který je generován z proměnné `heading` (např. nadpis upozornění) #}
+                            <h3>{{ heading }}</h3>
+
+                            {# Text zprávy, který bude zobrazen jako odstavec.
+                                 Použití filtru `nl2br` pro zachování nových řádků. #}
+                            <p style="margin-top: 0px;margin-bottom: 0px;padding-top:8px;padding-bottom:8px;">
+                                {{ notification | nl2br }}
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--[if mso]>
+            </td></tr></table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
