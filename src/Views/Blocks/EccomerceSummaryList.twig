@@ -1,0 +1,76 @@
+{# Tabulka pro zobrazení souhrnu objednávky #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením #}
+        <td class="o_re o_bg-white o_px-md o_py" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="right">
+            <![endif]-->
+
+            {# Kontejner pro souhrn objednávky #}
+            <div class="o_col-6s o_right" style="max-width: 600px;text-align: right;">
+                <table class="o_right" role="presentation" cellspacing="0" cellpadding="0" border="0" style="text-align: right;margin-left: auto;margin-right: 0;">
+                    <tbody>
+                    <tr>
+                        <td width="284" align="left">
+                            <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tbody>
+
+                                {# Iterace přes kolekci souhrnu `summary`, což je vlastně `SummaryCollection` #}
+                                {% for item in summary %}
+                                    <tr>
+                                        {# Pokud není položka finální #}
+                                        {% if not item.isFinal %}
+                                            <td width="50%" class="o_pt-xs" align="left" style="padding-top: 4px;padding-bottom: 4px;">
+                                                <p class="o_sans o_text o_text-secondary" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;color: #424651;">
+                                                    {{ item.getName() }}
+                                                </p>
+                                            </td>
+                                            <td width="50%" class="o_pt-xs" align="right" style="padding-top: 4px;padding-bottom: 4px;">
+                                                <p class="o_sans o_text o_text-secondary" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;color: #424651;">
+                                                    {# Použití formátovací funkce s přizpůsobením počtu desetinných míst, oddělovače desetinných míst a oddělovače tisíců #}
+                                                    {{ format_number(item.getValue(), currency, 2) }}
+                                                </p>
+                                            </td>
+                                            {# Pokud je položka finální #}
+                                        {% else %}
+                                            <td width="50%" class="o_pt-xs" align="left" style="padding-top: 8px;border-top: 1px solid #e7e7e7;">
+                                                <p class="o_sans o_text o_text-secondary" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;color: #424651;">
+                                                    <strong>{{ item.getName() }}</strong>
+                                                </p>
+                                            </td>
+                                            <td width="50%" class="o_pt-xs" align="right" style="padding-top: 8px;border-top: 1px solid #e7e7e7;">
+                                                <p class="o_sans o_text o_text-secondary" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;color: #424651;">
+                                                    <strong>
+                                                        {# Použití formátovací funkce s přizpůsobením počtu desetinných míst, oddělovače desetinných míst a oddělovače tisíců #}
+                                                        {{ format_number(item.getValue(), currency, 2) }}
+                                                    </strong>
+                                                </p>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>

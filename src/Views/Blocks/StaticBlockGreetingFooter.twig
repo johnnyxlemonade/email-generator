@@ -1,0 +1,33 @@
+{# Hlavní tabulka s pozdravem v patičce e-mailu #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro zajištění konzistentního vzhledu #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="left">
+            <![endif]-->
+
+            {# Kontejner s textem pozdravu v patičce e-mailu #}
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0;margin-bottom: 0;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+
+                {# Text pozdravu v patičce e-mailu, lokalizovaný pomocí translate() #}
+                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #82899a;margin-top: 0;margin-bottom: 2px;">
+                    {{ translate('greetingFooter') }}
+                </p>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
