@@ -89,25 +89,8 @@ class DependencyContainer
     }
 
     /**
-     *
-     * @return ContextService
-     */
-    public function getContextService(): ContextService
-    {
-        return $this->getService('contextService', ContextService::class);
-    }
-
-    /**
-     * @return AddressService
-     */
-    public function getAddressService(): AddressService
-    {
-
-        return $this->getService('addressService', AddressService::class);
-    }
-
-    /**
      * Obecná metoda pro lazy-loading služeb.
+     * Pokud služba není inicializována, vytvoří se nová instance a zaloguje se.
      *
      * @param string $serviceProperty Název vlastnosti, která drží instanci služby.
      * @param string $serviceClass Název třídy služby.
@@ -123,111 +106,112 @@ class DependencyContainer
     }
 
     /**
-     * Vrací ProductCollectionService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci ProductCollectionService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return ProductCollectionService
-     * @throws \RuntimeException
      */
     public function getProductCollectionService(): ProductCollectionService
     {
         if ($this->productCollectionService === null && $this->context->includeProducts) {
-            $this->logger->info('ProductCollectionService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('ProductCollectionService není nastavena, vytváří se nová instance.');
             $this->productCollectionService = new ProductCollectionService(new ProductFactory());
-        } elseif ($this->productCollectionService === null) {
-            throw new \RuntimeException('ProductCollectionService není dostupná pro tento typ emailu.');
         }
-        return $this->productCollectionService;
+        return $this->productCollectionService ?? $this->createAndLogService(ProductCollectionService::class, new ProductFactory());
     }
 
     /**
-     * Vrací ShippingService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci ShippingService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return ShippingService
-     * @throws \RuntimeException
      */
     public function getShippingService(): ShippingService
     {
         if ($this->shippingService === null && $this->context->includeShipping) {
-            $this->logger->info('ShippingService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('ShippingService není nastavena, vytváří se nová instance.');
             $this->shippingService = new ShippingService();
-        } elseif ($this->shippingService === null) {
-            throw new \RuntimeException('ShippingService není dostupná pro tento typ emailu.');
         }
-        return $this->shippingService;
+        return $this->shippingService ?? $this->createAndLogService(ShippingService::class);
     }
 
     /**
-     * Vrací PaymentService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci PaymentService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return PaymentService
-     * @throws \RuntimeException
      */
     public function getPaymentService(): PaymentService
     {
         if ($this->paymentService === null && $this->context->includePayment) {
-            $this->logger->info('PaymentService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('PaymentService není nastavena, vytváří se nová instance.');
             $this->paymentService = new PaymentService();
-        } elseif ($this->paymentService === null) {
-            throw new \RuntimeException('PaymentService není dostupná pro tento typ emailu.');
         }
-        return $this->paymentService;
+        return $this->paymentService ?? $this->createAndLogService(PaymentService::class);
     }
 
     /**
-     * Vrací PickupPointService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci PickupPointService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return PickupPointService
-     * @throws \RuntimeException
      */
     public function getPickupPointService(): PickupPointService
     {
         if ($this->pickupPointService === null && $this->context->includePickupPoint) {
-            $this->logger->info('PickupPointService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('PickupPointService není nastavena, vytváří se nová instance.');
             $this->pickupPointService = new PickupPointService();
-        } elseif ($this->pickupPointService === null) {
-            throw new \RuntimeException('PickupPointService není dostupná pro tento typ emailu.');
         }
-        return $this->pickupPointService;
+        return $this->pickupPointService ?? $this->createAndLogService(PickupPointService::class);
     }
 
     /**
-     * Vrací AttachmentCollectionService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci AttachmentCollectionService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return AttachmentCollectionService
-     * @throws \RuntimeException
      */
     public function getAttachmentCollectionService(): AttachmentCollectionService
     {
         if ($this->attachmentCollectionService === null && $this->context->includeAttachments) {
-            $this->logger->info('AttachmentCollectionService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('AttachmentCollectionService není nastavena, vytváří se nová instance.');
             $this->attachmentCollectionService = new AttachmentCollectionService(new AttachmentFactory());
-        } elseif ($this->attachmentCollectionService === null) {
-            throw new \RuntimeException('AttachmentCollectionService není dostupná pro tento typ emailu.');
         }
-        return $this->attachmentCollectionService;
+        return $this->attachmentCollectionService ?? $this->createAndLogService(AttachmentCollectionService::class, new AttachmentFactory());
     }
 
     /**
-     * Vrací SummaryService. Pokud služba nebyla inicializována, pokusí se ji vytvořit.
+     * Vrací instanci SummaryService.
+     * Pokud služba nebyla inicializována, pokusí se ji vytvořit a zalogovat.
      *
      * @return SummaryService
-     * @throws \RuntimeException
      */
     public function getSummaryService(): SummaryService
     {
         if ($this->summaryService === null && $this->context->includeSummary) {
-            $this->logger->info('SummaryService není nastavena, vytváří se nová instance.');
+            $this->logger->warning('SummaryService není nastavena, vytváří se nová instance.');
             $this->summaryService = new SummaryService();
-        } elseif ($this->summaryService === null) {
-            throw new \RuntimeException('SummaryService není dostupná pro tento typ emailu.');
         }
-        return $this->summaryService;
+        return $this->summaryService ?? $this->createAndLogService( SummaryService::class);
     }
 
-    // Další povinné služby (getter metody pro Translator, TemplateRenderer, BlockManager)
+    /**
+     * Vytvoří novou instanci služby a zaloguje varování.
+     *
+     * @param string $serviceClass Název třídy služby.
+     * @param mixed ...$args Argumenty pro konstruktor služby.
+     * @return object
+     */
+    private function createAndLogService(string $serviceClass, ...$args)
+    {
+        $this->logger->critical("$serviceClass nebyla nastavena, vytváří se nová instance na vyžádání.");
+        return new $serviceClass(...$args);
+    }
+
+    // Getter metody pro povinné služby (Logger, Translator, TemplateRenderer, BlockManager)
 
     /**
-     * Vrací LoggerInterface.
+     * Vrací instanci LoggerInterface.
      *
      * @return LoggerInterface
      */
@@ -237,7 +221,7 @@ class DependencyContainer
     }
 
     /**
-     * Vrací Translator.
+     * Vrací instanci Translator.
      *
      * @return Translator
      */
@@ -247,7 +231,7 @@ class DependencyContainer
     }
 
     /**
-     * Vrací TemplateRenderer.
+     * Vrací instanci TemplateRenderer.
      *
      * @return TemplateRenderer
      */
@@ -257,7 +241,7 @@ class DependencyContainer
     }
 
     /**
-     * Vrací BlockManager.
+     * Vrací instanci BlockManager.
      *
      * @return BlockManager
      */
@@ -265,4 +249,25 @@ class DependencyContainer
     {
         return $this->blockManager;
     }
+
+    // dalsi sluzby
+
+    /**
+     *
+     * @return ContextService
+     */
+    public function getContextService(): ContextService
+    {
+        return $this->getService(serviceProperty: "contextService", serviceClass: ContextService::class);
+    }
+
+    /**
+     * @return AddressService
+     */
+    public function getAddressService(): AddressService
+    {
+
+        return $this->getService(serviceProperty: "addressService", serviceClass: AddressService::class);
+    }
+
 }

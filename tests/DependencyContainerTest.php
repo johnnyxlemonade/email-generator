@@ -17,6 +17,7 @@ use Lemonade\EmailGenerator\Services\PaymentService;
 use Lemonade\EmailGenerator\Services\PickupPointService;
 use Lemonade\EmailGenerator\Services\AttachmentCollectionService;
 use Lemonade\EmailGenerator\Services\SummaryService;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 class DependencyContainerTest extends TestCase
@@ -83,11 +84,48 @@ class DependencyContainerTest extends TestCase
         $this->assertInstanceOf(ContextService::class, $service);
     }
 
-    public function testServiceLazyLoading()
+    public function testServiceLazyLoadingCreatesService()
     {
+        // Nastavení kontextu, kde všechny komponenty jsou vypnuté
         $context = new EmailContext(
             includeProducts: false,
             includeShipping: false,
+            includePayment: false,
+            includePickupPoint: false,
+            includeAttachments: false,
+            includeSummary: false
+        );
+
+        // Inicializace potřebných služeb
+        $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::INFO));
+        $translator = new Translator($logger);
+        $templateRenderer = new TemplateRenderer($logger, $translator);
+        $blockManager = new BlockManager($templateRenderer, $logger, $translator);
+
+        // Inicializace DependencyContainer s předaným kontextem
+        $container = new DependencyContainer($logger, $translator, $templateRenderer, $blockManager, $context);
+
+        // Pokus o získání služby, která není v kontextu povolena
+        // Ověřujeme, že služba bude dynamicky vytvořena, aniž by byla vyhozena výjimka
+        $service = $container->getProductCollectionService();
+
+        // Ověření, že služba byla vytvořena (a že není null)
+        $this->assertInstanceOf(ProductCollectionService::class, $service);
+
+        // Ověření, že služba byla dynamicky vytvořena
+        // Zde kontrolujeme, že není NULL a že byla opravdu inicializována
+        $this->assertNotNull($service);
+
+        // Kontrola, že metoda byla zavolána a správně vytvořena pouze v případě potřeby
+        // Můžete přidat i jiné asserty, které se týkají interní logiky, pokud je potřeba
+    }
+
+    public function testServiceLazyLoadingForShippingService()
+    {
+        // Nastavení kontextu s povolenou pouze Shipping službou
+        $context = new EmailContext(
+            includeProducts: false,
+            includeShipping: true,
             includePayment: false,
             includePickupPoint: false,
             includeAttachments: false,
@@ -101,8 +139,9 @@ class DependencyContainerTest extends TestCase
 
         $container = new DependencyContainer($logger, $translator, $templateRenderer, $blockManager, $context);
 
-        $this->expectException(\RuntimeException::class);
-        $container->getProductCollectionService();
+        // Ověřujeme, že služba ShippingService bude dynamicky vytvořena, i když není povolena
+        $service = $container->getShippingService();
+        $this->assertInstanceOf(ShippingService::class, $service);
     }
 
     public function testAddressServiceInitialization()
