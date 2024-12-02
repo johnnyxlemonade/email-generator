@@ -13,7 +13,7 @@ use Lemonade\EmailGenerator\Blocks\Order\EccomerceMessage;
 use Lemonade\EmailGenerator\Blocks\Order\EccomerceNotify;
 use Lemonade\EmailGenerator\Blocks\Order\EccomerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EccomerceSummaryList;
-use Lemonade\EmailGenerator\DependencyContainer;
+use Lemonade\EmailGenerator\ContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressDTO;
 use Lemonade\EmailGenerator\DTO\AttachmentData;
 use Lemonade\EmailGenerator\DTO\PaymentData;
@@ -21,35 +21,29 @@ use Lemonade\EmailGenerator\DTO\PickupPointData;
 use Lemonade\EmailGenerator\DTO\ProductData;
 use Lemonade\EmailGenerator\DTO\ShippingData;
 use Lemonade\EmailGenerator\DTO\SummaryData;
-use Lemonade\EmailGenerator\EmailContext;
 use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Logger\FileLogger;
 use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
 use Lemonade\EmailGenerator\Template\TemplateRenderer;
 use Psr\Log\LogLevel;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Vytvoření základních povinných služeb
-$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::INFO));
+$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::ERROR));
 $translator = new Translator(logger: $logger);
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator);
 
-// 2. Definování EmailContext pro úplný email (všechny komponenty jsou zahrnuty)
-$emailContext = new EmailContext(
-    includeProducts: true,
-    includeShipping: true,
-    includePayment: true,
-    includePickupPoint: true,
-    includeAttachments: true,
-    includeSummary: true
+// 2. Inicializace ContainerBuilder s kontextem
+$container = new ContainerBuilder(
+    logger: $logger,
+    translator: $translator,
+    templateRenderer: $templateRenderer,
+    blockManager: $blockManager
 );
 
-// 3. Inicializace DependencyContainer s kontextem
-$container = new DependencyContainer(logger: $logger, translator: $translator, templateRenderer: $templateRenderer, blockManager: $blockManager, context: $emailContext);
-
-// 4. Produkty
+// 3. Produkty
 $productCollectionService = $container->getProductCollectionService();
 $productCollection = $productCollectionService->createProductCollection();
 for ($i = 1; $i <= 6; $i++) {
@@ -78,14 +72,14 @@ for ($i = 1; $i <= 6; $i++) {
     $productCollectionService->addProductToCollection(collection: $productCollection, data: $productData);
 }
 
-// 5. Doprava a Platba
+// 4. Doprava a Platba
 $shippingService = $container->getShippingService();
 $shipping = $shippingService->createShipping(data: new ShippingData(name: "Doprava kurýrem", price: 150.0));
 
 $paymentService = $container->getPaymentService();
 $payment = $paymentService->createPayment(data: new PaymentData(name: "Platba kartou", price: 0.0));
 
-// 6. Výdejní místo
+// 5. Výdejní místo
 $pickupPointService = $container->getPickupPointService();
 $pickupPoint = $pickupPointService->createPickupPoint(data: new PickupPointData(
     id: 'PKP001',
@@ -98,7 +92,7 @@ $pickupPoint = $pickupPointService->createPickupPoint(data: new PickupPointData(
     googleMapKey: ""
 ));
 
-// 7. Přílohy
+// 6. Přílohy
 $attachmentCollectionService = $container->getAttachmentCollectionService();
 $attachmentCollection = $attachmentCollectionService->createAttachmentCollection();
 $attachmentData = new AttachmentData(
@@ -116,7 +110,7 @@ $attachmentData = new AttachmentData(
 );
 $attachmentCollectionService->addAttachmentToCollection(collection: $attachmentCollection, data: $attachmentData);
 
-// 8. Souhrn
+// 7. Souhrn
 $summaryService = $container->getSummaryService();
 $summaryCollection = $summaryService->getSummaryCollection();
 $summaryService->addSummaryItemToCollection(collection: $summaryCollection, data: new SummaryData(name: "Váha", value: "0 g"));
@@ -125,7 +119,7 @@ $summaryService->addSummaryItemToCollection(collection: $summaryCollection, data
 $summaryService->addSummaryItemToCollection(collection: $summaryCollection, data: new SummaryData(name: "Platba", value: 0));
 $summaryService->addSummaryItemToCollection(collection: $summaryCollection, data: new SummaryData(name: "Celkem", value: 3450, final: true));
 
-// 9. Adresy
+// 8. Adresy
 $addressService = $container->getAddressService();
 $addressData = new AddressDTO([
     "addressCompanyId" => "CZ12345678",
@@ -148,7 +142,7 @@ $footerAddress = $billingAddress->copy();
 $footerAddress->setCompanyName(companyName: "MUj ESHOP");
 $footerAddress->setAddressEmail(email: "info@muj-eshop.com");
 
-// 10. Přidání bloků do BlockManageru
+// 9. Přidání bloků do BlockManageru
 $blockManager = $container->getBlockManager();
 $blockManager->setBlockRenderCenter();
 $blockManager->setLanguage(language: "cs");
