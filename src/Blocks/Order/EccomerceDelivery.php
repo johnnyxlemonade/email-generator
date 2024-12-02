@@ -33,7 +33,7 @@ class EccomerceDelivery extends AbstractBlock
      *
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
 
         $this->context->validate(["shipping", "payment", "currency"]);

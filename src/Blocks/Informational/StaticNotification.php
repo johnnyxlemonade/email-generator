@@ -5,19 +5,21 @@ use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Models\Address;
 
-class StaticBlockGreetingAddress extends AbstractBlock
+class StaticNotification extends AbstractBlock
 {
 
     /**
-     * @param Address $address
+     * @param string|null $heading
+     * @param string|null $notification
      */
-    public function __construct(Address $address)
+    public function __construct(string $heading, string $notification)
     {
         // Inicializace kontextu
         $context = new ContextData();
 
         // Přidání ddresy do kontextu
-        $context->set("address", $address);
+        $context->set("heading", $heading);
+        $context->set("notification", $notification);
 
         // Předání kontextu do rodičovského konstruktoru
         parent::__construct($context);
@@ -28,8 +30,8 @@ class StaticBlockGreetingAddress extends AbstractBlock
      */
     public function validateContext(): void
     {
-        // Předpokládáme, že `address` je už v kontextu nastavena
-        $this->context->validate(["address"]);
+        // Předpokládáme, že `heading` a `notification` je už v kontextu nastavena
+        $this->context->validate(["heading", "notification"]);
     }
 
 }

@@ -19,7 +19,7 @@ class EccomerceHeader extends AbstractBlock
     /**
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Validace očekávaných klíčů
         $this->context->validate(["orderId", "orderCode", "orderTotal", "orderCurrency", "orderDate"]);

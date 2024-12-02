@@ -35,7 +35,7 @@ class StaticBlock extends AbstractBlock
     /**
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Žádná validace není nutná
     }

@@ -29,7 +29,7 @@ class EccomerceSummaryList extends AbstractBlock
      *
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Validace, že některé základní klíče jsou nastaveny
         $this->context->validate(["summary", "currency"]);

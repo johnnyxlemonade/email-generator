@@ -24,7 +24,7 @@ class AttachmentList extends AbstractBlock
     /**
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Předpokládáme, že `attachments` jsou už v kontextu nastaveny
         $this->context->validate(["attachments"]);

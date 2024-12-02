@@ -60,7 +60,7 @@ abstract class AbstractBlock implements BlockInterface
      * Validace
      * @return void
      */
-    abstract protected function validateContext(): void;
+    abstract public function validateContext(): void;
 
     /**
      * Centralizovaná validace, která se provádí na všech klíčích.

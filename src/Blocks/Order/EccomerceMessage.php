@@ -41,7 +41,7 @@ class EccomerceMessage extends AbstractBlock
      *
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Seznam požadovaných klíčů pro tento blok
         //$this->validateRequiredKeys(["message"]);

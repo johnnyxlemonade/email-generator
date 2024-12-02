@@ -19,7 +19,7 @@ class ComponentBlockText extends AbstractBlock
     /**
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Validace očekávaných klíčů
         $this->context->validate(["label", "description", "content"]);

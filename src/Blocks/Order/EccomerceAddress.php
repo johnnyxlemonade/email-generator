@@ -29,7 +29,7 @@ class EccomerceAddress extends AbstractBlock
     /**
      * @return void
      */
-    protected function validateContext(): void
+    public function validateContext(): void
     {
         // Předpokládáme, že `address` jsou už v kontextu nastaveny
         $this->context->validate(["billingAddress", "deliveryAddress"]);
