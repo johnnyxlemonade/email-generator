@@ -1,0 +1,97 @@
+{# Hlavní tabulka s nadpisem a popisem zprávy v e-mailu #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro konzistentní vzhled e-mailu #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="left">
+            <![endif]-->
+
+            {# Kontejner s nadpisem a popisem zprávy #}
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 584px;color: #424651;text-align: left;">
+
+                {# Nadpis sekce zprávy, lokalizovaný pomocí translate() #}
+                <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
+                    {{ translate('eccomerceMessageLabel') }}
+                </h3>
+
+                {# Popis sekce zprávy, lokalizovaný pomocí translate() #}
+                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
+                    {{ translate('eccomerceMessageDescription') }}
+                </p>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{# Tabulka pro zobrazení samotné zprávy nebo informace, že zpráva není k dispozici #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro vykreslení zprávy #}
+        <td class="o_re o_bg-white o_px o_pb-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td width="300" align="center" valign="top" style="padding: 0px 8px;">
+            <![endif]-->
+
+            {# Kontejner s textem zprávy nebo oznámením, že zpráva není dostupná #}
+            <div class="o_col o_col-3 o_col-full" style="display: inline-block;vertical-align: top;width: 100%;max-width: 600px;">
+                <div style="font-size: 24px; line-height: 24px; height: 2px;">&nbsp;</div>
+                <div class="o_px-xs">
+
+                    {# Vnořená tabulka, která obsahuje zprávu #}
+                    <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            {# Buňka s rámečkem, zaoblenými rohy a odsazením pro vykreslení zprávy #}
+                            <td class="o_b-light o_br o_px o_py o_sans o_text-xs o_text-secondary" align="left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;color: #424651;border: 1px solid #e7e7e7;border-radius: 4px;padding-left: 16px;padding-right: 16px;padding-top: 16px;padding-bottom: 16px;">
+
+                                {# Pokud je zpráva k dispozici, zobraz ji #}
+                                {% if message is not empty %}
+                                    <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 4px;">
+                                        {{ message | nl2br  }}
+                                    </p>
+                                    {# Pokud není zpráva k dispozici, zobraz lokalizovaný text 'Žádná zpráva' #}
+                                {% else %}
+                                    <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 4px;">
+                                        {{ translate('eccomerceMessageNoMessage') }}
+                                    </p>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            <td width="300" align="center" valign="top" style="padding: 0px 8px;">
+            <![endif]-->
+            <!--[if mso]>
+            </td></tr></table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>

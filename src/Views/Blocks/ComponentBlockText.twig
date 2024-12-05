@@ -1,0 +1,36 @@
+{# Hlavní tabulka s oznámením o vytvoření textu #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro zajištění konzistentního vzhledu #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="left">
+            <![endif]-->
+
+            {# Kontejner s informací o vytvoření objednávky #}
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0;margin-bottom: 0;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+
+                {# Prázdný div pro vytvoření vertikální mezery #}
+                <div style="font-size: 24px; line-height: 24px; height: 24px;">&nbsp;</div>
+
+                {# Oznámení o vytvoření objednávky, lokalizované pomocí translate() a s proměnnou webName #}
+                <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 8px;font-style: italic;">
+                    {{ message | nl2br  }}
+                </p>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>

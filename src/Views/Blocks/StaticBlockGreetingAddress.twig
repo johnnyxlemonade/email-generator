@@ -1,0 +1,65 @@
+{# Hlavní tabulka pro vykreslení adresy zákazníka #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro konzistentní vzhled e-mailu #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="left">
+            <![endif]-->
+
+            {# Kontejner pro adresní údaje zákazníka #}
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+
+                {# Adresní údaje zákazníka - podmíněné vykreslení jednotlivých částí #}
+                <p class="o_mb" style="margin-top: 0px;margin-bottom: 8px;">
+
+                    {# Jméno společnosti, pokud je vyplněno #}
+                    {% if address.getCompanyName() is not empty %}
+                        <strong>{{ address.getCompanyName() }}</strong><br>
+                    {% else %}
+                        <br>
+                    {% endif %}
+
+                    {# Ulice adresy, pokud je vyplněna #}
+                    {% if address.getAddressStreet() is not empty %}
+                        {{ address.getAddressStreet() }} <br>
+                    {% endif %}
+
+                    {# PSČ, pokud je vyplněno #}
+                    {% if address.getAdddressPostcode() is not empty %}
+                        {{ address.getAdddressPostcode() }}
+                    {% endif %}
+
+                    {# Město, pokud je vyplněno #}
+                    {% if address.getAddressCity() is not empty %}
+                        {{ address.getAddressCity() }} <br><br>
+                    {% endif %}
+
+                    {# Telefon, pokud je vyplněn #}
+                    {% if address.getAddressPhone() is not empty %}
+                        {{ address.getAddressPhone() }} <br>
+                    {% endif %}
+
+                    {# E-mailová adresa, pokud je vyplněna #}
+                    {% if address.getAddressEmail() is not empty %}
+                        <span style="color:#424651!important;">{{ address.getAddressEmail() }}</span>
+                    {% endif %}
+
+                </p>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>

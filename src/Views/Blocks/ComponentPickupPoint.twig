@@ -1,0 +1,126 @@
+{# Hlavní tabulka s nadpisem a popisem výdejního místa v e-mailu #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro konzistentní vzhled e-mailu #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td align="left">
+            <![endif]-->
+
+            {# Kontejner s nadpisem a popisem výdejního místa #}
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+
+                {# Nadpis sekce výdejního místa, lokalizovaný pomocí translate() #}
+                <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
+                    {{ translate('pickupPointLabel') }}
+                </h3>
+
+                {# Popis výdejního místa, lokalizovaný pomocí translate() #}
+                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
+                    {{ translate('pickupPointDescription') }}
+                </p>
+            </div>
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{# Hlavní tabulka pro prezentaci detailů výdejního místa v e-mailu #}
+{# Hlavní tabulka pro prezentaci detailů výdejního místa v e-mailu #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením pro konzistentní vzhled e-mailu #}
+        <td class="o_re o_bg-white o_px o_pb-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+
+            <!--[if mso]>
+            {# Podmíněný kód pro MS Outlook, který zajišťuje správné zarovnání a šířku tabulky #}
+            <table cellspacing="0" cellpadding="0" border="0" role="presentation">
+                <tbody>
+                <tr>
+                    <td width="300" align="center" valign="top" style="padding: 0px 8px;">
+            <![endif]-->
+
+            {# Kontejner s podrobnostmi o výdejním místě #}
+            <div class="o_col o_col-3 o_col-full" style="display: inline-block;vertical-align: top;width: 100%;max-width: 600px;">
+                <div class="o_px-xs" style="padding-left: 4px;padding-right: 4px;padding-top: 0px; padding-bottom: 8px;">
+                    <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            {# Buňka s detailními informacemi o výdejním místě #}
+                            <td class="o_b-light o_br o_px o_py o_sans o_text-xs o_text-secondary" align="left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;color: #424651;border: 1px solid #e7e7e7;border-radius: 4px;padding-left: 16px;padding-right: 16px;padding-top: 16px;padding-bottom: 16px;">
+                                <p class="o_mb-md" style="margin-top: 0px;margin-bottom: 24px;">
+
+                                    {# Detailní informace o výdejním místě (ID, název, adresa, otevírací doba) #}
+
+                                    {# Zobrazení ID výdejního místa #}
+                                    {% if pickupPoint.getId() is not empty %}
+                                    <dl style="padding:0;color:#454545;">
+                                        <dt style="font-weight:bold;">{{ translate('pickupPointPlaceId') }}</dt>
+                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ pickupPoint.getId() }}</dd>
+                                    </dl>
+                                    {% endif %}
+
+                                    {# Zobrazení názvu výdejního místa #}
+                                    {% if pickupPoint.getName() is not empty %}
+                                    <dl style="padding:0;color:#454545;">
+                                        <dt style="font-weight:bold;">{{ translate('pickupPointPlaceName') }}</dt>
+                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ pickupPoint.getName() }}</dd>
+                                    </dl>
+                                    {% endif %}
+
+                                    {# Zobrazení adresy výdejního místa #}
+                                    {% if pickupPoint.getFullAddress() is not empty %}
+                                    <dl style="padding:0;color:#454545;">
+                                        <dt style="font-weight:bold;">{{ translate('pickupPointPlaceAddress') }}</dt>
+                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ pickupPoint.getFullAddress() }}</dd>
+                                    </dl>
+                                    {% endif %}
+
+                                    {# Zobrazení otevírací doby výdejního místa #}
+                                    {% if pickupPoint.getOpeningHours() is not empty %}
+                                    <dl style="padding:0;color:#454545;margin-bottom: 8px;">
+                                        <dt style="font-weight:bold;">{{ translate('pickupPointPlaceOpeningHours') }}</dt>
+                                            {% for day, hours in pickupPoint.getOpeningHours() %}
+                                                <dd style="margin-bottom: 0px;margin-left: 0px;">{{ day }}: {{ hours }}</dd>
+                                            {% endfor %}
+                                        </dl>
+                                    {% endif %}
+
+                                {# Podmíněné zobrazení mapy Google pro výdejní místo #}
+                                {% if pickupPoint.getGoogleMapKey() is not empty and pickupPoint.getLatitude() is not empty and pickupPoint.getLongitude() is not empty %}
+                                    <dt style="font-weight:bold;">{{ translate('pickupPointPlaceMap') }}</dt>
+                                    <dl style="padding:0;color:#454545;">
+                                        <img width="586" src="https://maps.googleapis.com/maps/api/staticmap?key={{ pickupPoint.getGoogleMapKey() }}&center={{ pickupPoint.getLatitude() }},{{ pickupPoint.getLongitude() }}&zoom=14&format=png&maptype=roadmap&style=element:geometry%7Ccolor:0xf5f5f5&style=element:labels.icon%7Cvisibility:off&style=element:labels.text.fill%7Ccolor:0x616161&style=element:labels.text.stroke%7Ccolor:0xf5f5f5&style=feature:administrative.land_parcel%7Celement:labels.text.fill%7Ccolor:0xbdbdbd&style=feature:poi%7Celement:geometry%7Ccolor:0xeeeeee&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:poi.park%7Celement:geometry%7Ccolor:0xe5e5e5&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x9e9e9e&style=feature:road%7Celement:geometry%7Ccolor:0xffffff&style=feature:road.arterial%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:road.highway%7Celement:geometry%7Ccolor:0xdadada&style=feature:road.highway%7Celement:labels.text.fill%7Ccolor:0x616161&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x9e9e9e&style=feature:transit.line%7Celement:geometry%7Ccolor:0xe5e5e5&style=feature:transit.station%7Celement:geometry%7Ccolor:0xeeeeee&style=feature:water%7Celement:geometry%7Ccolor:0xc9c9c9&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x9e9e9e&size=480x360&markers=size:mid%7Ccolor:0xd20f0f%7Clabel:%7C{{ pickupPoint.getLatitude() }},{{ pickupPoint.getLongitude() }}" alt="Google map " />
+                                        <a href="https://www.google.com/maps/place/{{ pickupPoint.getLatitude() }},{{ pickupPoint.getLongitude() }}" target="_blank" rel="noopener" style="font-weight: normal;margin-top: 2px;margin-bottom: 2px;display:block;font-weight: normal;font-size: 12px;">
+                                            {{ translate('pickupPointMapLink') }}
+                                        </a>
+                                    </dl>
+                                {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--[if mso]></td></tr></table><![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+

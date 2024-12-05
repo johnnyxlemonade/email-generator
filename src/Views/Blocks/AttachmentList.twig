@@ -1,0 +1,92 @@
+{# Tabulka s nadpisem a popisem pro seznam příloh #}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+    <tbody>
+    <tr>
+        {# Buňka s bílým pozadím a vnitřním odsazením #}
+        <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
+            <!--[if mso]><table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation"><tbody><tr><td align="left"><![endif]-->
+            <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+                {# Nadpis pro seznam příloh #}
+                <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
+                    {{ translate('attachmentListLabel') }}
+                </h3>
+                {# Popis seznamu příloh #}
+                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
+                    {{ translate('attachmentListDescription') }}
+                </p>
+            </div>
+            <!--[if mso]></td></tr></table><![endif]-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{# Smyčka pro každou přílohu #}
+{% for attachment in attachments %}
+
+    {# Tabulka pro zobrazení jednotlivých příloh #}
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+        <tbody>
+        <tr>
+            {# Buňka s bílým pozadím a vnitřním odsazením #}
+            <td class="o_re o_bg-white o_px o_pb-md" align="{{ alignment }}" style="font-size: 0;vertical-align: top;background-color: #ffffff;padding: 8px 16px">
+                <!--[if mso]><table cellspacing="0" cellpadding="0" border="0" role="presentation"><tbody><tr><td width="300" align="center" valign="top" style="padding: 0px 8px;"><![endif]-->
+                <div class="o_col o_col-3 o_col-full" style="display: inline-block;vertical-align: top;width: 100%;max-width: 600px;">
+                    <div class="o_px-xs">
+                        {# Vnořená tabulka pro obsah přílohy #}
+                        <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                            <tr>
+                                {# Buňka pro zobrazení informací o příloze #}
+                                <td class="o_b-light o_br o_px o_py o_sans o_text-xs o_text-secondary" align="left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;color: #424651;border: 1px solid #e7e7e7;border-radius: 4px;padding-left: 16px;padding-right: 16px;padding-top: 16px;padding-bottom: 16px;">
+                                    {# Další tabulka pro odkaz na přílohu #}
+                                    <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
+                                        <tbody>
+                                        <tr>
+                                            <td class="o_bg-white o_px-md o_py-md" align="center" style="background-color: #ffffff;padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 8px;">
+                                                <!--[if mso]><table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation"><tbody><tr><td align="left"><![endif]-->
+                                                <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
+                                                    {# Odkaz na přílohu s detaily, jako je název a rozšíření #}
+                                                    <table cellspacing="0" cellpadding="0" border="0" role="presentation">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="o_btn-b o_heading o_text-xs" align="center" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;mso-padding-alt: 7px 8px;text-align:left;vertical-align: middle">
+                                                                <a class="o_text-primary" target="_blank" href="{{ attachment.getLink() }}" style="text-decoration: none;outline: none;color: #126de5;display: block;padding:7px 7px 7px 0px;font-weight: bold;">
+                                                                    <div class="block">
+                                                                        {# Zobrazení rozšíření přílohy, pokud je dostupné #}
+                                                                        <div style="background-color: #e7e7e7; border:0; width: 48px;height: 48px;display: inline-block;vertical-align: middle;line-height: 48px;vertical-align: middle;text-align: center;color: #222;font-size: 12px;font-weight: normal;text-transform: uppercase;border-radius: 8px;">
+                                                                            {{ attachment.getExtension() }}
+                                                                        </div>
+                                                                        {# Zobrazení názvu a popisu přílohy #}
+                                                                        <div style="margin: 0;padding: 0;display: inline-block;margin-left: 8px;vertical-align: middle;">
+                                                                            <span style="mso-text-raise:6px;font-size:14px;display: block;">{{ attachment.getName() }}</span>
+                                                                            <span style="mso-text-raise:6px;font-size:12px;display: block;font-size: 12px;color:gray;font-weight:normal;">
+                                                                                {{ attachment.getDescription() }}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!--[if mso]></td></tr></table><![endif]-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--[if mso]></td><td width="300" align="center" valign="top" style="padding: 0px 8px;"><![endif]-->
+                <!--[if mso]></td></tr></table><![endif]-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endfor %}
