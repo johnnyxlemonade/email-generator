@@ -19,7 +19,7 @@ use Psr\Log\LogLevel;
 require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Creating basic mandatory services
-$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::ERROR)); // Logger service for error level logs
+$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::WARNING)); // Logger service for error level logs
 $translator = new Translator(currentLanguage: SupportedLanguage::LANG_CS, logger: $logger); // Translator service for Czech language
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator); // Template rendering service
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator); // Block manager for managing email content
