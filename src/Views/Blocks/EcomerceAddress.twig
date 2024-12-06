@@ -4,8 +4,8 @@
         <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
             <!--[if mso]><table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation"><tbody><tr><td align="left"><![endif]-->
             <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
-                <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">{{ translate('addressLabel') }}</h3>
-                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">{{ translate('addressDescription') }}</p>
+                <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">{{ translate('ecommerceAddressLabel') }}</h3>
+                <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">{{ translate('ecommerceAddressDescription') }}</p>
             </div>
             <!--[if mso]></td></tr></table><![endif]-->
         </td>
@@ -24,17 +24,17 @@
                         <tbody>
                         <tr>
                             <td class="o_b-light o_br o_px o_py o_sans o_text-xs o_text-secondary" align="left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;color: #424651;border: 1px solid #e7e7e7;border-radius: 4px;padding-left: 16px;padding-right: 16px;padding-top: 16px;padding-bottom: 16px;">
-                                <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 8px;"><strong>{{ translate('addressBlockBillingLabel') }}</strong></p>
+                                <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 8px;"><strong>{{ translate('ecommerceAddressBlockBillingLabel') }}</strong></p>
                                 <p class="o_mb-md" style="margin-top: 16px;margin-bottom: 16px;">
 
                                     {# Zobrazení Company ID, pokud je vyplněno #}
                                     {% if billingAddress.getCompanyId() is not empty %}
-                                        <span><strong>{{ translate('ic') }}:</strong> {{ billingAddress.getCompanyId() }}<br></span>
+                                        <span><strong>{{ translate('addressCompanyId') }}:</strong> {{ billingAddress.getCompanyId() }}<br></span>
                                     {% endif %}
 
                                     {# Zobrazení Company VAT ID, pokud je vyplněno #}
                                     {% if billingAddress.getCompanyVatId() is not empty %}
-                                        <span><strong>{{ translate('dic') }}:</strong> {{ billingAddress.getCompanyVatId() }}<br></span>
+                                        <span><strong>{{ translate('addressCompanyVatId') }}:</strong> {{ billingAddress.getCompanyVatId() }}<br></span>
                                     {% endif %}
 
                                     <br>
@@ -80,7 +80,7 @@
                         <tbody>
                         <tr>
                             <td class="o_b-light o_br o_px o_py o_sans o_text-xs o_text-secondary" align="left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;color: #424651;border: 1px solid #e7e7e7;border-radius: 4px;padding-left: 16px;padding-right: 16px;padding-top: 16px;padding-bottom: 16px;">
-                                <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 8px;"><strong>{{ translate('addressBlockDeliveryLabel') }}</strong></p>
+                                <p class="o_mb-xs" style="margin-top: 0px;margin-bottom: 8px;"><strong>{{ translate('ecommerceAdressBlockDeliveryLabel') }}</strong></p>
                                 <p class="o_mb-md" style="margin-top: 16px;margin-bottom: 16px;">
 
                                     {# Kontrola, zda je vyplněn Company ID #}

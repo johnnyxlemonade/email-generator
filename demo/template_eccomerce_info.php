@@ -23,6 +23,7 @@ use Lemonade\EmailGenerator\DTO\ProductData;
 use Lemonade\EmailGenerator\DTO\ShippingData;
 use Lemonade\EmailGenerator\DTO\SummaryData;
 use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
+use Lemonade\EmailGenerator\Localization\SupportedLanguage;
 use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Logger\FileLogger;
 use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
@@ -34,7 +35,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Vytvoření základních povinných služeb
 $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::INFO));
-$translator = new Translator(logger: $logger);
+$translator = new Translator(currentLanguage: SupportedLanguage::LANG_DA, logger: $logger);
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator);
 $serviceManager = new ServiceFactoryManager();
@@ -152,7 +153,6 @@ $footerAddress->setAddressEmail(email: "info@muj-eshop.com");
 // 9. Přidání bloků do BlockManageru
 $blockManager = $container->getBlockManager();
 $blockManager->setBlockRenderCenter();
-$blockManager->setLanguage(language: "cs");
 $blockManager->setPageTitle(title: "Rekapitulace objednávky");
 
 // Měna
@@ -162,11 +162,11 @@ $currency = "CZK";
 $contextService = $container->getContextService();
 $blockManager->addBlock(new StaticBlockGreetingHeader());
 $blockManager->addBlock(new EcommerceNotify(context: $contextService->createContext(data: ["webName" => "Můj eshop"])));
-$blockManager->addBlock(new ComponentNotification(heading: "Upozornění!", notification: "Bude nutné zkontrolovat dostupnost, váhu a rozměry zboží, aby bylo možné je co nejdříve doručit. \n \n V případě, že zboží nebude možné zaslat v jedné zásilce, bude nutné kontaktovat zákazníka ohledně rozdělení na více balíků."));
+$blockManager->addBlock(new ComponentNotification(heading: "Upozornění!", notification: "Bude nutné zkontrolovat dostupnost, váhu a rozměry zboží, aby bylo možné je co nejdříve doručit. \n V případě, že zboží nebude možné zaslat v jedné zásilce, bude nutné kontaktovat zákazníka ohledně rozdělení na více balíků."));
 $blockManager->addBlock(new EcommerceHeader(context: $contextService->createContext(data: [
     "orderId" => "1234567890", "orderCode" => "XXX1234567890", "orderTotal" => 666, "orderCurrency" => "Kč", "orderDate" => date(format: "j.n.Y")
 ])));
-$blockManager->addBlock(block: new EcommerceMessage(message: ["Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu.", "V dnešní době je Lorem Ipsum používáno spoustou DTP balíků a webových editorů coby výchozí model výplňového textu."]));
+$blockManager->addBlock(block: new EcommerceMessage());
 $blockManager->addBlock(block: new EcomerceAddress(billingAddress: $billingAddress, deliveryAddress: $deliveryAddress));
 $blockManager->addBlock(block: new EcommerceProductList(collection: $productCollection, currency: $currency));
 $blockManager->addBlock(block: new EcommerceDelivery(shipping: $shipping, payment: $payment, currency: $currency));

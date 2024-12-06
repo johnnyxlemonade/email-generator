@@ -10,6 +10,7 @@ use Lemonade\EmailGenerator\ContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressDTO;
 use Lemonade\EmailGenerator\DTO\FormItemData;
 use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
+use Lemonade\EmailGenerator\Localization\SupportedLanguage;
 use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Logger\FileLogger;
 use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
@@ -20,7 +21,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Vytvoření základních povinných služeb
 $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::ERROR));
-$translator = new Translator(logger: $logger);
+$translator = new Translator(currentLanguage: SupportedLanguage::LANG_CS, logger: $logger);
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator);
 $serviceManager = new ServiceFactoryManager();
@@ -78,7 +79,6 @@ foreach($formData as $key => $val) {
 // Přidání bloků do BlockManageru
 $blockManager = $container->getBlockManager();
 $blockManager->setBlockRenderCenter();
-$blockManager->setLanguage(language: "cs");
 $blockManager->setPageTitle(title: "Formulářová data");
 
 

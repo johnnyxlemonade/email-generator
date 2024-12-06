@@ -11,9 +11,20 @@ use Psr\Log\LoggerInterface;
 
 class BlockManager
 {
-    /** @var BlockInterface[] */
+
+    /**
+     * @var array BlockInterface[]
+     */
     private array $blocks = [];
 
+    /**
+     * @var string Page language
+     */
+    private string $pageLanguage = "cs";
+
+    /**
+     * @var string Page title
+     */
     private string $pageTitle = "Default Page Title";
 
     /**
@@ -70,22 +81,6 @@ class BlockManager
     }
 
     /**
-     * Sets a new language for translation.
-     *
-     * @param string $language Language code.
-     */
-    public function setLanguage(string $language): void
-    {
-        $supportedLanguage = SupportedLanguage::tryFrom($language);
-
-        if ($supportedLanguage !== null) {
-            $this->translator->setLanguage($supportedLanguage);
-        } else {
-            $this->logger->warning("Unsupported language: $language. Keeping default language.");
-        }
-    }
-
-    /**
      * Sets alignment for rendering BlockInterface elements.
      *
      * @return void
@@ -109,13 +104,17 @@ class BlockManager
 
         // Render the main template
         try {
+
             return $this->templateRenderer->render([
-                "pageTitle" => $this->getPageTitle(),
+                "title" => $this->getPageTitle(),
                 "blocks"    => $renderedBlocks,
-                "language"  => $this->translator->getCurrentLanguage(),
+                "language"  => $this->translator->getCurrentLanguage()
             ]);
+
         } catch (Exception $e) {
+
             $this->logger->error("Error rendering main template: " . $e->getMessage(), ['exception' => $e]);
+
             return 'We apologize, an error occurred while rendering the entire page.';
         }
     }

@@ -18,12 +18,12 @@
 
                 {# Nadpis sekce zprávy, lokalizovaný pomocí translate() #}
                 <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
-                    {{ translate('orderLabel') }}
+                    {{ translate('ecommerceOrderLabel') }}
                 </h3>
 
                 {# Popis sekce zprávy, lokalizovaný pomocí translate() #}
                 <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
-                    {{ translate('orderDescription') }}
+                    {{ translate('ecommerceOrderDescription') }}
                 </p>
             </div>
 
@@ -67,15 +67,15 @@
                                 {# Seznam informací o objednávce #}
                                 <dl style="padding:0;color:#454545;">
                                     {# Číslo objednávky #}
-                                    <dt style="font-weight:bold;">{{ translate('orderNumber') }}</dt>
+                                    <dt style="font-weight:bold;">{{ translate('ecommerceOrderNumber') }}</dt>
                                     <dd style="margin-bottom: 8px;margin-left: 0;">{{ orderId }}</dd>
 
                                     {# Kód objednávky #}
-                                    <dt style="font-weight:bold;">{{ translate('orderCode') }}</dt>
+                                    <dt style="font-weight:bold;">{{ translate('ecommerceOrderCode') }}</dt>
                                     <dd style="margin-bottom: 8px;margin-left: 0;">{{ orderCode }}</dd>
 
                                     {# Datum objednávky #}
-                                    <dt style="font-weight:bold;">{{ translate('orderDate') }}</dt>
+                                    <dt style="font-weight:bold;">{{ translate('ecommerceOrderDate') }}</dt>
                                     <dd style="margin-bottom: 8px;margin-left: 0;">{{ orderDate }}</dd>
                                 </dl>
 

@@ -76,24 +76,6 @@ class BlockManagerTest extends TestCase
         $this->assertEquals('Test Page Title', $this->blockManager->getPageTitle());
     }
 
-    public function testSetAndValidateLanguage(): void
-    {
-        // Testing with a valid language
-        $this->translator
-            ->expects($this->once())
-            ->method('setLanguage')
-            ->with($this->equalTo(\Lemonade\EmailGenerator\Localization\SupportedLanguage::LANG_EN));
-
-        $this->blockManager->setLanguage('en');
-
-        // Testing with an unsupported language
-        $this->logger
-            ->expects($this->once())
-            ->method('warning')
-            ->with($this->stringContains('Unsupported language'));
-
-        $this->blockManager->setLanguage('unsupported_language');
-    }
 
     public function testRenderBlock(): void
     {
@@ -140,22 +122,6 @@ class BlockManagerTest extends TestCase
         // Assert that getPageTitle returns the updated title
         $this->assertSame("Updated Page Title", $this->blockManager->getPageTitle());
 
-        // Mock Translator's setLanguage method
-        $this->translator
-            ->expects($this->once())
-            ->method('setLanguage')
-            ->with(\Lemonade\EmailGenerator\Localization\SupportedLanguage::LANG_EN);
-
-        // Mock Translator's getCurrentLanguage to return "en"
-        $this->translator
-            ->method('getCurrentLanguage')
-            ->willReturn('en');
-
-        // Set a language dynamically
-        $this->blockManager->setLanguage('en');
-
-        // Verify the language has been set properly
-        $this->assertSame('en', $this->translator->getCurrentLanguage());
     }
 
     public function testBlockRenderAlignmentChange(): void
@@ -176,17 +142,72 @@ class BlockManagerTest extends TestCase
         $this->blockManager->setBlockRenderCenter();
     }
 
-    public function testTranslationReturnsKeyIfNotFound(): void
+    public function testEmptyBlocksScenario(): void
     {
-        $translator = new Translator($this->logger);
-        $translator->setLanguage(SupportedLanguage::LANG_CS);
+        // Mock render behavior of the template renderer when no blocks are present
+        $this->templateRenderer
+            ->expects($this->once())
+            ->method('render')
+            ->willReturnCallback(function ($data) {
+                $this->assertEmpty($data['blocks']);
+                return 'Rendered HTML Content Without Blocks';
+            });
 
-        $missingKey = "new_welcome_message";
-        $expectedTranslation = $missingKey; // Když klíč neexistuje ve slovníku, vrátí se samotný klíč
+        // Test the final HTML rendering when no blocks are added
+        $html = $this->blockManager->getHtml();
+        $this->assertEquals('Rendered HTML Content Without Blocks', $html);
+    }
 
-        $actualTranslation = $translator->translate($missingKey);
 
-        $this->assertSame($expectedTranslation, $actualTranslation, "Translation for missing key did not return the key itself.");
+    public function testHandlingMultipleBlocks(): void
+    {
+        // Creating mock blocks of different types
+        $block1 = $this->createMock(StaticBlock::class);
+        $block2 = $this->createMock(\Lemonade\EmailGenerator\Blocks\Component\AttachmentList::class);
+
+        // Mocking the renderBlock method for each block
+        $block1->expects($this->once())
+            ->method('renderBlock')
+            ->willReturn('Rendered Static Block');
+
+        $block2->expects($this->once())
+            ->method('renderBlock')
+            ->willReturn('Rendered Attachment List Block');
+
+        // Adding blocks to the BlockManager
+        $this->blockManager->addBlock($block1);
+        $this->blockManager->addBlock($block2);
+
+        // Mocking render behavior of the TemplateRenderer
+        $this->templateRenderer
+            ->expects($this->once())
+            ->method('render')
+            ->willReturnCallback(function ($data) {
+                $this->assertContains('Rendered Static Block', $data['blocks']);
+                $this->assertContains('Rendered Attachment List Block', $data['blocks']);
+                return 'Rendered HTML Content With Multiple Blocks';
+            });
+
+        // Testing the final HTML
+        $html = $this->blockManager->getHtml();
+        $this->assertEquals('Rendered HTML Content With Multiple Blocks', $html);
+    }
+
+    public function testRenderingWithNoBlocks(): void
+    {
+        // Mocking render behavior of the TemplateRenderer
+        $this->templateRenderer
+            ->expects($this->once())
+            ->method('render')
+            ->willReturnCallback(function ($data) {
+                // Verify that the blocks array is empty
+                $this->assertEmpty($data['blocks']);
+                return 'Rendered HTML Content Without Blocks';
+            });
+
+        // Testing the final HTML
+        $html = $this->blockManager->getHtml();
+        $this->assertEquals('Rendered HTML Content Without Blocks', $html);
     }
 
 

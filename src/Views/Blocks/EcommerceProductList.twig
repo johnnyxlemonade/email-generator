@@ -7,11 +7,11 @@
             <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 584px;color: #424651;text-align: left;">
                 {# Nadpis pro seznam produktů v objednávce #}
                 <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
-                    {{ translate('orderProductList') }}
+                    {{ translate('ecommerceOrderProductList') }}
                 </h3>
                 {# Popis k seznamu produktů (například vysvětlení, co seznam obsahuje) #}
                 <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
-                    {{ translate('orderProductListDescription') }}
+                    {{ translate('ecommerceOrderProductListDescription') }}
                 </p>
             </div>
             <!--[if mso]></td></tr></table><![endif]-->
@@ -54,17 +54,17 @@
 
                         {# Množství produktu #}
                         <dl style="margin:0;padding:0;color:#454545;">
-                            <dd style="margin:0px;display:block;">{{ translate('quantityLabel') }}: {{ product.getProductQuantity() }}</dd>
+                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductQuantityLabel') }}: {{ product.getProductQuantity() }}</dd>
                         </dl>
 
                         {# Jednotková cena produktu, formátovaná na dvě desetinná místa #}
                         <dl style="margin:0;padding:0;color:#454545;">
-                            <dd style="margin:0px;display:block;">{{ translate('unitPrice') }}: {{ format_number(product.getProductUnitPrice(), currency, 2) }} </dd>
+                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductUnitPrice') }}: {{ format_number(product.getProductUnitPrice(), currency, 2) }} </dd>
                         </dl>
 
                         {# Celková cena produktu #}
                         <dl style="margin:0;padding:0;color:#454545;">
-                            <dd style="margin:0px;display:block;">{{ translate('total') }}: {{ format_number(product.getProductSubtotalPrice(), currency, 2) }}</dd>
+                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductSubtotal') }}: {{ format_number(product.getProductSubtotalPrice(), currency, 2) }}</dd>
                         </dl>
 
                         {# Pokud má produkt dodatečná data (např. atributy jako barva, velikost) #}

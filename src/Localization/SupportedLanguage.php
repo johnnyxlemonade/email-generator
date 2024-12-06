@@ -21,4 +21,9 @@ enum SupportedLanguage: string
     case LANG_SE = 'se';
     case LANG_UA = 'ua';
     case LANG_SK = 'sk';
+    case LANG_DA = 'da';
+    case LANG_JA = 'ja';
+    case LANG_HR = 'hr';
+    case LANG_ZH = 'zh';
+
 }
