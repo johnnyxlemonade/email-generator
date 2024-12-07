@@ -38,7 +38,7 @@
 
                                     {% for item in formlist %}
                                         <strong>{{ item.getName() }}</strong><br>
-                                        {{ (item.getValue() ?? 'nevyplněno') | nl2br }} <br>
+                                        {{ (item.getValue() ?? '--------------') | nl2br }} <br>
                                     {% endfor %}
 
                                 </p>
