@@ -74,7 +74,7 @@ class FileLoggerConfig
             }
 
             // Attempt to create the directory
-            if (!mkdir($logDirectory, 0777, true)) {
+            if (!mkdir($logDirectory, 0755, true)) {
                 throw new RuntimeException("Failed to create the log directory: $logDirectory. Check write permissions.");
             }
         }

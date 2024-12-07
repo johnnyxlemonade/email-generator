@@ -25,7 +25,7 @@ class FileLogger implements LoggerInterface
     {
         // Create the log directory if it does not exist
         if (!is_dir($config->getLogDirectory())) {
-            mkdir($config->getLogDirectory(), 0777, true);
+            mkdir($config->getLogDirectory(), 0755, true);
         }
 
         // Create the logger
