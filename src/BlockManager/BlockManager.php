@@ -18,11 +18,6 @@ class BlockManager
     private array $blocks = [];
 
     /**
-     * @var string Page language
-     */
-    private string $pageLanguage = "cs";
-
-    /**
      * @var string Page title
      */
     private string $pageTitle = "Default Page Title";
@@ -90,6 +85,18 @@ class BlockManager
         $this->templateRenderer->getTwig()->addGlobal("alignment", "center");
     }
 
+
+    /**
+     * Renders a block using the provided template renderer and logger.
+     *
+     * @param BlockInterface $block The block to be rendered.
+     * @return string The rendered block as a string.
+     */
+    private function renderBlockCallback(BlockInterface $block): string
+    {
+        return $block->renderBlock($this->templateRenderer->getTwig(), $this->logger);
+    }
+
     /**
      * Returns the complete HTML content including all blocks.
      *
@@ -98,9 +105,7 @@ class BlockManager
     public function getHtml(): string
     {
         // Render all blocks
-        $renderedBlocks = array_map(function (BlockInterface $block) {
-            return $block->renderBlock($this->templateRenderer->getTwig(), $this->logger);
-        }, $this->blocks);
+        $renderedBlocks = array_map([$this, 'renderBlockCallback'], $this->blocks);
 
         // Render the main template
         try {
