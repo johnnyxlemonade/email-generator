@@ -47,6 +47,38 @@ class Translator
     }
 
     /**
+     * Adds or overrides a translation key in the current dictionary or base dictionary.
+     *
+     * @param string $key The key of the phrase.
+     * @param string $value The translation for the key.
+     * @param bool $overrideBase Whether to override the base dictionary as well (default: false).
+     * @return void
+     */
+    public function addOrOverrideTranslation(string $key, string $value, bool $overrideBase = false): void
+    {
+        // Ensure the dictionary is loaded (lazy-load if necessary)
+        if (empty($this->dictionary)) {
+            $this->initializeDictionary();
+        }
+
+        // Update the currently loaded dictionary
+        $this->dictionary[$key] = $value;
+
+        // Optionally update the base dictionary
+        if ($overrideBase) {
+            $this->baseDictionary[$key] = $value;
+
+            // Ensure cache reflects this update for future lazy-loads
+            $this->cachedDictionaries[$this->defaultLanguage->value][$key] = $value;
+        }
+
+        // Ensure the cached dictionary for the current language is updated
+        $this->cachedDictionaries[$this->currentLanguage->value][$key] = $value;
+
+        $this->logger->info("Translation for key '$key' has been added or overridden.");
+    }
+
+    /**
      * Sets the current language.
      * This method updates the current language used by the Translator and then re-initializes the dictionary to reflect the new language settings.
      *

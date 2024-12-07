@@ -94,4 +94,31 @@ class TranslatorTest extends TestCase
         // Assert interpolation works correctly
         $this->assertEquals('MY WEBSITE has received a new product order. Basic information is sent in this email. Full order details can be found in your administration panel.', $translation);
     }
+
+    public function testAddOrOverrideTranslation(): void
+    {
+        // Initialize translator with English language
+        $this->translator = new Translator(SupportedLanguage::LANG_EN, $this->logger);
+
+        // Ensure the initial dictionary does not contain the key
+        $this->assertArrayNotHasKey('customKey', $this->translator->getDictionary());
+
+        // Add a new translation dynamically
+        $this->translator->addOrOverrideTranslation('customKey', 'Custom Value');
+
+        // Verify the translation is immediately available
+        $this->assertEquals('Custom Value', $this->translator->translate('customKey'));
+
+        // Override the translation dynamically
+        $this->translator->addOrOverrideTranslation('customKey', 'Updated Value');
+
+        // Verify the updated translation
+        $this->assertEquals('Updated Value', $this->translator->translate('customKey'));
+
+        // Verify the change persists in the dictionary cache
+        $cachedDictionary = $this->translator->getDictionary();
+        $this->assertArrayHasKey('customKey', $cachedDictionary);
+        $this->assertEquals('Updated Value', $cachedDictionary['customKey']);
+    }
+
 }
