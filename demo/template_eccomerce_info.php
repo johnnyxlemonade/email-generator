@@ -7,6 +7,7 @@ use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceCoupon;
 use Lemonade\EmailGenerator\Blocks\Order\EcomerceAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceDelivery;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
@@ -17,6 +18,7 @@ use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressDTO;
 use Lemonade\EmailGenerator\DTO\AttachmentData;
+use Lemonade\EmailGenerator\DTO\CouponData;
 use Lemonade\EmailGenerator\DTO\PaymentData;
 use Lemonade\EmailGenerator\DTO\PickupPointData;
 use Lemonade\EmailGenerator\DTO\ProductData;
@@ -34,7 +36,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Creating basic mandatory services
 $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::WARNING)); // Logger service
-$translator = new Translator(currentLanguage: SupportedLanguage::LANG_CS, logger: $logger); // Translator service
+$translator = new Translator(currentLanguage: SupportedLanguage::LANG_EN, logger: $logger); // Translator service
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator); // Template rendering service
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator); // Block manager for managing email content
 $serviceManager = new ServiceFactoryManager(); // Service factory manager to create various services
@@ -56,14 +58,14 @@ $productCollection = $productService->createCollection(); // Create product coll
 for ($i = 1; $i <= 6; $i++) {
     $productData = new ProductData(
         productId: $i,
-        productCode: 'PROD' . $i,
         productName: 'Produkt ' . $i,
+        productCode: 'PROD' . $i,
         productQuantity: 1,
         productUnitPrice: 1000 + ($i * 100),
         productUnitBase: 900 + ($i * 100),
         productTax: 21,
         productUrl: 'https://google.com/search?q=produkt-' . $i,
-        productImage: "https://placehold.co/80x80?font=Roboto&text=Produkt " . $i,
+        productImage: ($i === 3 ? "https://placehold.co/80x80/black/white?font=Roboto&text=Produkt " . $i : null), // Example flag for image thumbnail
         productData: [
             'color' => [
                 'name' => 'Barva',
@@ -74,9 +76,25 @@ for ($i = 1; $i <= 6; $i++) {
                 'text' => 'M'
             ]
         ],
-        useData: ($i%4 == 0) // Example flag for conditionally using data
+        useData: ($i%4 === 0) // Example flag for conditionally using data
     );
     $productService->createItem(collection: $productCollection, data: $productData); // Adding product item to collection
+}
+
+// 3.1 Creating coupon
+$couponService    = $container->getCouponCollectionService();
+$couponCollection = $couponService->createCollection();
+
+// Adding coupont to the collection
+for ($i = 1; $i <= 3; $i++) {
+
+    $couponData = new CouponData(
+        name: "Coupon " . $i,
+        code: "COUPON-CODE-".$i,
+        price: 100
+    );
+
+    $couponService->createItem($couponCollection, $couponData);
 }
 
 // 4. Shipping and Payment
@@ -174,6 +192,7 @@ $blockManager->addBlock(block: new EcomerceAddress(billingAddress: $billingAddre
 $blockManager->addBlock(block: new EcommerceProductList(collection: $productCollection, currency: $currency)); // Products list block
 $blockManager->addBlock(block: new EcommerceDelivery(shipping: $shipping, payment: $payment, currency: $currency)); // Delivery and payment block
 $blockManager->addBlock(block: new ComponentPickupPoint(pickupPoint: $pickupPoint)); // Pickup point block
+$blockManager->addBlock(block: new EcommerceCoupon(collection: $couponCollection, currency: $currency));
 $blockManager->addBlock(block: new EcommerceSummaryList(collection: $summaryCollection, currency: $currency)); // Summary list block
 $blockManager->addBlock(block: new AttachmentList(collection: $attachmentCollection)); // Attachments list block
 $blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greeting block
@@ -181,3 +200,4 @@ $blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAd
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generating and outputting the HTML email
+
