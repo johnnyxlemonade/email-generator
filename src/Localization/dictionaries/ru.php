@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Часы работы",
     "pickupPointPlaceMap" => "Карта пункта выдачи",
     "pickupPointMapLink" => "Посмотреть место на Google Maps",
+    "ecommerceCouponLabel" => "Примененные подарочные сертификаты",
+    "ecommerceCouponDescription" => "Подарочные сертификаты, примененные к вашему заказу, указаны ниже.",
     "ecommerceAddressLabel" => "Данные клиента",
     "ecommerceAddressDescription" => "адрес для выставления счета и доставки",
     "ecommerceAddressBlockBillingLabel" => "Адрес для счета",

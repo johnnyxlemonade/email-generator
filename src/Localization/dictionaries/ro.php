@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Program de lucru",
     "pickupPointPlaceMap" => "Hartă punct de ridicare",
     "pickupPointMapLink" => "Vezi locația pe Google Maps",
+    "ecommerceCouponLabel" => "Vouchere cadou aplicate",
+    "ecommerceCouponDescription" => "Voucherele cadou pe care le-ați aplicat la comanda dumneavoastră sunt enumerate mai jos.",
     "ecommerceAddressLabel" => "Datele clientului",
     "ecommerceAddressDescription" => "adresă de facturare și livrare",
     "ecommerceAddressBlockBillingLabel" => "Adresă de facturare",

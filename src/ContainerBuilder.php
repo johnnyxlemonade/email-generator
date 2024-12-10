@@ -7,6 +7,7 @@ use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Services\AddressService;
 use Lemonade\EmailGenerator\Services\AttachmentCollectionService;
 use Lemonade\EmailGenerator\Services\ContextService;
+use Lemonade\EmailGenerator\Services\CouponCollectionService;
 use Lemonade\EmailGenerator\Services\FormItemCollectionService;
 use Lemonade\EmailGenerator\Services\PaymentService;
 use Lemonade\EmailGenerator\Services\PickupPointService;
@@ -21,6 +22,7 @@ class ContainerBuilder
 {
     // Lazy-loaded service instances
     private ?FormItemCollectionService $formItemCollectionService = null;
+    private ?CouponCollectionService $couponCollectionService = null;
     private ?ProductCollectionService $productCollectionService = null;
     private ?AttachmentCollectionService $attachmentCollectionService = null;
     private ?SummaryCollectionService $summaryCollectionService = null;
@@ -76,6 +78,20 @@ class ContainerBuilder
         return $this->getOrCreateService(
             serviceProperty: 'productCollectionService',
             factory: fn() => $this->serviceFactoryManager->createProductCollectionService()
+        );
+    }
+
+    /**
+     * Returns an instance of CouponCollectionService.
+     * If the service has not been initialized, it attempts to create and log it.
+     *
+     * @return CouponCollectionService
+     */
+    public function getCouponCollectionService(): CouponCollectionService
+    {
+        return $this->getOrCreateService(
+            serviceProperty: 'couponCollectionService',
+            factory: fn() => $this->serviceFactoryManager->createCouponCollectionService()
         );
     }
 

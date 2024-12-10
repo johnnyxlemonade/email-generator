@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Nyitvatartás",
     "pickupPointPlaceMap" => "Átvételi pont térképe",
     "pickupPointMapLink" => "Hely megtekintése a Google Térképen",
+    "ecommerceCouponLabel" => "Alkalmazott ajándékutalványok",
+    "ecommerceCouponDescription" => "Az ajándékutalványok, amelyeket a rendeléséhez felhasznált, az alábbiakban találhatók.",
     "ecommerceAddressLabel" => "Vevői adatok",
     "ecommerceAddressDescription" => "számlázási és szállítási cím",
     "ecommerceAddressBlockBillingLabel" => "Számlázási cím",

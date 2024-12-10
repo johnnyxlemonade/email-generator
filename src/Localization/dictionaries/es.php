@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Horario de apertura",
     "pickupPointPlaceMap" => "Mapa del punto de recogida",
     "pickupPointMapLink" => "Ver ubicación en Google Maps",
+    "ecommerceCouponLabel" => "Vales de regalo aplicados",
+    "ecommerceCouponDescription" => "Los vales de regalo que has aplicado a tu pedido se enumeran a continuación.",
     "ecommerceAddressLabel" => "Datos del cliente",
     "ecommerceAddressDescription" => "dirección de facturación y entrega",
     "ecommerceAddressBlockBillingLabel" => "Dirección de facturación",

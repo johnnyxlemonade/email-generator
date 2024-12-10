@@ -7,6 +7,11 @@ use Countable;
 use IteratorAggregate;
 use OutOfBoundsException;
 
+/**
+ * Class AbstractCollection
+ * Provides a base implementation for a type-safe collection.
+ * Enforces validation of items and implements basic collection operations.
+ */
 abstract class AbstractCollection implements Countable, IteratorAggregate, ItemCollectionInterface
 {
 

@@ -5,6 +5,7 @@ namespace Lemonade\EmailGenerator\Factories;
 use Lemonade\EmailGenerator\Services\AddressService;
 use Lemonade\EmailGenerator\Services\AttachmentCollectionService;
 use Lemonade\EmailGenerator\Services\ContextService;
+use Lemonade\EmailGenerator\Services\CouponCollectionService;
 use Lemonade\EmailGenerator\Services\FormItemCollectionService;
 use Lemonade\EmailGenerator\Services\PaymentService;
 use Lemonade\EmailGenerator\Services\PickupPointService;
@@ -12,6 +13,10 @@ use Lemonade\EmailGenerator\Services\ProductCollectionService;
 use Lemonade\EmailGenerator\Services\ShippingService;
 use Lemonade\EmailGenerator\Services\SummaryCollectionService;
 
+/**
+ * Class ServiceFactoryManager
+ * Provides factory methods for creating instances of various services.
+ */
 class ServiceFactoryManager
 {
     /**
@@ -22,6 +27,16 @@ class ServiceFactoryManager
     public function createProductCollectionService(): ProductCollectionService
     {
         return new ProductCollectionService(new ProductFactory());
+    }
+
+    /**
+     * Creates an instance of CouponCollectionService.
+     *
+     * @return CouponCollectionService A new instance of CouponCollectionService.
+     */
+    public function createCouponCollectionService(): CouponCollectionService
+    {
+        return new CouponCollectionService(new CouponFactory());
     }
 
     /**

@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Otvorené hodiny",
     "pickupPointPlaceMap" => "Mapa výdajného miesta",
     "pickupPointMapLink" => "Zobraziť miesto na Google Maps",
+    "ecommerceCouponLabel" => "Uplatnené darčekové poukážky",
+    "ecommerceCouponDescription" => "Darčekové poukážky, ktoré ste uplatnili na svoju objednávku, sú uvedené nižšie.",
     "ecommerceAddressLabel" => "Údaje o zákazníkovi",
     "ecommerceAddressDescription" => "fakturačná a dodacia adresa",
     "ecommerceAddressBlockBillingLabel" => "Fakturačná adresa",

@@ -2,6 +2,10 @@
 
 namespace Lemonade\EmailGenerator\Collection;
 
+/**
+ * Interface ItemCollectionInterface
+ * Defines the contract for a collection of items.
+ */
 interface ItemCollectionInterface
 {
     /**

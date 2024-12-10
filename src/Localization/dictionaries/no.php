@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Åpningstider",
     "pickupPointPlaceMap" => "Kart for hentepunkt",
     "pickupPointMapLink" => "Vis plasseringen på Google Maps",
+    "ecommerceCouponLabel" => "Brukte gavekort",
+    "ecommerceCouponDescription" => "Gavekortene du har brukt på bestillingen din, er oppført nedenfor.",
     "ecommerceAddressLabel" => "Kundedata",
     "ecommerceAddressDescription" => "fakturerings- og leveringsadresse",
     "ecommerceAddressBlockBillingLabel" => "Faktureringsadresse",

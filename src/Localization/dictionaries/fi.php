@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Aukioloajat",
     "pickupPointPlaceMap" => "Noutopisteen kartta",
     "pickupPointMapLink" => "Näytä sijainti Google Mapsissa",
+    "ecommerceCouponLabel" => "Käytetyt lahjakortit",
+    "ecommerceCouponDescription" => "Lahjakortit, jotka olet käyttänyt tilaukseesi, on lueteltu alla.",
     "ecommerceAddressLabel" => "Asiakastiedot",
     "ecommerceAddressDescription" => "laskutus- ja toimitusosoite",
     "ecommerceAddressBlockBillingLabel" => "Laskutusosoite",

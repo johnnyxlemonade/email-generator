@@ -5,13 +5,19 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 
+/**
+ * Class ComponentNotification
+ * Represents a block component for displaying a notification with a heading and message.
+ */
 class ComponentNotification extends AbstractBlock
 {
     /**
      * Constructor for `ComponentNotification`.
      *
-     * @param string|null $heading The heading of the notification.
-     * @param string|null $notification The notification message.
+     * Initializes the block with a heading and a notification message.
+     *
+     * @param string $heading The heading of the notification.
+     * @param string $notification The notification message.
      */
     public function __construct(string $heading, string $notification)
     {
@@ -27,7 +33,9 @@ class ComponentNotification extends AbstractBlock
     }
 
     /**
-     * Validate the required keys in the context.
+     * Validates the required keys in the context.
+     *
+     * Ensures that "heading" and "notification" keys are present in the context.
      *
      * @return void
      */

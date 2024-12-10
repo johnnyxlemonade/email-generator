@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Godziny otwarcia",
     "pickupPointPlaceMap" => "Mapa punktu odbioru",
     "pickupPointMapLink" => "Zobacz miejsce w Google Maps",
+    "ecommerceCouponLabel" => "Zastosowane bony podarunkowe",
+    "ecommerceCouponDescription" => "Bony podarunkowe zastosowane do Twojego zamówienia są wymienione poniżej.",
     "ecommerceAddressLabel" => "Dane klienta",
     "ecommerceAddressDescription" => "adres do fakturowania i dostawy",
     "ecommerceAddressBlockBillingLabel" => "Adres do fakturowania",

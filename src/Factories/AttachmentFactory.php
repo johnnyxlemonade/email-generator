@@ -5,6 +5,10 @@ namespace Lemonade\EmailGenerator\Factories;
 use Lemonade\EmailGenerator\Models\Attachment;
 use Lemonade\EmailGenerator\DTO\AttachmentData;
 
+/**
+ * Class AttachmentFactory
+ * Provides factory methods for creating instances of Attachment.
+ */
 class AttachmentFactory
 {
     /**

@@ -6,6 +6,10 @@ use Lemonade\EmailGenerator\Collection\AttachmentCollection;
 use Lemonade\EmailGenerator\DTO\AttachmentData;
 use Lemonade\EmailGenerator\Models\Attachment;
 
+/**
+ * Interface AttachmentCollectionServiceInterface
+ * Defines the contract for managing attachment collections and items.
+ */
 interface AttachmentCollectionServiceInterface
 {
     /**

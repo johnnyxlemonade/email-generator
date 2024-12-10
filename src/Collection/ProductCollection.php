@@ -4,6 +4,10 @@ namespace Lemonade\EmailGenerator\Collection;
 
 use Lemonade\EmailGenerator\Models\Product;
 
+/**
+ * Class ProductCollection
+ * Represents a collection of Product objects.
+ */
 class ProductCollection extends AbstractCollection
 {
     /**

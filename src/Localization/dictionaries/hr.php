@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Radno vrijeme",
     "pickupPointPlaceMap" => "Karta mjesta preuzimanja",
     "pickupPointMapLink" => "Pogledajte mjesto na Google kartama",
+    "ecommerceCouponLabel" => "Primijenjeni poklon bonovi",
+    "ecommerceCouponDescription" => "Poklon bonovi koje ste primijenili na svoju narudžbu navedeni su u nastavku.",
     "ecommerceAddressLabel" => "Podaci o kupcu",
     "ecommerceAddressDescription" => "fakturačka i dostavna adresa",
     "ecommerceAddressBlockBillingLabel" => "Fakturačka adresa",

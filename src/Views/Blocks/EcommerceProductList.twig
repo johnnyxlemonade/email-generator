@@ -32,14 +32,26 @@
                 {# Obrázek produktu s odkazem #}
                 <div class="o_col o_col-1 o_col-full" style="display: inline-block;vertical-align: top;width: 100%;max-width: 100px;">
                     <div class="o_px-xs o_sans o_text o_center" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;text-align: center;padding-left: 8px;padding-right: 8px;">
-                        <p style="margin-top: 0px;margin-bottom: 0px;">
-                            {# Odkaz na produkt, který obsahuje obrázek produktu #}
-                            <a class="o_text-primary" href="{{ product.getProductUrl() }}" target="_blank" style="text-decoration: none;outline: none;color: #126de5;display:block;">
-                                <img src="{{ product.getProductImage() }}" width="84" height="84" alt="{{ product.getProductName() }}" style="max-width: 84px;-ms-interpolation-mode: bicubic;vertical-align: middle;border: 0;line-height: 100%;height: auto;outline: none;text-decoration: none;">
+                        <div style="margin-top: 0px;margin-bottom: 0px;">
+
+                            {% if product.getProductImage() is not null and product.getProductUrl() is not null %}
+                            {# Odkaz na produkt s obrázkem #}
+                            <a class="o_text-primary" href="{{ product.getProductUrl() }}" target="_blank" style="text-decoration: none; outline: none; color: #126de5; display: block;">
+                                <img src="{{ product.getProductImage() }}" width="84" height="84" alt="{{ product.getProductName() }}" style="max-width: 84px; -ms-interpolation-mode: bicubic; vertical-align: middle; border: 0; line-height: 100%; height: auto; outline: none; text-decoration: none; border-radius: 8px;">
                             </a>
-                            {# Kód produktu (například SKU) zobrazený pod obrázkem #}
-                            <small style="line-height:normal;display:block;font-size:10px;">{{ product.getProductCode() }}</small>
-                        </p>
+                            {% elseif product.getProductImage() is not null %}
+                            {# Obrázek produktu bez odkazu #}
+                            <img src="{{ product.getProductImage() }}" width="84" height="84" alt="{{ product.getProductName() }}" style="max-width: 84px; -ms-interpolation-mode: bicubic; vertical-align: middle; border: 0; line-height: 100%; height: auto; outline: none; text-decoration: none; border-radius: 8px;">
+                            {% else %}
+                            {# Šedý zástupný prvek #}
+                                <div style="background-color: #e7e7e7; border: 0; width: 84px; height: 84px; display: inline-block; vertical-align: middle; line-height: 60px; text-align: center; color: #222; font-size: 12px; font-weight: normal; text-transform: uppercase; border-radius: 8px;"></div>
+                            {% endif %}
+                            {% if product.getProductCode() is not null %}
+                                {# Kód produktu (například SKU) zobrazený pod obrázkem #}
+                                <small style="line-height:normal;display:block;font-size:10px;margin-top: 4px;">{{ product.getProductCode() }}</small>
+                            {% endif %}
+
+                        </div>
                     </div>
                 </div>
 

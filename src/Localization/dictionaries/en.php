@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Opening hours",
     "pickupPointPlaceMap" => "Pickup point map",
     "pickupPointMapLink" => "View location on Google Maps",
+    "ecommerceCouponLabel" => "Applied Gift Vouchers",
+    "ecommerceCouponDescription" => "The gift vouchers you have applied to your order are listed below.",
     "ecommerceAddressLabel" => "Customer data",
     "ecommerceAddressDescription" => "billing and delivery address",
     "ecommerceAddressBlockBillingLabel" => "Billing address",

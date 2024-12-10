@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Orari di apertura",
     "pickupPointPlaceMap" => "Mappa del punto di ritiro",
     "pickupPointMapLink" => "Visualizza il luogo su Google Maps",
+    "ecommerceCouponLabel" => "Buoni regalo applicati",
+    "ecommerceCouponDescription" => "I buoni regalo che hai applicato al tuo ordine sono elencati di seguito.",
     "ecommerceAddressLabel" => "Dati cliente",
     "ecommerceAddressDescription" => "indirizzo di fatturazione e spedizione",
     "ecommerceAddressBlockBillingLabel" => "Indirizzo di fatturazione",

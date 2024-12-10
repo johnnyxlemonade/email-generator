@@ -4,6 +4,10 @@ namespace Lemonade\EmailGenerator\Collection;
 
 use Lemonade\EmailGenerator\Models\Attachment;
 
+/**
+ * Class AttachmentCollection
+ * Represents a collection of Attachment objects.
+ */
 class AttachmentCollection extends AbstractCollection
 {
     /**

@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Öffnungszeiten",
     "pickupPointPlaceMap" => "Karte des Abholpunkts",
     "pickupPointMapLink" => "Standort auf Google Maps anzeigen",
+    "ecommerceCouponLabel" => "Eingelöste Geschenkgutscheine",
+    "ecommerceCouponDescription" => "Die Geschenkgutscheine, die Sie für Ihre Bestellung eingelöst haben, sind unten aufgeführt.",
     "ecommerceAddressLabel" => "Kundendaten",
     "ecommerceAddressDescription" => "Rechnungs- und Lieferadresse",
     "ecommerceAddressBlockBillingLabel" => "Rechnungsadresse",

@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "営業時間",
     "pickupPointPlaceMap" => "受け取り場所の地図",
     "pickupPointMapLink" => "Googleマップで場所を表示",
+    "ecommerceCouponLabel" => "適用されたギフト券",
+    "ecommerceCouponDescription" => "ご注文に適用したギフト券は以下の通りです。",
     "ecommerceAddressLabel" => "顧客情報",
     "ecommerceAddressDescription" => "請求先および配送先住所",
     "ecommerceAddressBlockBillingLabel" => "請求先住所",

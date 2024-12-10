@@ -4,6 +4,10 @@ namespace Lemonade\EmailGenerator\Collection;
 
 use Lemonade\EmailGenerator\Models\SummaryItem;
 
+/**
+ * Class SummaryCollection
+ * Represents a collection of SummaryItem objects.
+ */
 class SummaryCollection extends AbstractCollection
 {
     /**

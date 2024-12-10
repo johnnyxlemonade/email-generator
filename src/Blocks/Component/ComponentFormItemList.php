@@ -6,10 +6,16 @@ use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Collection\FormItemCollection;
 use Lemonade\EmailGenerator\Context\ContextData;
 
+/**
+ * Class ComponentFormItemList
+ * Represents a block component for managing and displaying a list of form items.
+ */
 class ComponentFormItemList extends AbstractBlock
 {
     /**
      * Constructor for `ComponentFormItemList`.
+     *
+     * Initializes the block with a name and a collection of form items.
      *
      * @param string $name The name of the form list.
      * @param FormItemCollection $collection The collection of form items.
@@ -26,7 +32,9 @@ class ComponentFormItemList extends AbstractBlock
     }
 
     /**
-     * Validate the required keys in the context.
+     * Validates the required keys in the context.
+     *
+     * Ensures that both "name" and "formlist" keys are present in the context.
      *
      * @return void
      */

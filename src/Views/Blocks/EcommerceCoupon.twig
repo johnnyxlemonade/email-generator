@@ -1,4 +1,4 @@
-{# Tabulka s nadpisem a popisem pro seznam příloh #}
+{# Tabulka s nadpisem a popisem pro seznam kuponu #}
 <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
     <tbody>
     <tr>
@@ -6,13 +6,13 @@
         <td class="o_bg-white o_px-md o_py-md" align="{{ alignment }}" style="background-color: #ffffff;padding: 8px 16px">
             <!--[if mso]><table width="600" cellspacing="0" cellpadding="0" border="0" role="presentation"><tbody><tr><td align="left"><![endif]-->
             <div class="o_col-6s o_sans o_text o_text-secondary o_left" style="font-family: Helvetica, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;font-size: 16px;line-height: 24px;max-width: 600px;color: #424651;text-align: left;">
-                {# Nadpis pro seznam příloh #}
+                {# Nadpis pro seznam kuponu #}
                 <h3 class="o_heading o_text-dark" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 8px;margin-bottom: 0px;color: #242b3d;font-size: 24px;line-height: 31px;">
-                    {{ translate('attachmentListLabel') }}
+                    {{ translate('ecommerceCouponLabel') }}
                 </h3>
-                {# Popis seznamu příloh #}
+                {# Popis seznamu kuponu #}
                 <p class="o_text-xxs o_text-light o_mb" style="font-size: 12px;line-height: 19px;color: #3f3f3f;margin-top: 0px;margin-bottom: 8px;border-bottom: 1px solid #e7e7e7;">
-                    {{ translate('attachmentListDescription') }}
+                    {{ translate('ecommerceCouponDescription') }}
                 </p>
             </div>
             <!--[if mso]></td></tr></table><![endif]-->
@@ -21,10 +21,10 @@
     </tbody>
 </table>
 
-{# Smyčka pro každou přílohu #}
-{% for attachment in attachments %}
+{# Smyčka pro každy kupon #}
+{% for coupon in coupons %}
 
-    {# Tabulka pro zobrazení jednotlivých příloh #}
+    {# Tabulka pro zobrazení jednotlivých kuponu #}
     <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
         <tbody>
         <tr>
@@ -53,16 +53,18 @@
                                                             <td class="o_btn-b o_heading o_text-xs" align="center" style="font-family: Helvetica, Arial, sans-serif;font-weight: bold;margin-top: 0px;margin-bottom: 0px;font-size: 14px;line-height: 21px;mso-padding-alt: 7px 8px;text-align:left;vertical-align: middle">
                                                                 <a class="o_text-primary" target="_blank" href="{{ attachment.getLink() }}" style="text-decoration: none;outline: none;color: #126de5;display: block;padding:7px 7px 7px 0px;font-weight: bold;">
                                                                     <div class="block">
-                                                                        {# Zobrazení rozšíření přílohy, pokud je dostupné #}
-                                                                        <div style="background-color: #e7e7e7; border:0; width: 60px;height: 60px;display: inline-block;vertical-align: middle;line-height: 60px;vertical-align: middle;text-align: center;color: #222;font-size: 12px;font-weight: normal;text-transform: uppercase;border-radius: 8px;">
-                                                                            {{ attachment.getExtension() }}
-                                                                        </div>
-                                                                        {# Zobrazení názvu a popisu přílohy #}
+                                                                        {# Zobrazení rozšíření kuponu, pokud je dostupné #}
+                                                                        <div style="background-color: #e7e7e7; border:0; width: 60px;height: 60px;display: inline-block;vertical-align: middle;line-height: 60px;vertical-align: middle;text-align: center;color: #222;font-size: 12px;font-weight: normal;text-transform: uppercase;border-radius: 8px;"></div>
+                                                                        {# Zobrazení názvu a popisu kuponu #}
                                                                         <div style="margin: 0;padding: 0;display: inline-block;margin-left: 8px;vertical-align: middle;">
-                                                                            <span style="mso-text-raise:6px;font-size:14px;display: block;">{{ attachment.getName() }}</span>
-                                                                            <span style="mso-text-raise:6px;font-size:12px;display: block;font-size: 12px;color:gray;font-weight:normal;">
-                                                                                {{ attachment.getDescription() }}
-                                                                            </span>
+                                                                            <div style="mso-text-raise:6px;font-size:14px;display: block;">
+                                                                                <span>{{ coupon.getName() }}</span>
+                                                                                <span style="margin-left: 4px;margin-right: 4px;color:gray;font-weight:normal;">/</span>
+                                                                                <span style="mso-text-raise:6px;font-size:12px;font-size: 12px;font-weight:normal;">{{ coupon.getCode() }}</span>
+                                                                            </div>
+                                                                            {% if coupon.getFormattedPrice() is not null %}
+                                                                            <span style="mso-text-raise:6px;font-size:12px;display: block;font-size: 12px;color:gray;font-weight:normal;">{{ format_number(coupon.getFormattedPrice(), currency, 2) }}</span>
+                                                                            {% endif %}
                                                                         </div>
                                                                     </div>
                                                                 </a>

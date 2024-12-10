@@ -7,6 +7,10 @@ use Lemonade\EmailGenerator\DTO\AttachmentData;
 use Lemonade\EmailGenerator\Factories\AttachmentFactory;
 use Lemonade\EmailGenerator\Models\Attachment;
 
+/**
+ * Class AttachmentCollectionService
+ * Provides functionalities for managing collections of attachments.
+ */
 class AttachmentCollectionService extends AbstractCollectionService implements AttachmentCollectionServiceInterface
 {
     /**

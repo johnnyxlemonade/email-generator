@@ -2,6 +2,10 @@
 
 namespace Lemonade\EmailGenerator\Models;
 
+/**
+ * Class Attachment
+ * Represents an attachment with details such as name, link, size, and file extension.
+ */
 class Attachment
 {
     /**
@@ -20,7 +24,7 @@ class Attachment
     /**
      * Returns the link to the attachment.
      *
-     * @return string
+     * @return string URL link to the attachment.
      */
     public function getLink(): string
     {
@@ -30,7 +34,7 @@ class Attachment
     /**
      * Returns the name of the attachment.
      *
-     * @return string
+     * @return string The name of the attachment.
      */
     public function getName(): string
     {
@@ -40,7 +44,7 @@ class Attachment
     /**
      * Returns the size of the attachment.
      *
-     * @return string|null
+     * @return string|null The size of the attachment in bytes, or null if not provided.
      */
     public function getSize(): ?string
     {
@@ -50,7 +54,7 @@ class Attachment
     /**
      * Returns the file extension.
      *
-     * @return string|null
+     * @return string|null The file extension of the attachment, or null if not provided.
      */
     public function getExtension(): ?string
     {
@@ -60,7 +64,10 @@ class Attachment
     /**
      * Returns a description of the attachment.
      *
-     * @return string
+     * Combines file extension and size into a single string, separated by a comma.
+     * If either value is missing, it is excluded from the description.
+     *
+     * @return string A description of the attachment (e.g., "pdf, 12345").
      */
     public function getDescription(): string
     {

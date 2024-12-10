@@ -8,8 +8,8 @@ class Product
      * Constructor for creating a product instance.
      *
      * @param string|int $productId Product ID.
+     * @param string|null $productName Product name.
      * @param string|int|null $productCode Product code (optional).
-     * @param string|null $productName Product name (optional).
      * @param float|int|null $productQuantity Product quantity (optional).
      * @param float|int|null $productUnitPrice Product unit price (optional).
      * @param float|int $productUnitBase Base unit price (default is 0).
@@ -21,8 +21,8 @@ class Product
      */
     public function __construct(
         protected readonly string|int $productId,
+        protected readonly string $productName,
         protected readonly string|int|null $productCode = null,
-        protected readonly string|null $productName = null,
         protected readonly float|int|null $productQuantity = null,
         protected readonly float|int|null $productUnitPrice = null,
         protected readonly float|int $productUnitBase = 0,

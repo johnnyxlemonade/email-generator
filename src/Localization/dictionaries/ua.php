@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Години роботи",
     "pickupPointPlaceMap" => "Карта пункту видачі",
     "pickupPointMapLink" => "Переглянути місце на Google Maps",
+    "ecommerceCouponLabel" => "Застосовані подарункові сертифікати",
+    "ecommerceCouponDescription" => "Подарункові сертифікати, які ви застосували до свого замовлення, вказані нижче.",
     "ecommerceAddressLabel" => "Дані клієнта",
     "ecommerceAddressDescription" => "адреса для виставлення рахунку та доставки",
     "ecommerceAddressBlockBillingLabel" => "Адреса для рахунку",

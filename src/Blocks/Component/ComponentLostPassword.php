@@ -5,10 +5,16 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 
+/**
+ * Class ComponentLostPassword
+ * Represents a block component for displaying a lost password functionality.
+ */
 class ComponentLostPassword extends AbstractBlock
 {
     /**
      * Constructor for `ComponentLostPassword`.
+     *
+     * Initializes the block with the website name and anchor link for password reset.
      *
      * @param string $webName The name of the website.
      * @param string $anchorLink The anchor link for password reset.
@@ -25,7 +31,9 @@ class ComponentLostPassword extends AbstractBlock
     }
 
     /**
-     * Validate the required keys in the context.
+     * Validates the required keys in the context.
+     *
+     * Ensures that "webName" and "anchorLink" keys are present in the context.
      *
      * @return void
      */

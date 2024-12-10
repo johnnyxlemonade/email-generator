@@ -9,7 +9,9 @@ use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
 use Lemonade\EmailGenerator\Localization\Translator;
 use Lemonade\EmailGenerator\Template\TemplateRenderer;
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
+use Lemonade\EmailGenerator\Services\CouponCollectionService;
 use Lemonade\EmailGenerator\Services\ProductCollectionService;
+use Lemonade\EmailGenerator\Services\AttachmentCollectionService;
 
 class ContainerBuilderTest extends TestCase
 {
@@ -63,6 +65,42 @@ class ContainerBuilderTest extends TestCase
 
         // Second call to getProductCollectionService should return the same instance
         $result2 = $this->containerBuilder->getProductCollectionService();
+        $this->assertSame($result, $result2);
+    }
+
+    public function testGetCouponCollectionService(): void
+    {
+        // Set up mock for serviceFactoryManager to create CouponCollectionService
+        $couponCollectionService = $this->createMock(CouponCollectionService::class);
+        $this->serviceFactoryManager
+            ->expects($this->once()) // This method should be called once
+            ->method('createCouponCollectionService')
+            ->willReturn($couponCollectionService);
+
+        // First call to getCouponCollectionService should create the service
+        $result = $this->containerBuilder->getCouponCollectionService();
+        $this->assertSame($couponCollectionService, $result);
+
+        // Second call to getCouponCollectionService should return the same instance
+        $result2 = $this->containerBuilder->getCouponCollectionService();
+        $this->assertSame($result, $result2);
+    }
+
+    public function testGetAttachmentCollectionService(): void
+    {
+        // Set up mock for serviceFactoryManager to create AttachmentCollectionService
+        $attachmentCollectionService = $this->createMock(AttachmentCollectionService::class);
+        $this->serviceFactoryManager
+            ->expects($this->once()) // This method should be called once
+            ->method('createAttachmentCollectionService')
+            ->willReturn($attachmentCollectionService);
+
+        // First call to getAttachmentCollectionService should create the service
+        $result = $this->containerBuilder->getAttachmentCollectionService();
+        $this->assertSame($attachmentCollectionService, $result);
+
+        // Second call to getAttachmentCollectionService should return the same instance
+        $result2 = $this->containerBuilder->getAttachmentCollectionService();
         $this->assertSame($result, $result2);
     }
 

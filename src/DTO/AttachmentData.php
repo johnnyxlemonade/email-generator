@@ -2,6 +2,10 @@
 
 namespace Lemonade\EmailGenerator\DTO;
 
+/**
+ * Class AttachmentData
+ * Represents the data for an attachment.
+ */
 class AttachmentData
 {
     /**

@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Öppettider",
     "pickupPointPlaceMap" => "Karta över upphämtningsställe",
     "pickupPointMapLink" => "Visa plats på Google Maps",
+    "ecommerceCouponLabel" => "Använda presentkort",
+    "ecommerceCouponDescription" => "Presentkorten som du har använt på din beställning listas nedan.",
     "ecommerceAddressLabel" => "Kunduppgifter",
     "ecommerceAddressDescription" => "fakturerings- och leveransadress",
     "ecommerceAddressBlockBillingLabel" => "Faktureringsadress",

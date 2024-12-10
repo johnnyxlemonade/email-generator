@@ -8,8 +8,8 @@ class ProductData
      * Constructor for ProductData.
      *
      * @param string|int $productId The ID of the product.
+     * @param string|null $productName The name of the product.
      * @param string|int|null $productCode The code of the product (optional).
-     * @param string|null $productName The name of the product (optional).
      * @param float|int|null $productQuantity The quantity of the product (optional).
      * @param float|int|null $productUnitPrice The unit price of the product (optional).
      * @param float|int $productUnitBase The base unit of the product (default: 0).
@@ -21,8 +21,8 @@ class ProductData
      */
     public function __construct(
         public string|int $productId,
+        public string $productName,
         public string|int|null $productCode = null,
-        public ?string $productName = null,
         public float|int|null $productQuantity = null,
         public float|int|null $productUnitPrice = null,
         public float|int $productUnitBase = 0,

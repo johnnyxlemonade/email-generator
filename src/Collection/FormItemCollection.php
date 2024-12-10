@@ -4,6 +4,10 @@ namespace Lemonade\EmailGenerator\Collection;
 
 use Lemonade\EmailGenerator\Models\FormItem;
 
+/**
+ * Class FormItemCollection
+ * Represents a collection of FormItem objects.
+ */
 class FormItemCollection extends AbstractCollection
 {
     /**

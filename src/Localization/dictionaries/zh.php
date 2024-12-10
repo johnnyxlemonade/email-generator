@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "营业时间",
     "pickupPointPlaceMap" => "取货点地图",
     "pickupPointMapLink" => "在Google地图上查看位置",
+    "ecommerceCouponLabel" => "已应用的礼品券",
+    "ecommerceCouponDescription" => "您已应用到订单的礼品券如下所示。",
     "ecommerceAddressLabel" => "客户信息",
     "ecommerceAddressDescription" => "账单地址和送货地址",
     "ecommerceAddressBlockBillingLabel" => "账单地址",

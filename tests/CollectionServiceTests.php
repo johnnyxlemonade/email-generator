@@ -2,6 +2,9 @@
 
 namespace Lemonade\EmailGenerator\Tests;
 
+use Lemonade\EmailGenerator\Collection\CouponCollection;
+use Lemonade\EmailGenerator\DTO\CouponData;
+use Lemonade\EmailGenerator\Models\Coupon;
 use PHPUnit\Framework\TestCase;
 use Lemonade\EmailGenerator\Collection\AttachmentCollection;
 use Lemonade\EmailGenerator\Collection\FormItemCollection;
@@ -48,6 +51,24 @@ class CollectionServiceTests extends TestCase
 
         $this->assertCount(1, $collection);
         $this->assertSame($formItem, $collection->get(0));
+    }
+
+    public function testCouponCollection(): void
+    {
+        $collection = new CouponCollection();
+
+        $attachmentData = new CouponData('file1', '12345', 100, 'pdf');
+        $attachment = new Coupon(
+            $attachmentData->name,
+            $attachmentData->code,
+            $attachmentData->price,
+            $attachmentData->image
+        );
+
+        $collection->add($attachment);
+
+        $this->assertCount(1, $collection);
+        $this->assertSame($attachment, $collection->get(0));
     }
 
     public function testSummaryCollection(): void

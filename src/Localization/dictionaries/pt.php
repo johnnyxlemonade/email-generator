@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Horário de funcionamento",
     "pickupPointPlaceMap" => "Mapa do ponto de retirada",
     "pickupPointMapLink" => "Ver no Google Maps",
+    "ecommerceCouponLabel" => "Vales-presente aplicados",
+    "ecommerceCouponDescription" => "Os vales-presente aplicados ao seu pedido estão listados abaixo.",
     "ecommerceAddressLabel" => "Dados do cliente",
     "ecommerceAddressDescription" => "endereço de faturamento e entrega",
     "ecommerceAddressBlockBillingLabel" => "Endereço de faturamento",

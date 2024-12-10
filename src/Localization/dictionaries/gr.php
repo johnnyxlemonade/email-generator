@@ -20,6 +20,8 @@ return [
     "pickupPointPlaceOpeningHours" => "Ώρες λειτουργίας",
     "pickupPointPlaceMap" => "Χάρτης σημείου παραλαβής",
     "pickupPointMapLink" => "Δείτε την τοποθεσία στο Google Maps",
+    "ecommerceCouponLabel" => "Εφαρμοσμένα δωροκουπόνια",
+    "ecommerceCouponDescription" => "Τα δωροκουπόνια που εφαρμόσατε στην παραγγελία σας παρατίθενται παρακάτω.",
     "ecommerceAddressLabel" => "Δεδομένα πελάτη",
     "ecommerceAddressDescription" => "διεύθυνση τιμολόγησης και αποστολής",
     "ecommerceAddressBlockBillingLabel" => "Διεύθυνση τιμολόγησης",
