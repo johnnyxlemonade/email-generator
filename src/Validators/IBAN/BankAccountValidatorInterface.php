@@ -5,23 +5,32 @@ namespace Lemonade\EmailGenerator\Validators\IBAN;
 interface BankAccountValidatorInterface
 {
     /**
-     * Validates the account number stored in the object.
-     *
-     * @return bool True if the stored account number is valid, false otherwise.
+     * @return bool
      */
     public function isValid(): bool;
 
     /**
-     * Generates an IBAN from a bank account number.
-     *
-     * @return string The generated IBAN.
+     * @return string
      */
-    public function generateIban(): string;
+    public function getBankName(): string;
 
     /**
-     * Retrieves the BIC for the account's bank code.
-     *
-     * @return string The BIC/SWIFT code.
+     * @return string|null
      */
-    public function getBic(): string;
+    public function getAccountNumber(): ?string;
+
+    /**
+     * @return string
+     */
+    public function getIban(): string;
+
+    /**
+     * @return string
+     */
+    public function getBankSwift(): string;
+
+    /**
+     * @return string
+     */
+    public function getCountryCode(): string;
 }

@@ -1,0 +1,230 @@
+{
+  "0100": {
+    "name": "Komerční banka, a.s.",
+    "swift": "KOMB CZ PP"
+  },
+  "0300": {
+    "name": "Československá obchodní banka, a.s.",
+    "swift": "CEKO CZ PP"
+  },
+  "0600": {
+    "name": "MONETA Money Bank, a.s.",
+    "swift": "AGBA CZ PP"
+  },
+  "0710": {
+    "name": "Česká národní banka",
+    "swift": "CNBA CZ PP"
+  },
+  "0800": {
+    "name": "Česká spořitelna, a.s.",
+    "swift": "GIBA CZ PX"
+  },
+  "2010": {
+    "name": "Fio banka, a.s.",
+    "swift": "FIOB CZ PP"
+  },
+  "2020": {
+    "name": "MUFG Bank (Europe) N.V. Prague Branch",
+    "swift": "BOTK CZ PP"
+  },
+  "2030": {
+    "name": "Československé úvěrní družstvo",
+    "swift": ""
+  },
+  "2060": {
+    "name": "Citfin, spořitelní družstvo",
+    "swift": "CITF CZ PP"
+  },
+  "2070": {
+    "name": "Moravský Peněžní Ústav – spořitelní družstvo",
+    "swift": "MPUB CZ PP"
+  },
+  "2100": {
+    "name": "Hypoteční banka, a.s.",
+    "swift": ""
+  },
+  "2200": {
+    "name": "Peněžní dům, spořitelní družstvo",
+    "swift": ""
+  },
+  "2220": {
+    "name": "Artesa, spořitelní družstvo",
+    "swift": "ARTT CZ PP"
+  },
+  "2240": {
+    "name": "Poštová banka, a.s., pobočka Česká republika",
+    "swift": "POBN CZ PP"
+  },
+  "2250": {
+    "name": "Banka CREDITAS a.s.",
+    "swift": "CTAS CZ 22"
+  },
+  "2260": {
+    "name": "NEY spořitelní družstvo",
+    "swift": ""
+  },
+  "2275": {
+    "name": "Podnikatelská družstevní záložna",
+    "swift": ""
+  },
+  "2600": {
+    "name": "Citibank Europe plc, organizační složka",
+    "swift": "CITI CZ PX"
+  },
+  "2700": {
+    "name": "UniCredit Bank Czech Republic and Slovakia, a.s.",
+    "swift": "BACX CZ PP"
+  },
+  "3030": {
+    "name": "Air Bank a.s.",
+    "swift": "AIRA CZ PP"
+  },
+  "3050": {
+    "name": "BNP Paribas Personal Finance SA, odštěpný závod",
+    "swift": "BPPF CZ P1"
+  },
+  "3060": {
+    "name": "PKO BP S.A., Czech Branch",
+    "swift": "BPKO CZ PP"
+  },
+  "3500": {
+    "name": "ING Bank N.V.",
+    "swift": "INGB CZ PP"
+  },
+  "4000": {
+    "name": "Expobank CZ a.s.",
+    "swift": "EXPN CZ PP"
+  },
+  "4300": {
+    "name": "Českomoravská záruční a rozvojová banka, a.s.",
+    "swift": "CMZR CZ P1"
+  },
+  "5500": {
+    "name": "Raiffeisenbank a.s.",
+    "swift": "RZBC CZ PP"
+  },
+  "5800": {
+    "name": "J&T BANKA, a.s.",
+    "swift": "JTBP CZ PP"
+  },
+  "6000": {
+    "name": "PPF banka a.s.",
+    "swift": "PMBP CZ PP"
+  },
+  "6100": {
+    "name": "Equa bank a.s.",
+    "swift": "EQBK CZ PP"
+  },
+  "6200": {
+    "name": "COMMERZBANK Aktiengesellschaft, pobočka Praha",
+    "swift": "COBA CZ PX"
+  },
+  "6210": {
+    "name": "mBank S.A., organizační složka",
+    "swift": "BREX CZ PP"
+  },
+  "6300": {
+    "name": "BNP Paribas S.A., pobočka Česká republika",
+    "swift": "GEBA CZ PP"
+  },
+  "6700": {
+    "name": "Všeobecná úverová banka a.s., pobočka Praha",
+    "swift": "SUBA CZ PP"
+  },
+  "6800": {
+    "name": "Sberbank CZ, a.s.",
+    "swift": "VBOE CZ 2X"
+  },
+  "7910": {
+    "name": "Deutsche Bank Aktiengesellschaft Filiale Prag, organizační složka",
+    "swift": "DEUT CZ PX"
+  },
+  "7940": {
+    "name": "Waldviertler Sparkasse Bank AG",
+    "swift": "SPWT CZ 21"
+  },
+  "7950": {
+    "name": "Raiffeisen stavební spořitelna a.s.",
+    "swift": ""
+  },
+  "7960": {
+    "name": "Českomoravská stavební spořitelna, a.s.",
+    "swift": ""
+  },
+  "7970": {
+    "name": "Wüstenrot - stavební spořitelna a.s.",
+    "swift": ""
+  },
+  "7980": {
+    "name": "Wüstenrot hypoteční banka a.s.",
+    "swift": ""
+  },
+  "7990": {
+    "name": "Modrá pyramida stavební spořitelna, a.s.",
+    "swift": ""
+  },
+  "8030": {
+    "name": "Volksbank Raiffeisenbank Nordoberpfalz eG pobočka Cheb",
+    "swift": "GENO CZ 21"
+  },
+  "8040": {
+    "name": "Oberbank AG pobočka Česká republika",
+    "swift": "OBKL CZ 2X"
+  },
+  "8060": {
+    "name": "Stavební spořitelna České spořitelny, a.s.",
+    "swift": ""
+  },
+  "8090": {
+    "name": "Česká exportní banka, a.s.",
+    "swift": "CZEE CZ PP"
+  },
+  "8150": {
+    "name": "HSBC Bank plc - pobočka Praha",
+    "swift": "MIDL CZ PP"
+  },
+  "8200": {
+    "name": "PRIVAT BANK der Raiffeisenlandesbank Oberösterreich Aktiengesellschaft, pobočka Česká republika",
+    "swift": ""
+  },
+  "8215": {
+    "name": "ALTERNATIVE PAYMENT SOLUTIONS, s.r.o.",
+    "swift": ""
+  },
+  "8220": {
+    "name": "Payment Execution s.r.o.",
+    "swift": "PAER CZ P1"
+  },
+  "8230": {
+    "name": "EEPAYS s. r. o.",
+    "swift": "EEPS CZ PP"
+  },
+  "8240": {
+    "name": "Družstevní záložna Kredit",
+    "swift": ""
+  },
+  "8250": {
+    "name": "Bank of China (Hungary) Close Ltd. Prague branch, odštěpný závod",
+    "swift": "BKCH CZ PP"
+  },
+  "8260": {
+    "name": "PAYMASTER a.s.",
+    "swift": ""
+  },
+  "8265": {
+    "name": "Industrial and Commercial Bank of China Limited Prague Branch, odštěpný závod",
+    "swift": "ICBK CZ PP"
+  },
+  "8270": {
+    "name": "Fairplay Pay s.r.o.",
+    "swift": ""
+  },
+  "8280": {
+    "name": "B-Efekt a.s.",
+    "swift": "BEFK CZ P1"
+  },
+  "8290": {
+    "name": "EUROPAY s.r.o.",
+    "swift": "ERSO CZ PP"
+  }
+}
