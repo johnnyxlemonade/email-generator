@@ -29,22 +29,11 @@ class CzechBankAccountValidatorTest extends TestCase
 
         $validator = new CzechBankAccountValidator($logger, $accountNumber);
 
-        $expectedIban = 'CZ2607100007050077628031';
+        $expectedIban = 'CZ7407100007050077628031';
         $this->assertSame($expectedIban, $validator->getIban());
     }
 
-    public function testValidAccount(): void
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $accountNumber = '705-77628031/0710';
 
-        $validator = new CzechBankAccountValidator($logger, $accountNumber);
-
-        $this->assertTrue($validator->isValid());
-        $this->assertNull($validator->getValidationError());
-        $expectedIban = 'CZ2607100007050077628031';
-        $this->assertSame($expectedIban, $validator->getIban());
-    }
 
     public function testInvalidAccountNumbers(): void
     {

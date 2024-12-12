@@ -181,11 +181,6 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
         return $this->accountCode . $this->accountPrefix . $this->accountNumber;
     }
 
-    public function getValidationError(): ?string
-    {
-        return $this->accountIsValid ? null : $this->validationError;
-    }
-
     /**
      * Constructs the IBAN (International Bank Account Number) from the account data.
      *
@@ -215,13 +210,14 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
         $prefixWeight = $this->getPrefixWeight();
         $numberWeight = $this->getNumberWeight();
 
-        if (!$this->accountNumber || strlen($this->accountNumber) < 2) {
+
+        if ((string) $this->accountNumber === "" || strlen((string)$this->accountNumber) < 2) {
             $this->logger->warning("Invalid account number: {$this->accountNumber}");
             $this->accountIsValid = false;
             return;
         }
 
-        if (!$this->accountCode || strlen($this->accountCode) !== 4) {
+        if ((string) $this->accountCode === "" || strlen((string)$this->accountCode) !== 4) {
             $this->logger->warning("Invalid bank code: {$this->accountCode}");
             $this->accountIsValid = false;
             return;
@@ -241,29 +237,19 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
      */
     protected function generateIbanVerificationCode(string $countryCode, string $bban): string
     {
+        // Kód země převedený na numerickou reprezentaci
+        $numericCountryCode = $this->convertCountryCode($countryCode);
 
-        // Step 1: Reformat the BBAN and country code
-        $reformatted = $bban . $this->convertCountryCode($countryCode) . '00';
+        // Připojte BBAN, kód země a "00"
+        $reformatted = $bban . $numericCountryCode . '00';
 
-        // Step 2: Iterate through possible check digits (00-99)
-        for ($i = 0; $i < 100; $i++) {
+        // Vypočítejte modulo 97
+        $remainder = $this->calculateMod($reformatted, '97');
 
-            $vc = str_pad((string)$i, 2, '0', STR_PAD_LEFT); // Ensure two-digit format
+        // Odečtěte od 98 a zarovnejte na dvě číslice
+        $checkDigits = str_pad((string)(98 - (int) $remainder), 2, '0', STR_PAD_LEFT);
 
-            // Step 3: Validate the IBAN using modulo 97
-            if ($this->calculateMod($reformatted . $vc, '97') === '1') {
-                $this->logger->info("IBAN successfully generated.", [
-                    'check_digits' => $vc,
-                    'iban_format' => $reformatted . $vc,
-                ]);
-                return $vc;
-            }
-        }
-
-        // If no valid check digits were found
-        $this->logger->warning("Failed to calculate valid IBAN check digits.");
-
-        return '00';
+        return $checkDigits;
     }
 
     /**
