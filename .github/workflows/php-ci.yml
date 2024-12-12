@@ -7,9 +7,11 @@ on:
       - develop
     paths-ignore:
       - 'demo/**'
+      - '*.md'
   pull_request:
     paths-ignore:
       - 'demo/**'
+      - '*.md'
 
 jobs:
   phpunit:
