@@ -368,7 +368,7 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
     private function calculateMod(string $number, string $modulo): string
     {
 
-        $this->logger->info("Calculating modulo. Number: {$number}, Modulo: {$modulo}");
+        $this->logger->debug("Calculating modulo. Number: {$number}, Modulo: {$modulo}");
 
         if (function_exists('bcmod')) {
             $result = bcmod($number, $modulo);
