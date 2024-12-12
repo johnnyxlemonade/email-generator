@@ -112,6 +112,7 @@ enum SupportedCurrencies: string
             self::KES => 'KSh',
             self::GHS => '₵',
             self::EGP => 'E£',
+            default => $this->value
         };
     }
 
