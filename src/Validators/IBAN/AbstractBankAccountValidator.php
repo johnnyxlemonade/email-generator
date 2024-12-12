@@ -229,14 +229,7 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
 
         $this->logger->info("Validating account data.");
 
-        // Validate prefix only if it contains non-zero digits
-        if ($this->accountPrefix !== '000000') {
-            $this->accountIsValid = $this->validateControlSum($this->accountPrefix, $prefixWeight);
-        } else {
-            $this->logger->info("Prefix is empty or contains only zeros, skipping validation.");
-        }
-
-        $this->accountIsValid = $this->validateControlSum($this->accountNumber, $numberWeight);
+        $this->accountIsValid = $this->validateControlSum($this->accountNumber, $numberWeight) && $this->validateControlSum($this->accountPrefix, $prefixWeight);
     }
 
     /**
@@ -248,10 +241,16 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
      */
     protected function generateIbanVerificationCode(string $countryCode, string $bban): string
     {
+
+        // Step 1: Reformat the BBAN and country code
         $reformatted = $bban . $this->convertCountryCode($countryCode) . '00';
 
+        // Step 2: Iterate through possible check digits (00-99)
         for ($i = 0; $i < 100; $i++) {
-            $vc = str_pad((string)$i, 2, '0', STR_PAD_LEFT);
+
+            $vc = str_pad((string)$i, 2, '0', STR_PAD_LEFT); // Ensure two-digit format
+
+            // Step 3: Validate the IBAN using modulo 97
             if ($this->calculateMod($reformatted . $vc, '97') === '1') {
                 $this->logger->info("IBAN successfully generated.", [
                     'check_digits' => $vc,
@@ -261,7 +260,9 @@ abstract class AbstractBankAccountValidator implements BankAccountValidatorInter
             }
         }
 
+        // If no valid check digits were found
         $this->logger->warning("Failed to calculate valid IBAN check digits.");
+
         return '00';
     }
 
