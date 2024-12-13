@@ -3,6 +3,7 @@
 ![Packagist Version](https://img.shields.io/packagist/v/lemonade/email-generator)
 ![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Build Status](https://img.shields.io/github/actions/workflow/status/johnnyxlemonade/email-generator/php-ci.yml?branch=master&label=build)
 
 **Email Generator** is a PHP library for generating emails using the [Twig](https://twig.symfony.com/) templating system.
 This library allows easy template handling and provides a flexible way to integrate email generation into your project.
