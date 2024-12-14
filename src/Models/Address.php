@@ -221,6 +221,29 @@ class Address
     }
 
     /**
+     * Returns full postcode with city of the address.
+     *
+     * @return string|null
+     */
+    public function getAddressPostCodeCity(): ?string
+    {
+
+        $city = $this->getAddressCity();
+        $code = $this->getAddressPostcode();
+        $html = [];
+
+        if((string) $code !== "") {
+            $html[] = $code;
+        }
+
+        if((string) $city !== "") {
+            $html[] = $city;
+        }
+
+        return implode(", ", $html);
+    }
+
+    /**
      * Returns the country of the address.
      *
      * @return string|null Country or null if not set.
@@ -229,7 +252,7 @@ class Address
     {
         return match ($this->data->addressCountry) {
             "56", "CZ" => "Česká republika",
-            "202", "SVK", "SK" => "Slovensko",
+            "202", "SK" => "Slovensko",
             default => $this->data->addressCountry,
         };
     }

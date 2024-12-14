@@ -6,7 +6,7 @@ use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Models\Address;
 
-class EcomerceAddress extends AbstractBlock
+class EcommerceAddress extends AbstractBlock
 {
     /**
      * Constructor for `EcommerceAddress`.

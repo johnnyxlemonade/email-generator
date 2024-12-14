@@ -21,34 +21,32 @@
 
                     {# Jméno společnosti, pokud je vyplněno #}
                     {% if address.getCompanyName() is not empty %}
-                        <strong>{{ address.getCompanyName() }}</strong><br>
-                    {% else %}
-                        <br>
+                        <span style="margin-bottom: 8px;font-weight: bold;display: block;">{{ address.getCompanyName() }}</span>
                     {% endif %}
 
                     {# Ulice adresy, pokud je vyplněna #}
                     {% if address.getAddressStreet() is not empty %}
-                        {{ address.getAddressStreet() }} <br>
+                        <span style="font-weight: normal;display: block;">{{ address.getAddressStreet() }}</span>
                     {% endif %}
 
-                    {# PSČ, pokud je vyplněno #}
-                    {% if address.getAdddressPostcode() is not empty %}
-                        {{ address.getAdddressPostcode() }}
+                    {# PSČ + Mesto, pokud je vyplněno #}
+                    {% if address.getAddressPostCodeCity() is not empty %}
+                        <span style="font-weight: normal;display: block;">{{ address.getAddressPostCodeCity() }}</span>
                     {% endif %}
 
-                    {# Město, pokud je vyplněno #}
-                    {% if address.getAddressCity() is not empty %}
-                        {{ address.getAddressCity() }} <br><br>
+                    {# Country, pokud je vyplněno #}
+                    {% if address.getAddressCountry() is not empty %}
+                        <span style="font-weight: normal;display: block;margin-bottom: 8px;">{{ address.getAddressCountry() }}</span>
                     {% endif %}
 
                     {# Telefon, pokud je vyplněn #}
                     {% if address.getAddressPhone() is not empty %}
-                        {{ address.getAddressPhone() }} <br>
+                        <span style="font-weight: normal;display: block;">{{ address.getAddressPhone() }}</span>
                     {% endif %}
 
                     {# E-mailová adresa, pokud je vyplněna #}
                     {% if address.getAddressEmail() is not empty %}
-                        <span style="color:#424651!important;">{{ address.getAddressEmail() }}</span>
+                        <span style="font-weight: normal;display: block;">{{ address.getAddressEmail() }}</span>
                     {% endif %}
 
                 </p>
