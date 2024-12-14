@@ -34,28 +34,16 @@ Here's a quick example of how to use the library to generate an email:
 
 ```php
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
-use Lemonade\EmailGenerator\Blocks\Component\AttachmentList;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentPickupPoint;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceCoupon;
-use Lemonade\EmailGenerator\Blocks\Order\EcomerceAddress;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceDelivery;
+use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceMessage;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotify;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressDTO;
-use Lemonade\EmailGenerator\DTO\AttachmentData;
-use Lemonade\EmailGenerator\DTO\CouponData;
-use Lemonade\EmailGenerator\DTO\PaymentData;
-use Lemonade\EmailGenerator\DTO\PickupPointData;
 use Lemonade\EmailGenerator\DTO\ProductData;
-use Lemonade\EmailGenerator\DTO\ShippingData;
 use Lemonade\EmailGenerator\DTO\SummaryData;
 use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
 use Lemonade\EmailGenerator\Localization\SupportedLanguage;
@@ -79,7 +67,8 @@ $container = new ContainerBuilder(
     serviceFactoryManager: $serviceManager
 );
 
-
+// alignem
+$blockManager->setBlockRenderCenter();
 // Create product collection
 $productService = $container->getProductCollectionService();
 $productCollection = $productService->createCollection();
@@ -93,14 +82,21 @@ $summaryCollection = $summaryService->createCollection();
 $summaryService->createItem($summaryCollection, new SummaryData(name: "Total", value: 1000, final: true));
 
 // Create address
-$addressService = $container->getAddressService();
-$billingAddress = $addressService->getAddress(new AddressDTO([
-    "addressName" => "John Doe",
-    "addressStreet" => "123 Street Name",
-    "addressCity" => "City",
-    "addressCountry" => "Country",
-    "addressPostcode" => "12345"
-]));
+$addressService = $container->getAddressService(); // Address service
+$addressData = new AddressDTO([ // Creating address data
+    "addressCompanyId" => "CZ12345678",
+    "addressCompanyVatId" => "CZ87654321",
+    "addressCompanyName" => "Firma XYZ",
+    "addressAlias" => "Sídlo",
+    "addressName" => "Josef Novák",
+    "addressStreet" => "Street 1234/56",
+    "addressPostcode" => "110 00",
+    "addressCity" => "Prague I",
+    "addressCountry" => "CZ",
+    "addressPhone" => "+420 123 456 789",
+    "addressEmail" => "info@mywebsite.com"
+]);
+$footerAddress = $addressService->getAddress(data: $addressData);
 
 // Add blocks to the email
 $blockManager->addBlock(new StaticBlockGreetingHeader());
@@ -115,6 +111,7 @@ $blockManager->addBlock(new EcommerceHeader(context: $container->getContextServi
 $blockManager->addBlock(new EcommerceProductList(collection: $productCollection, currency: "USD"));
 $blockManager->addBlock(new EcommerceSummaryList(collection: $summaryCollection, currency: "USD"));
 $blockManager->addBlock(new StaticBlockGreetingFooter());
+$blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
 
 // Output the email
 echo $blockManager->getHtml();
