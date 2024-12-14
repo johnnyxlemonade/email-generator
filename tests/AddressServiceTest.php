@@ -2,7 +2,7 @@
 
 namespace Lemonade\EmailGenerator\Tests\Services;
 
-use Lemonade\EmailGenerator\DTO\AddressDTO;
+use Lemonade\EmailGenerator\DTO\AddressData;
 use Lemonade\EmailGenerator\Models\Address;
 use Lemonade\EmailGenerator\Services\AddressService;
 use PHPUnit\Framework\TestCase;
@@ -11,8 +11,8 @@ class AddressServiceTest extends TestCase
 {
     public function testGetAddressReturnsAddressInstance(): void
     {
-        // Initialize AddressDTO with data
-        $dto = new AddressDTO([
+        // Initialize AddressDatacl with data
+        $dto = new AddressData([
             'addressName' => 'John Doe',
             'addressStreet' => '123 Main St',
             'addressCity' => 'Springfield',

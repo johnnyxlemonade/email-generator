@@ -21,6 +21,7 @@ $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translato
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator); // Block manager for managing email content
 $serviceManager = new ServiceFactoryManager(); // Service factory manager to create various services
 
+
 // 2. Initializing ContainerBuilder with context
 $container = new ContainerBuilder(
     logger: $logger,
@@ -55,6 +56,8 @@ for ($i = 1; $i <= 3; $i++) {
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
 $blockManager->addBlock(block: new AttachmentList(collection: $attachmentCollection)); // Attachments list block
+
+$translator->addOrOverrideTranslation(key: "attachmentListLabel", value: "rohlík");
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generating and outputting the HTML email

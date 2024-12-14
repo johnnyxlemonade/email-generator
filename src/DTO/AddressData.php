@@ -2,7 +2,7 @@
 
 namespace Lemonade\EmailGenerator\DTO;
 
-class AddressDTO
+class AddressData
 {
     /**
      * @var ?string The company ID for the address.

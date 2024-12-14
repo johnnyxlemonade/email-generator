@@ -3,16 +3,16 @@
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
 use Lemonade\EmailGenerator\Blocks\Component\AttachmentList;
 use Lemonade\EmailGenerator\Blocks\Component\ComponentPickupPoint;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceStatusButton;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceCoupon;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceDelivery;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceMessage;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyCustomer;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
@@ -36,7 +36,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 1. Creating basic mandatory services
 $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::WARNING)); // Logger service
-$translator = new Translator(currentLanguage: SupportedLanguage::LANG_CS, logger: $logger); // Translator service
+$translator = new Translator(currentLanguage: SupportedLanguage::LANG_GR, logger: $logger); // Translator service
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator); // Template rendering service
 $blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator); // Block manager for managing email content
 $serviceManager = new ServiceFactoryManager(); // Service factory manager to create various services
@@ -182,11 +182,11 @@ $currency = "CZK";
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
 $blockManager->addBlock(new StaticBlockGreetingHeader()); // Greeting header block
-$blockManager->addBlock(new EcommerceNotifyAdministrator()); // E-commerce notification block
-$blockManager->addBlock(new ComponentNotification(heading: "Upozornění!", notification: "Bude nutné zkontrolovat dostupnost, váhu a rozměry zboží, aby bylo možné je co nejdříve doručit. \n V případě, že zboží nebude možné zaslat v jedné zásilce, bude nutné kontaktovat zákazníka ohledně rozdělení na více balíků.")); // Notification block
+$blockManager->addBlock(new EcommerceNotifyCustomer()); // E-commerce notification block
 $blockManager->addBlock(new EcommerceHeader(context: $contextService->createContext(data: [
     "orderId" => "1234567890", "orderCode" => "XXX1234567890", "orderTotal" => 666, "orderCurrency" => "Kč", "orderDate" => date(format: "j.n.Y")
 ]))); // E-commerce header block
+$blockManager->addBlock(block: new EcommerceStatusButton(url: "https://google.com"));
 $blockManager->addBlock(block: new EcommerceMessage()); // E-commerce message block
 $blockManager->addBlock(block: new EcommerceAddress(billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
 $blockManager->addBlock(block: new EcommerceProductList(collection: $productCollection, currency: $currency)); // Products list block
@@ -199,8 +199,4 @@ $blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greet
 $blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
 
 // Output HTML email
-$html = $blockManager->getHtml(); // Generating and outputting the HTML email
-
-print $html;
-exit();
-
+echo $blockManager->getHtml(); // Generating and outputting the HTML email

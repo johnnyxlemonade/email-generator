@@ -2,12 +2,11 @@
 
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
 use Lemonade\EmailGenerator\Blocks\Component\ComponentLostPassword;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
 use Lemonade\EmailGenerator\ContainerBuilder;
-use Lemonade\EmailGenerator\DTO\AddressDTO;
+use Lemonade\EmailGenerator\DTO\AddressData;
 use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
 use Lemonade\EmailGenerator\Localization\SupportedLanguage;
 use Lemonade\EmailGenerator\Localization\Translator;
@@ -36,7 +35,7 @@ $container = new ContainerBuilder(
 
 // 3. Addresses
 $addressService = $container->getAddressService(); // Address service to handle address data
-$addressData = new AddressDTO([ // Address data DTO for customer details
+$addressData = new AddressData([ // Address data DTO for customer details
     "addressCompanyId" => "CZ12345678", // Company ID
     "addressCompanyVatId" => "CZ87654321", // Company VAT ID
     "addressCompanyName" => "Firma XYZ", // Company name

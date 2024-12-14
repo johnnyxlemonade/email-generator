@@ -2,29 +2,29 @@
 
 namespace Lemonade\EmailGenerator\Models;
 
-use Lemonade\EmailGenerator\DTO\AddressDTO;
+use Lemonade\EmailGenerator\DTO\AddressData;
 
 class Address
 {
-    private AddressDTO $data;
+    private AddressData $data;
 
     /**
-     * Constructor that initializes an `Address` instance using `AddressDTO`.
+     * Constructor that initializes an `Address` instance using `AddressData`.
      *
-     * @param AddressDTO|null $data DTO with address data.
+     * @param AddressData|null $data DTO with address data.
      */
-    public function __construct(?AddressDTO $data = null)
+    public function __construct(?AddressData $data = null)
     {
-        $this->data = $data ?? new AddressDTO();
+        $this->data = $data ?? new AddressData();
     }
 
     /**
      * Sets the address data using DTO.
      *
-     * @param AddressDTO $data DTO with address data.
+     * @param AddressData $data DTO with address data.
      * @return self
      */
-    public function setAddress(AddressDTO $data): self
+    public function setAddress(AddressData $data): self
     {
         $this->data = $data;
         return $this;
@@ -33,9 +33,9 @@ class Address
     /**
      * Returns the address data as DTO.
      *
-     * @return AddressDTO
+     * @return AddressData
      */
-    public function getAddress(): AddressDTO
+    public function getAddress(): AddressData
     {
         return $this->data;
     }
@@ -48,7 +48,7 @@ class Address
     public function copy(): Address
     {
         // Create a new instance of Address with a copy of AddressDTO
-        $copiedData = new AddressDTO((array)$this->data);
+        $copiedData = new AddressData((array)$this->data);
         return new self($copiedData);
     }
 
