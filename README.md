@@ -34,11 +34,11 @@ Here's a quick example of how to use the library to generate an email:
 
 ```php
 use Lemonade\EmailGenerator\BlockManager\BlockManager;
+use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotify;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
@@ -53,7 +53,6 @@ use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
 use Lemonade\EmailGenerator\Template\TemplateRenderer;
 use Psr\Log\LogLevel;
 
-// Initialize mandatory services
 $logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::WARNING));
 $translator = new Translator(currentLanguage: SupportedLanguage::LANG_EN, logger: $logger);
 $templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
@@ -73,13 +72,15 @@ $blockManager->setBlockRenderCenter();
 $productService = $container->getProductCollectionService();
 $productCollection = $productService->createCollection();
 $productService->createItem($productCollection, new ProductData(
-    productId: 1, productName: "Example Product", productUnitPrice: 1000
+    productId: 1, productName: "Example Product", productQuantity: 1, productUnitPrice: 10
 ));
 
 // Create summary collection
 $summaryService = $container->getSummaryCollectionService();
 $summaryCollection = $summaryService->createCollection();
-$summaryService->createItem($summaryCollection, new SummaryData(name: "Total", value: 1000, final: true));
+$summaryService->createItem($summaryCollection, new SummaryData(name: "Delivery cost", value: 0));
+$summaryService->createItem($summaryCollection, new SummaryData(name: "Goods", value: 10));
+$summaryService->createItem($summaryCollection, new SummaryData(name: "Total", value: 10, final: true));
 
 // Create address
 $addressService = $container->getAddressService(); // Address service
@@ -98,20 +99,17 @@ $addressData = new AddressData([ // Creating address data
 ]);
 $footerAddress = $addressService->getAddress(data: $addressData);
 
+// orderCurrency
+$currency = "EUR";
+
 // Add blocks to the email
 $blockManager->addBlock(new StaticBlockGreetingHeader());
-$blockManager->addBlock(new EcommerceNotify(context: $container->getContextService()->createContext(data: ["webName" => "MY ESHOP SITE"])));
-$blockManager->addBlock(new EcommerceHeader(context: $container->getContextService()->createContext([
-    "orderId" => "1234567890",
-    "orderCode" => "1234567890",
-    "orderTotal" => 1000,
-    "orderCurrency" => "CZK",
-    "orderDate" => date("j.n.Y")
-])));
-$blockManager->addBlock(new EcommerceProductList(collection: $productCollection, currency: "USD"));
-$blockManager->addBlock(new EcommerceSummaryList(collection: $summaryCollection, currency: "USD"));
-$blockManager->addBlock(new StaticBlockGreetingFooter());
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
+$blockManager->addBlock(new EcommerceNotifyAdministrator());
+$blockManager->addBlock(new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderTotal: 666, orderCurrency: $currency, orderDate: date("j.n.Y")));
+$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection, currency: $currency));
+$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection, currency: $currency));
+$blockManager->addBlock(block: new StaticBlockGreetingFooter());
+$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $container->getContextService(), address: $footerAddress));
 
 // Output the email
 echo $blockManager->getHtml();

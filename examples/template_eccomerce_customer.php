@@ -183,20 +183,17 @@ $currency = "CZK";
 $contextService = $container->getContextService(); // Context service
 $blockManager->addBlock(new StaticBlockGreetingHeader()); // Greeting header block
 $blockManager->addBlock(new EcommerceNotifyCustomer()); // E-commerce notification block
-$blockManager->addBlock(new EcommerceHeader(context: $contextService->createContext(data: [
-    "orderId" => "1234567890", "orderCode" => "XXX1234567890", "orderTotal" => 666, "orderCurrency" => "Kč", "orderDate" => date(format: "j.n.Y")
-]))); // E-commerce header block
+$blockManager->addBlock(new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderTotal: 666, orderCurrency: "Kč", orderDate: date("j.n.Y"))); // E-commerce header block
 $blockManager->addBlock(block: new EcommerceStatusButton(url: "https://google.com"));
-$blockManager->addBlock(block: new EcommerceMessage()); // E-commerce message block
-$blockManager->addBlock(block: new EcommerceAddress(billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
-$blockManager->addBlock(block: new EcommerceProductList(collection: $productCollection, currency: $currency)); // Products list block
-$blockManager->addBlock(block: new EcommerceDelivery(shipping: $shipping, payment: $payment, currency: $currency)); // Delivery and payment block
-$blockManager->addBlock(block: new ComponentPickupPoint(pickupPoint: $pickupPoint)); // Pickup point block
-$blockManager->addBlock(block: new EcommerceCoupon(collection: $couponCollection, currency: $currency));
-$blockManager->addBlock(block: new EcommerceSummaryList(collection: $summaryCollection, currency: $currency)); // Summary list block
-$blockManager->addBlock(block: new AttachmentList(collection: $attachmentCollection)); // Attachments list block
+$blockManager->addBlock(block: new EcommerceAddress(contextService: $container->getContextService(), billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
+$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection, currency: $currency)); // Products list block
+$blockManager->addBlock(block: new EcommerceDelivery(contextService: $container->getContextService(), shipping: $shipping, payment: $payment, currency: $currency)); // Delivery and payment block
+$blockManager->addBlock(block: new ComponentPickupPoint(contextService: $container->getContextService(), pickupPoint: $pickupPoint)); // Pickup point block
+$blockManager->addBlock(block: new EcommerceCoupon(contextService: $container->getContextService(), collection: $couponCollection, currency: $currency));
+$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection, currency: $currency)); // Summary list block
+$blockManager->addBlock(block: new AttachmentList(contextService: $container->getContextService(), collection: $attachmentCollection)); // Attachments list block
 $blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greeting block
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
+$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $container->getContextService(), address: $footerAddress)); // Footer address block
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generating and outputting the HTML email

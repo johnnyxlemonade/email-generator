@@ -39,7 +39,7 @@ $notification = "Lorem Ipsum is simply dummy text of the printing and typesettin
 
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
-$blockManager->addBlock(new ComponentNotification(heading: $heading, notification: $notification)); // Notification block
+$blockManager->addBlock(new ComponentNotification(contextService: $contextService, heading: $heading, notification: $notification)); // Notification block
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generating and outputting the HTML email

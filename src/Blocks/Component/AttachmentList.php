@@ -5,6 +5,7 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Collection\AttachmentCollection;
 use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 /**
  * Class AttachmentList
@@ -17,13 +18,16 @@ class AttachmentList extends AbstractBlock
      *
      * Initializes the block with a collection of attachments.
      *
+     * @param ContextService $contextData Context Service.
      * @param AttachmentCollection $collection Collection of attachments.
      */
-    public function __construct(AttachmentCollection $collection)
+    public function __construct(protected readonly ContextService $contextService, AttachmentCollection $collection)
     {
+
         // Initialize context
-        $context = new ContextData();
-        $context->set("attachments", $collection->all());
+        $context = $this->contextService->createContext([
+            "attachments" => $collection->all()
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

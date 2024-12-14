@@ -5,6 +5,7 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Collection\FormItemCollection;
 use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 /**
  * Class ComponentFormItemList
@@ -17,15 +18,18 @@ class ComponentFormItemList extends AbstractBlock
      *
      * Initializes the block with a name and a collection of form items.
      *
+     * @param ContextService $contextData Context Service.
      * @param string $name The name of the form list.
      * @param FormItemCollection $collection The collection of form items.
      */
-    public function __construct(string $name, FormItemCollection $collection)
+    public function __construct(protected readonly ContextService $contextService, string $name, FormItemCollection $collection)
     {
+
         // Initialize context
-        $context = new ContextData();
-        $context->set("name", $name);
-        $context->set("formlist", $collection->all());
+        $context = $this->contextService->createContext([
+            "name" => $name,
+            "formlist" => $collection->all()
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

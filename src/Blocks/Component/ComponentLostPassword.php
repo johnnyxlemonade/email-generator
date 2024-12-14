@@ -4,6 +4,7 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 /**
  * Class ComponentLostPassword
@@ -16,15 +17,17 @@ class ComponentLostPassword extends AbstractBlock
      *
      * Initializes the block with the website name and anchor link for password reset.
      *
+     * @param ContextService $contextData Context Service.
      * @param string $webName The name of the website.
      * @param string $anchorLink The anchor link for password reset.
      */
-    public function __construct(string $webName, string $anchorLink)
+    public function __construct(protected readonly ContextService $contextService, string $webName, string $anchorLink)
     {
         // Initialize context
-        $context = new ContextData();
-        $context->set("webName", $webName);
-        $context->set("anchorLink", $anchorLink);
+        $context = $this->contextService->createContext([
+            "webName" => $webName,
+            "anchorLink" => $anchorLink,
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

@@ -80,10 +80,10 @@ $blockManager->setPageTitle(title: "Formulářová data"); // Set the page title
 // 5. Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service to create context data
 $blockManager->addBlock(block: new StaticBlockGreetingHeader()); // Greeting header block
-$blockManager->addBlock(block: new ComponentBlockText(message: "z Vašich webových stránek jsme obdrželi dotaz prostřednictvím formuláře. Veškerá vyplněná data z formuláře zasíláme níže jako součást této zprávy.")); // Informational block with a message
-$blockManager->addBlock(block: new ComponentFormItemList(name: "Kontaktní formulář", collection: $formCollection)); // Displaying form items in a list
+$blockManager->addBlock(block: new ComponentBlockText(contextService: $contextService, message: "z Vašich webových stránek jsme obdrželi dotaz prostřednictvím formuláře. Veškerá vyplněná data z formuláře zasíláme níže jako součást této zprávy.")); // Informational block with a message
+$blockManager->addBlock(block: new ComponentFormItemList(contextService: $contextService, name: "Kontaktní formulář", collection: $formCollection)); // Displaying form items in a list
 $blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greeting block
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
+$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $contextService, address: $footerAddress)); // Footer address block
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generate and output the HTML email

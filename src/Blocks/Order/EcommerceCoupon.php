@@ -4,7 +4,7 @@ namespace Lemonade\EmailGenerator\Blocks\Order;
 
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Collection\CouponCollection;
-use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 /**
  * Class EcommerceCoupon
@@ -17,15 +17,18 @@ class EcommerceCoupon extends AbstractBlock
      * CouponList constructor.
      * Initializes the block with a collection of coupons.
      *
+     * @param ContextService $contextService Context Service.
      * @param CouponCollection $collection A collection of coupons to be used in the block.
      * @param string $currency A currency symbol for collection of coupons
      */
-    public function __construct(CouponCollection $collection, string $currency)
+    public function __construct(protected readonly ContextService $contextService, CouponCollection $collection, string $currency)
     {
+
         // Initialize context
-        $context = new ContextData();
-        $context->set("coupons", $collection->all());
-        $context->set("currency", $currency);
+        $context = $this->contextService->createContext([
+            "coupons" => $collection->all(),
+            "currency" => $currency,
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

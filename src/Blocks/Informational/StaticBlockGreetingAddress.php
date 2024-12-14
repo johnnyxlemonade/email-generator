@@ -5,21 +5,22 @@ namespace Lemonade\EmailGenerator\Blocks\Informational;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Models\Address;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 class StaticBlockGreetingAddress extends AbstractBlock
 {
     /**
      * Constructor for `StaticBlockGreetingAddress`.
      *
+     * @param ContextService $contextData Context Service.
      * @param Address $address The address data for the greeting.
      */
-    public function __construct(Address $address)
+    public function __construct(protected readonly ContextService $contextService, Address $address)
     {
-        // Initialize the context
-        $context = new ContextData();
-
-        // Add the address to the context
-        $context->set("address", $address);
+        // Initialize context
+        $context = $this->contextService->createContext([
+            "address" => $address
+        ]);
 
         // Pass the context to the parent constructor
         parent::__construct($context);

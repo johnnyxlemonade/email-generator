@@ -5,23 +5,29 @@ namespace Lemonade\EmailGenerator\Blocks\Order;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Models\Address;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 class EcommerceAddress extends AbstractBlock
 {
     /**
      * Constructor for `EcommerceAddress`.
      *
+     * @param ContextService $contextService Context Service.
      * @param Address $billingAddress Billing address.
-     * @param Address $deliveryAddress Delivery address.
+     * @param Address|null $deliveryAddress Delivery address (optional). If not provided, it defaults to billing address.
      */
-    public function __construct(Address $billingAddress, Address $deliveryAddress)
+    public function __construct(protected readonly ContextService $contextService, Address $billingAddress,  ?Address $deliveryAddress = null)
     {
-        // Initialize context
-        $context = new ContextData();
+
+        if ($deliveryAddress === null) {
+            $deliveryAddress = $billingAddress;
+        }
 
         // Add addresses to context
-        $context->set("billingAddress", $billingAddress);
-        $context->set("deliveryAddress", $deliveryAddress);
+        $context = $this->contextService->createContext([
+            "billingAddress" => $billingAddress,
+            "deliveryAddress" => $deliveryAddress,
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

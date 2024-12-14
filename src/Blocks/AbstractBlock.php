@@ -4,6 +4,8 @@ namespace Lemonade\EmailGenerator\Blocks;
 
 use InvalidArgumentException;
 use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
+use Lemonade\EmailGenerator\Services\ContextService;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
 use Twig\Error\LoaderError;

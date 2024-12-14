@@ -5,21 +5,23 @@ namespace Lemonade\EmailGenerator\Blocks\Component;
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Models\PickupPoint;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 class ComponentPickupPoint extends AbstractBlock
 {
     /**
      * Constructor for `ComponentPickupPoint`.
      *
+     * @param ContextService $contextService Context Service.
      * @param PickupPoint $pickupPoint The pickup point information.
      */
-    public function __construct(PickupPoint $pickupPoint)
+    public function __construct(protected readonly ContextService $contextService, PickupPoint $pickupPoint)
     {
-        // Initialize context
-        $context = new ContextData();
 
-        // Add pickup point to context
-        $context->set("pickupPoint", $pickupPoint);
+        // Initialize context
+        $context = $this->contextService->createContext([
+            "pickupPoint" => $pickupPoint
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

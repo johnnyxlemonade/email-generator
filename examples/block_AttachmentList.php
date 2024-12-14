@@ -55,7 +55,7 @@ for ($i = 1; $i <= 3; $i++) {
 
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
-$blockManager->addBlock(block: new AttachmentList(collection: $attachmentCollection)); // Attachments list block
+$blockManager->addBlock(block: new AttachmentList(contextService: $contextService, collection: $attachmentCollection)); // Attachments list block
 
 $translator->addOrOverrideTranslation(key: "attachmentListLabel", value: "rohlík");
 

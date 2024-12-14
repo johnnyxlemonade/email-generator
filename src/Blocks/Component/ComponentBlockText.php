@@ -3,19 +3,18 @@
 namespace Lemonade\EmailGenerator\Blocks\Component;
 
 use Lemonade\EmailGenerator\Blocks\AbstractBlock;
-use Lemonade\EmailGenerator\Context\ContextData;
+use Lemonade\EmailGenerator\Services\ContextService;
 
 class ComponentBlockText extends AbstractBlock
 {
     /**
      * Constructor for `ComponentBlockText`.
      *
+     * @param ContextService $contextData Context Service.
      * @param string|array|null $message The message content which can be a string, an array, or null.
      */
-    public function __construct(string|array|null $message = null)
+    public function __construct(protected readonly ContextService $contextService, string|array|null $message = null)
     {
-        // Initialize context
-        $context = new ContextData();
 
         // If the message is null, set it to an empty string
         if (is_null($message)) {
@@ -30,8 +29,10 @@ class ComponentBlockText extends AbstractBlock
             $message = implode("\n", $message);
         }
 
-        // Add the message to the context
-        $context->set("message", $message);
+        // Initialize context
+        $context = $this->contextService->createContext([
+            "message" => $message
+        ]);
 
         // Pass context to the parent constructor
         parent::__construct($context);

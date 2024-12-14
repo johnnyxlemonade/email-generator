@@ -63,9 +63,9 @@ $blockManager->setPageTitle(title: "Požadavek na změnu hesla"); // Set the pag
 // 5. Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service to create context data
 $blockManager->addBlock(block: new StaticBlockGreetingHeader()); // Greeting header block
-$blockManager->addBlock(block: new ComponentLostPassword(webName: "Můj eshop", anchorLink: "https://google.com/search?q=lost-password&identity=123456")); // Lost password component with link
+$blockManager->addBlock(block: new ComponentLostPassword(contextService: $contextService, webName: "Můj eshop", anchorLink: "https://google.com/search?q=lost-password&identity=123456")); // Lost password component with link
 $blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greeting block
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(address: $footerAddress)); // Footer address block
+$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $contextService, address: $footerAddress)); // Footer address block
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generate and output the HTML email

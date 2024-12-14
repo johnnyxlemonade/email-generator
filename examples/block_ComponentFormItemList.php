@@ -59,7 +59,7 @@ foreach($formData as $key => $val) { // Loop through form data and create form i
 
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
-$blockManager->addBlock(block: new ComponentFormItemList(name: "Contact form", collection: $formCollection)); // Displaying form items in a list
+$blockManager->addBlock(block: new ComponentFormItemList(contextService: $contextService, name: "Contact form", collection: $formCollection)); // Displaying form items in a list
 
 // Output HTML email
 echo $blockManager->getHtml(); // Generating and outputting the HTML email
