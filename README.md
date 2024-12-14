@@ -38,7 +38,7 @@ use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotify;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
@@ -100,7 +100,7 @@ $footerAddress = $addressService->getAddress(data: $addressData);
 
 // Add blocks to the email
 $blockManager->addBlock(new StaticBlockGreetingHeader());
-$blockManager->addBlock(new EcommerceNotify(context: $container->getContextService()->createContext(data: ["webName" => "MY ESHOP SITE"])));
+$blockManager->addBlock(new EcommerceNotifyAdministrator());
 $blockManager->addBlock(new EcommerceHeader(context: $container->getContextService()->createContext([
     "orderId" => "1234567890",
     "orderCode" => "1234567890",

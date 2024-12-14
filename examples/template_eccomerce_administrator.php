@@ -8,11 +8,11 @@ use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
 use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceCoupon;
-use Lemonade\EmailGenerator\Blocks\Order\EcomerceAddress;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceAddress;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceDelivery;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceMessage;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotify;
+use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
 use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
 use Lemonade\EmailGenerator\ContainerBuilder;
@@ -182,13 +182,13 @@ $currency = "CZK";
 // Adding individual blocks to the email
 $contextService = $container->getContextService(); // Context service
 $blockManager->addBlock(new StaticBlockGreetingHeader()); // Greeting header block
-$blockManager->addBlock(new EcommerceNotify(context: $contextService->createContext(data: ["webName" => "Můj eshop"]))); // E-commerce notification block
+$blockManager->addBlock(new EcommerceNotifyAdministrator()); // E-commerce notification block
 $blockManager->addBlock(new ComponentNotification(heading: "Upozornění!", notification: "Bude nutné zkontrolovat dostupnost, váhu a rozměry zboží, aby bylo možné je co nejdříve doručit. \n V případě, že zboží nebude možné zaslat v jedné zásilce, bude nutné kontaktovat zákazníka ohledně rozdělení na více balíků.")); // Notification block
 $blockManager->addBlock(new EcommerceHeader(context: $contextService->createContext(data: [
     "orderId" => "1234567890", "orderCode" => "XXX1234567890", "orderTotal" => 666, "orderCurrency" => "Kč", "orderDate" => date(format: "j.n.Y")
 ]))); // E-commerce header block
 $blockManager->addBlock(block: new EcommerceMessage()); // E-commerce message block
-$blockManager->addBlock(block: new EcomerceAddress(billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
+$blockManager->addBlock(block: new EcommerceAddress(billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
 $blockManager->addBlock(block: new EcommerceProductList(collection: $productCollection, currency: $currency)); // Products list block
 $blockManager->addBlock(block: new EcommerceDelivery(shipping: $shipping, payment: $payment, currency: $currency)); // Delivery and payment block
 $blockManager->addBlock(block: new ComponentPickupPoint(pickupPoint: $pickupPoint)); // Pickup point block
