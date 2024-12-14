@@ -46,7 +46,8 @@ return [
     "ecommerceOrderProductListProductQuantityLabel" => "Počet",
     "ecommerceOrderProductListProductUnitPrice" => "Cena",
     "ecommerceOrderProductListProductSubtotal" => "Cena",
-    "EcommerceNotifyAdministrator" => "Byla přijata nová objednávka. Základní informace naleznete v tomto e-mailu, podrobnosti o celé objednávce jsou k dispozici ve vaší administraci.",
-    "EcommerceNotifyCustomer" => "Děkujeme, že jste si u nás objednali. Vaší důvěry si vážíme! Stav objednávky můžete snadno sledovat online. Níže najdete potvrzení vaší objednávky.",
+    "ecommerceStatusButton" => "Stav objednávky",
+    "ecommerceNotifyAdministrator" => "Byla přijata nová objednávka. Základní informace naleznete v tomto e-mailu, podrobnosti o celé objednávce jsou k dispozici ve vaší administraci.",
+    "ecommerceNotifyCustomer" => "Děkujeme, že jste si u nás objednali. Vaší důvěry si vážíme! Stav objednávky můžete snadno sledovat online. Níže najdete potvrzení vaší objednávky.",
 ];
 
