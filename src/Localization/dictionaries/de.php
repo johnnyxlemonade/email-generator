@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Produkte",
     "ecommerceOrderProductListDescription" => "gekaufte Artikel",
     "ecommerceOrderProductListProductQuantityLabel" => "Menge",
-    "ecommerceOrderProductListProductUnitPrice" => "Preis",
+    "ecommerceOrderProductListProductUnitPrice" => "Stückpreis",
     "ecommerceOrderProductListProductSubtotal" => "Zwischensumme",
-    "ecommerceOrderCreateNotify" => "{{webName}} hat eine neue Warenbestellung erhalten. Grundlegende Informationen werden in dieser E-Mail gesendet. Die vollständigen Bestelldetails finden Sie in Ihrem Administrationsbereich.",
+    "ecommerceStatusButton" => "Bestellstatus",
+    "ecommerceNotifyAdministrator" => "Eine neue Bestellung wurde erhalten. Grundlegende Informationen finden Sie in dieser E-Mail, während Details zur gesamten Bestellung in Ihrer Verwaltung verfügbar sind.",
+    "ecommerceNotifyCustomer" => "Vielen Dank für Ihre Bestellung bei uns. Wir schätzen Ihr Vertrauen! Den Status Ihrer Bestellung können Sie ganz einfach online verfolgen. Unten finden Sie Ihre Bestellbestätigung."
 ];

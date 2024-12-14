@@ -46,5 +46,7 @@ return [
     "ecommerceOrderProductListProductQuantityLabel" => "Quantity",
     "ecommerceOrderProductListProductUnitPrice" => "Price",
     "ecommerceOrderProductListProductSubtotal" => "Subtotal",
-    "ecommerceOrderCreateNotify" => "{{webName}} has received a new product order. Basic information is sent in this email. Full order details can be found in your administration panel.",
+    "ecommerceStatusButton" => "Order Status",
+    "ecommerceNotifyAdministrator" => "A new order has been received. Basic information is included in this email, while details about the entire order are available in your administration.",
+    "ecommerceNotifyCustomer" => "Thank you for ordering from us. We value your trust! You can easily track your order status online. Below, you will find your order confirmation."
 ];

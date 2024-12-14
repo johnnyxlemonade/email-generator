@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Produse",
     "ecommerceOrderProductListDescription" => "produse achiziționate",
     "ecommerceOrderProductListProductQuantityLabel" => "Cantitate",
-    "ecommerceOrderProductListProductUnitPrice" => "Preț",
+    "ecommerceOrderProductListProductUnitPrice" => "Preț unitar",
     "ecommerceOrderProductListProductSubtotal" => "Subtotal",
-    "ecommerceOrderCreateNotify" => "{{webName}} a înregistrat o nouă comandă de produse. Informațiile de bază sunt trimise prin acest e-mail. Detaliile complete ale comenzii sunt disponibile în administrația dumneavoastră.",
+    "ecommerceStatusButton" => "Starea comenzii",
+    "ecommerceNotifyAdministrator" => "A fost primită o nouă comandă. Informațiile de bază sunt incluse în acest e-mail, iar detaliile complete despre comandă sunt disponibile în administrarea dumneavoastră.",
+    "ecommerceNotifyCustomer" => "Vă mulțumim pentru comanda făcută la noi. Apreciem încrederea dumneavoastră! Puteți urmări cu ușurință starea comenzii online. Mai jos găsiți confirmarea comenzii dumneavoastră."
 ];

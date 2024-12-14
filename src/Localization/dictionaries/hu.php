@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Termékek",
     "ecommerceOrderProductListDescription" => "megvásárolt áruk",
     "ecommerceOrderProductListProductQuantityLabel" => "Mennyiség",
-    "ecommerceOrderProductListProductUnitPrice" => "Ár",
+    "ecommerceOrderProductListProductUnitPrice" => "Egységár",
     "ecommerceOrderProductListProductSubtotal" => "Részösszeg",
-    "ecommerceOrderCreateNotify" => "{{webName}} új termék rendelést regisztrált. Az alapvető információkat ebben az e-mailben küldjük. A rendelés teljes részleteit megtalálja az adminisztrációs felületén.",
+    "ecommerceStatusButton" => "Rendelés állapota",
+    "ecommerceNotifyAdministrator" => "Új rendelés érkezett. Az alapinformációk ebben az e-mailben találhatók, míg a teljes rendelés részletei az adminisztrációs felületen érhetők el.",
+    "ecommerceNotifyCustomer" => "Köszönjük, hogy nálunk vásárolt. Nagyra értékeljük bizalmát! Rendelése állapotát egyszerűen nyomon követheti online. Alább találja rendelésének visszaigazolását."
 ];

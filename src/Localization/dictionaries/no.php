@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Produkter",
     "ecommerceOrderProductListDescription" => "kjøpte varer",
     "ecommerceOrderProductListProductQuantityLabel" => "Antall",
-    "ecommerceOrderProductListProductUnitPrice" => "Pris",
-    "ecommerceOrderProductListProductSubtotal" => "Subtotal",
-    "ecommerceOrderCreateNotify" => "{{webName}} har registrert en ny produktbestilling. Grunnleggende informasjon sendes i denne e-posten. Detaljer om bestillingen finnes i din administrasjon.",
+    "ecommerceOrderProductListProductUnitPrice" => "Enhetspris",
+    "ecommerceOrderProductListProductSubtotal" => "Delsum",
+    "ecommerceStatusButton" => "Bestillingsstatus",
+    "ecommerceNotifyAdministrator" => "En ny bestilling har blitt mottatt. Grunnleggende informasjon finnes i denne e-posten, mens detaljer om hele bestillingen er tilgjengelige i din administrasjon.",
+    "ecommerceNotifyCustomer" => "Takk for at du bestilte hos oss. Vi setter pris på din tillit! Du kan enkelt spore statusen for bestillingen din online. Nedenfor finner du bekreftelsen på bestillingen din."
 ];

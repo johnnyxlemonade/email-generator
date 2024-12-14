@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Produkty",
     "ecommerceOrderProductListDescription" => "zakúpené tovary",
     "ecommerceOrderProductListProductQuantityLabel" => "Počet",
-    "ecommerceOrderProductListProductUnitPrice" => "Cena",
-    "ecommerceOrderProductListProductSubtotal" => "Cena",
-    "ecommerceOrderCreateNotify" => "{{webName}} eviduje novú objednávku tovaru. Základné informácie zasielame v tomto e-maile. Kompletné informácie o objednávke nájdete vo vašej administrácii.",
+    "ecommerceOrderProductListProductUnitPrice" => "Jednotková cena",
+    "ecommerceOrderProductListProductSubtotal" => "Medzisúčet",
+    "ecommerceStatusButton" => "Stav objednávky",
+    "ecommerceNotifyAdministrator" => "Bola prijatá nová objednávka. Základné informácie nájdete v tomto e-maile, podrobnosti o celej objednávke sú dostupné vo vašej administrácii.",
+    "ecommerceNotifyCustomer" => "Ďakujeme, že ste si u nás objednali. Vašu dôveru si vážime! Stav objednávky môžete jednoducho sledovať online. Nižšie nájdete potvrdenie vašej objednávky."
 ];

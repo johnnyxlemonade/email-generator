@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Proizvodi",
     "ecommerceOrderProductListDescription" => "kupljena roba",
     "ecommerceOrderProductListProductQuantityLabel" => "Količina",
-    "ecommerceOrderProductListProductUnitPrice" => "Cijena",
-    "ecommerceOrderProductListProductSubtotal" => "Ukupno",
-    "ecommerceOrderCreateNotify" => "{{webName}} bilježi novu narudžbu proizvoda. Osnovne informacije šaljemo u ovom e-mailu. Potpune informacije o narudžbi možete pronaći u svojoj administraciji.",
+    "ecommerceOrderProductListProductUnitPrice" => "Jedinična cijena",
+    "ecommerceOrderProductListProductSubtotal" => "Međuzbroj",
+    "ecommerceStatusButton" => "Status narudžbe",
+    "ecommerceNotifyAdministrator" => "Primljena je nova narudžba. Osnovne informacije nalaze se u ovom e-mailu, dok su detalji o cijeloj narudžbi dostupni u vašoj administraciji.",
+    "ecommerceNotifyCustomer" => "Hvala vam što ste naručili kod nas. Cijenimo vaše povjerenje! Status svoje narudžbe možete jednostavno pratiti online. U nastavku se nalazi potvrda vaše narudžbe."
 ];

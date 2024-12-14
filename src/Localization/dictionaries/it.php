@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Prodotti",
     "ecommerceOrderProductListDescription" => "prodotti acquistati",
     "ecommerceOrderProductListProductQuantityLabel" => "Quantità",
-    "ecommerceOrderProductListProductUnitPrice" => "Prezzo",
-    "ecommerceOrderProductListProductSubtotal" => "Subtotale",
-    "ecommerceOrderCreateNotify" => "{{webName}} ha registrato un nuovo ordine di prodotti. Le informazioni di base vengono inviate in questa e-mail. I dettagli completi dell'ordine sono disponibili nella tua amministrazione.",
+    "ecommerceOrderProductListProductUnitPrice" => "Prezzo unitario",
+    "ecommerceOrderProductListProductSubtotal" => "Totale parziale",
+    "ecommerceStatusButton" => "Stato dell'ordine",
+    "ecommerceNotifyAdministrator" => "È stato ricevuto un nuovo ordine. Le informazioni di base sono incluse in questa e-mail, mentre i dettagli completi dell'ordine sono disponibili nella tua amministrazione.",
+    "ecommerceNotifyCustomer" => "Grazie per aver ordinato da noi. Apprezziamo la tua fiducia! Puoi facilmente seguire lo stato del tuo ordine online. Qui sotto trovi la conferma del tuo ordine."
 ];

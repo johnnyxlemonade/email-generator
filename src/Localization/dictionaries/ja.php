@@ -46,5 +46,7 @@ return [
     "ecommerceOrderProductListProductQuantityLabel" => "数量",
     "ecommerceOrderProductListProductUnitPrice" => "単価",
     "ecommerceOrderProductListProductSubtotal" => "小計",
-    "ecommerceOrderCreateNotify" => "{{webName}} は新しい商品の注文を記録しました。このメールに基本情報を記載しています。注文の詳細情報は、管理パネルでご確認いただけます。",
+    "ecommerceStatusButton" => "注文状況",
+    "ecommerceNotifyAdministrator" => "新しい注文が受信されました。このメールには基本情報が記載されており、注文全体の詳細は管理画面で確認できます。",
+    "ecommerceNotifyCustomer" => "ご注文いただきありがとうございます。ご信頼に感謝いたします！オンラインで簡単に注文状況を追跡できます。以下に注文確認書を記載しております。"
 ];

@@ -89,10 +89,10 @@ class TranslatorTest extends TestCase
 
         // Mock dictionary to include a translation with placeholders
         $this->translator->setLanguage(SupportedLanguage::LANG_EN);
-        $translation = $this->translator->translate('ecommerceOrderCreateNotify', ['webName' => 'MY WEBSITE']);
+        $translation = $this->translator->translate('lostPasswordPartOne', ['webName' => 'myWebsiteName']);
 
         // Assert interpolation works correctly
-        $this->assertEquals('MY WEBSITE has received a new product order. Basic information is sent in this email. Full order details can be found in your administration panel.', $translation);
+        $this->assertEquals('We received your request to create a new password for logging in to your account on the myWebsiteName website.', $translation);
     }
 
     public function testAddOrOverrideTranslation(): void

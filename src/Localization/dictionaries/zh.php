@@ -46,5 +46,7 @@ return [
     "ecommerceOrderProductListProductQuantityLabel" => "数量",
     "ecommerceOrderProductListProductUnitPrice" => "单价",
     "ecommerceOrderProductListProductSubtotal" => "小计",
-    "ecommerceOrderCreateNotify" => "{{webName}} 已登记了一项新的商品订单。此邮件包含基本信息，完整的订单信息可在您的管理面板中查看。",
+    "ecommerceStatusButton" => "订单状态",
+    "ecommerceNotifyAdministrator" => "已收到新订单。基本信息包含在此电子邮件中，完整订单的详细信息可在您的管理系统中查看。",
+    "ecommerceNotifyCustomer" => "感谢您在我们这里订购。我们非常珍视您的信任！您可以轻松在线跟踪订单状态。以下是您的订单确认信息。"
 ];

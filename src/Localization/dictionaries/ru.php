@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Продукты",
     "ecommerceOrderProductListDescription" => "приобретенные товары",
     "ecommerceOrderProductListProductQuantityLabel" => "Количество",
-    "ecommerceOrderProductListProductUnitPrice" => "Цена",
-    "ecommerceOrderProductListProductSubtotal" => "Сумма",
-    "ecommerceOrderCreateNotify" => "{{webName}} зарегистрировал новый заказ товара. Основная информация отправлена в этом письме. Полную информацию о заказе можно найти в вашей административной панели.",
+    "ecommerceOrderProductListProductUnitPrice" => "Цена за единицу",
+    "ecommerceOrderProductListProductSubtotal" => "Промежуточный итог",
+    "ecommerceStatusButton" => "Статус заказа",
+    "ecommerceNotifyAdministrator" => "Получен новый заказ. Основная информация содержится в этом письме, а подробности о заказе доступны в вашей административной панели.",
+    "ecommerceNotifyCustomer" => "Спасибо за ваш заказ у нас. Мы ценим ваше доверие! Вы можете легко отслеживать статус вашего заказа онлайн. Ниже вы найдете подтверждение вашего заказа."
 ];

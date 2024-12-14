@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Produkter",
     "ecommerceOrderProductListDescription" => "köpta varor",
     "ecommerceOrderProductListProductQuantityLabel" => "Antal",
-    "ecommerceOrderProductListProductUnitPrice" => "Pris",
+    "ecommerceOrderProductListProductUnitPrice" => "Enhetspris",
     "ecommerceOrderProductListProductSubtotal" => "Delsumma",
-    "ecommerceOrderCreateNotify" => "{{webName}} har registrerat en ny produktbeställning. Grundläggande information skickas i detta e-postmeddelande. Fullständig information om beställningen finns i din administrationspanel.",
+    "ecommerceStatusButton" => "Orderstatus",
+    "ecommerceNotifyAdministrator" => "En ny beställning har mottagits. Grundläggande information finns i detta e-postmeddelande, medan detaljer om hela beställningen är tillgängliga i din administration.",
+    "ecommerceNotifyCustomer" => "Tack för att du beställde hos oss. Vi uppskattar ditt förtroende! Du kan enkelt följa statusen för din beställning online. Nedan hittar du din orderbekräftelse."
 ];

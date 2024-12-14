@@ -45,6 +45,8 @@ return [
     "ecommerceOrderProductListDescription" => "købte varer",
     "ecommerceOrderProductListProductQuantityLabel" => "Antal",
     "ecommerceOrderProductListProductUnitPrice" => "Enhedspris",
-    "ecommerceOrderProductListProductSubtotal" => "Subtotal",
-    "ecommerceOrderCreateNotify" => "{{webName}} har registreret en ny vareordre. Grundlæggende oplysninger sendes i denne e-mail. Fuldstændige oplysninger om ordren kan findes i din administrationspanel.",
+    "ecommerceOrderProductListProductSubtotal" => "Delsum",
+    "ecommerceStatusButton" => "Ordrestatus",
+    "ecommerceNotifyAdministrator" => "Der er modtaget en ny ordre. Grundlæggende oplysninger findes i denne e-mail, mens detaljer om hele ordren er tilgængelige i din administration.",
+    "ecommerceNotifyCustomer" => "Tak fordi du har bestilt hos os. Vi værdsætter din tillid! Du kan nemt følge status for din ordre online. Nedenfor finder du din ordrebekræftelse."
 ];

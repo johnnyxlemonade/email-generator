@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Προϊόντα",
     "ecommerceOrderProductListDescription" => "αγορασμένα προϊόντα",
     "ecommerceOrderProductListProductQuantityLabel" => "Ποσότητα",
-    "ecommerceOrderProductListProductUnitPrice" => "Τιμή",
-    "ecommerceOrderProductListProductSubtotal" => "Μερικό σύνολο",
-    "ecommerceOrderCreateNotify" => "{{webName}} έχει καταχωρίσει νέα παραγγελία προϊόντων. Οι βασικές πληροφορίες αποστέλλονται σε αυτό το email. Λεπτομέρειες της παραγγελίας μπορείτε να βρείτε στο διαχειριστικό σας.",
+    "ecommerceOrderProductListProductUnitPrice" => "Τιμή μονάδας",
+    "ecommerceOrderProductListProductSubtotal" => "Υποσύνολο",
+    "ecommerceStatusButton" => "Κατάσταση παραγγελίας",
+    "ecommerceNotifyAdministrator" => "Λάβαμε μια νέα παραγγελία. Βασικές πληροφορίες περιλαμβάνονται σε αυτό το email, ενώ λεπτομέρειες για ολόκληρη την παραγγελία είναι διαθέσιμες στη διαχείρισή σας.",
+    "ecommerceNotifyCustomer" => "Σας ευχαριστούμε που παραγγείλατε από εμάς. Εκτιμούμε την εμπιστοσύνη σας! Μπορείτε να παρακολουθήσετε εύκολα την κατάσταση της παραγγελίας σας online. Παρακάτω θα βρείτε την επιβεβαίωση της παραγγελίας σας."
 ];

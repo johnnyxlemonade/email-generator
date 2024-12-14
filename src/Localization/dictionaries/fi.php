@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Tuotteet",
     "ecommerceOrderProductListDescription" => "ostetut tuotteet",
     "ecommerceOrderProductListProductQuantityLabel" => "Määrä",
-    "ecommerceOrderProductListProductUnitPrice" => "Hinta",
+    "ecommerceOrderProductListProductUnitPrice" => "Yksikköhinta",
     "ecommerceOrderProductListProductSubtotal" => "Välisumma",
-    "ecommerceOrderCreateNotify" => "{{webName}} on vastaanottanut uuden tuotetilauksen. Perustiedot lähetetään tässä sähköpostissa. Täydelliset tilauksen tiedot löytyvät hallintapaneelistasi.",
+    "ecommerceStatusButton" => "Tilaustilanne",
+    "ecommerceNotifyAdministrator" => "Uusi tilaus on vastaanotettu. Perustiedot löytyvät tästä sähköpostista, kun taas koko tilauksen tiedot ovat saatavilla hallinnassasi.",
+    "ecommerceNotifyCustomer" => "Kiitos, että teit tilauksen meiltä. Arvostamme luottamustasi! Voit seurata tilauksen tilaa helposti verkossa. Alta löydät tilausvahvistuksesi."
 ];

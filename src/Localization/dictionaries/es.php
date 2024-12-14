@@ -44,7 +44,9 @@ return [
     "ecommerceOrderProductList" => "Productos",
     "ecommerceOrderProductListDescription" => "artículos comprados",
     "ecommerceOrderProductListProductQuantityLabel" => "Cantidad",
-    "ecommerceOrderProductListProductUnitPrice" => "Precio",
+    "ecommerceOrderProductListProductUnitPrice" => "Precio unitario",
     "ecommerceOrderProductListProductSubtotal" => "Subtotal",
-    "ecommerceOrderCreateNotify" => "{{webName}} ha registrado un nuevo pedido de productos. La información básica se envía en este correo electrónico. Los detalles completos del pedido se encuentran en su panel de administración.",
+    "ecommerceStatusButton" => "Estado del pedido",
+    "ecommerceNotifyAdministrator" => "Se ha recibido un nuevo pedido. La información básica se encuentra en este correo electrónico, mientras que los detalles del pedido completo están disponibles en su administración.",
+    "ecommerceNotifyCustomer" => "Gracias por realizar su pedido con nosotros. ¡Valoramos su confianza! Puede seguir fácilmente el estado de su pedido en línea. A continuación, encontrará la confirmación de su pedido."
 ];
