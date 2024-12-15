@@ -66,8 +66,9 @@ $container = new ContainerBuilder(
     serviceFactoryManager: $serviceManager
 );
 
-// alignem
+// alignment
 $blockManager->setBlockRenderCenter();
+$blockManager->setCurrency(currency: SupportedCurrencies::EUR);
 // Create product collection
 $productService = $container->getProductCollectionService();
 $productCollection = $productService->createCollection();
@@ -99,15 +100,12 @@ $addressData = new AddressData([ // Creating address data
 ]);
 $footerAddress = $addressService->getAddress(data: $addressData);
 
-// orderCurrency
-$currency = "EUR";
-
 // Add blocks to the email
 $blockManager->addBlock(new StaticBlockGreetingHeader());
 $blockManager->addBlock(new EcommerceNotifyAdministrator());
-$blockManager->addBlock(new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderTotal: 666, orderCurrency: $currency, orderDate: date("j.n.Y")));
-$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection, currency: $currency));
-$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection, currency: $currency));
+$blockManager->addBlock(new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderDate: date("j.n.Y")));
+$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection));
+$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection));
 $blockManager->addBlock(block: new StaticBlockGreetingFooter());
 $blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $container->getContextService(), address: $footerAddress));
 
