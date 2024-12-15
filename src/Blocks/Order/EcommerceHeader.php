@@ -16,7 +16,6 @@ class EcommerceHeader extends AbstractBlock
      * @param string|int $orderId
      * @param string|int $orderCode
      * @param string|int|float $orderTotal
-     * @param string $orderCurrency
      * @param string $orderDate
      */
     public function __construct(
@@ -24,8 +23,6 @@ class EcommerceHeader extends AbstractBlock
         protected readonly ContextService $contextService,
         protected readonly string|int $orderId,
         protected readonly string|int $orderCode,
-        protected readonly string|int|float $orderTotal,
-        protected readonly string $orderCurrency,
         protected readonly string $orderDate
     ) {
 
@@ -33,8 +30,6 @@ class EcommerceHeader extends AbstractBlock
         $context = $this->contextService->createContext([
             "orderId" => $orderId,
             "orderCode" => $orderCode,
-            "orderTotal" => $orderTotal,
-            "orderCurrency" => $orderCurrency,
             "orderDate" => $orderDate,
         ]);
 
@@ -50,6 +45,6 @@ class EcommerceHeader extends AbstractBlock
     public function validateContext(): void
     {
         // Validation of expected keys in the context
-        $this->context->validate(["orderId", "orderCode", "orderTotal", "orderCurrency", "orderDate"]);
+        $this->context->validate(["orderId", "orderCode", "orderDate"]);
     }
 }

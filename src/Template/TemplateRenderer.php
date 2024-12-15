@@ -46,7 +46,7 @@ class TemplateRenderer
 
         // Add functions to Twig
         $this->twig->addFunction(new TwigFunction('translate', [$this->translator, 'translate'])); // Translator
-        $this->twig->addFunction(new TwigFunction('format_number', [new NumberFormatter(), 'format'])); // Number formatting
+        $this->twig->addFunction(new TwigFunction('format_price', [new NumberFormatter(), 'formatPrice'])); // Number formatting
         $this->twig->addExtension(new MinifyExtension());
         $this->twig->addGlobal("alignment", "left");
     }
@@ -60,7 +60,9 @@ class TemplateRenderer
     public function render(array $data = []): string
     {
         try {
+
             return $this->twig->render($this->template, $data);
+
         } catch (\Exception $e) {
             $this->logger->error("Error rendering template '{$this->template}': " . $e->getMessage(), [
                 'exception' => $e,

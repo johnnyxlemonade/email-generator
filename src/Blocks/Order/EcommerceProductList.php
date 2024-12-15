@@ -14,15 +14,13 @@ class EcommerceProductList extends AbstractBlock
      *
      * @param ContextService $contextService Context Service.
      * @param AbstractCollection $collection Collection of products.
-     * @param string $currency The currency used for displaying product prices.
      */
-    public function __construct(protected readonly ContextService $contextService, AbstractCollection $collection, string $currency)
+    public function __construct(protected readonly ContextService $contextService, AbstractCollection $collection)
     {
 
         // Initialize context
         $context = $this->contextService->createContext([
-            "products" => $collection->all(),
-            "currency" => $currency,
+            "products" => $collection->all()
         ]);
 
         // Pass the context to the parent constructor
@@ -38,7 +36,7 @@ class EcommerceProductList extends AbstractBlock
      */
     public function validateContext(): void
     {
-        $this->context->validate(["products", "currency"]);
+        $this->context->validate(["products"]);
     }
 }
 

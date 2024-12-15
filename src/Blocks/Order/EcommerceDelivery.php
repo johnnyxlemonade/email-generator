@@ -16,16 +16,14 @@ class EcommerceDelivery extends AbstractBlock
      * @param ContextService $contextService Context Service.
      * @param Shipping $shipping Information about the shipping method.
      * @param Payment $payment Information about the payment method.
-     * @param string $currency Currency code.
      */
-    public function __construct(protected readonly ContextService $contextService, Shipping $shipping, Payment $payment, string $currency)
+    public function __construct(protected readonly ContextService $contextService, Shipping $shipping, Payment $payment)
     {
 
         // Initialize context
         $context = $this->contextService->createContext([
             "shipping" => $shipping,
-            "payment" => $payment,
-            "currency" => $currency
+            "payment" => $payment
         ]);
 
         // Pass context to the parent constructor
@@ -39,6 +37,6 @@ class EcommerceDelivery extends AbstractBlock
      */
     public function validateContext(): void
     {
-        $this->context->validate(["shipping", "payment", "currency"]);
+        $this->context->validate(["shipping", "payment"]);
     }
 }

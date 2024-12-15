@@ -30,7 +30,7 @@
                                     <dd style="margin-bottom: 8px;margin-left: 0px;">{{ shipping.getName() }}</dd>
                                     <dt style="font-weight:bold;">{{ translate('ecommerceDeliveryShippingPriceLabel') }}</dt>
                                     {% if shipping.shouldDisplay() %}
-                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ format_number(shipping.getPrice(), currency, 2) }}</dd>
+                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ format_price(shipping.getPrice(), currency, 2) }}</dd>
                                     {% else %}
                                         <dd style="margin-bottom: 8px;margin-left: 0px;">{{ translate('ecommerceDeliveryNeedConfirmation') }}</dd>
                                     {% endif %}
@@ -55,7 +55,7 @@
                                     <dd style="margin-bottom: 8px;margin-left: 0px;">{{ payment.getName() }}</dd>
                                     <dt style="font-weight:bold;">{{ translate('ecommerceDeliveryShippingPriceLabel') }}</dt>
                                     {% if payment.shouldDisplay() %}
-                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ format_number(payment.getPrice(), currency, 2) }}</dd>
+                                        <dd style="margin-bottom: 8px;margin-left: 0px;">{{ format_price(payment.getPrice(), currency, 2) }}</dd>
                                     {% else %}
                                         <dd style="margin-bottom: 8px;margin-left: 0px;">{{ translate('ecommerceDeliveryNeedConfirmation') }}</dd>
                                     {% endif %}

@@ -14,15 +14,13 @@ class EcommerceSummaryList extends AbstractBlock
      *
      * @param ContextService $contextData Context Service.
      * @param SummaryCollection $collection Collection of order summaries.
-     * @param string $currency The currency for displaying the summary values.
      */
-    public function __construct(protected readonly ContextService $contextService, SummaryCollection $collection, string $currency)
+    public function __construct(protected readonly ContextService $contextService, SummaryCollection $collection)
     {
 
         // Initialize context
         $context = $this->contextService->createContext([
-            "summary" => $collection->all(),
-            "currency" => $currency,
+            "summary" => $collection->all()
         ]);
 
         // Pass the context to the parent constructor
@@ -39,6 +37,6 @@ class EcommerceSummaryList extends AbstractBlock
     public function validateContext(): void
     {
         // Validate that certain essential keys are present in the context
-        $this->context->validate(["summary", "currency"]);
+        $this->context->validate(["summary"]);
     }
 }

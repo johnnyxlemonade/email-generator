@@ -5,6 +5,7 @@ namespace Lemonade\EmailGenerator\Blocks;
 use InvalidArgumentException;
 use Lemonade\EmailGenerator\Context\ContextData;
 use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
+use Lemonade\EmailGenerator\Localization\SupportedCurrencies;
 use Lemonade\EmailGenerator\Services\ContextService;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
@@ -82,14 +83,16 @@ abstract class AbstractBlock implements BlockInterface
      *
      * @param Environment $twig Twig renderer.
      * @param LoggerInterface $logger Logger.
+     * @param SupportedCurrencies $currency Currency
      * @return string Rendered HTML content of the block.
      */
-    public function renderBlock(Environment $twig, LoggerInterface $logger): string
+    public function renderBlock(Environment $twig, LoggerInterface $logger, SupportedCurrencies $currencies): string
     {
         try {
             $logger->info("Rendering block '{$this->templateBlock}' with context data:", $this->context->toArray());
 
-            return $twig->render($this->templateBlock, $this->context->toArray());
+            return $twig->render($this->templateBlock, ["currency" => $currencies] + $this->context->toArray());
+
         } catch (LoaderError $e) {
             $logger->error("Error loading block template '{$this->templateBlock}': " . $e->getMessage(), ['exception' => $e]);
         } catch (RuntimeError $e) {

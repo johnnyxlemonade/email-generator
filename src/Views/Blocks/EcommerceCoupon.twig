@@ -63,7 +63,7 @@
                                                                                 <span style="mso-text-raise:6px;font-size:12px;font-size: 12px;font-weight:normal;">{{ coupon.getCode() }}</span>
                                                                             </div>
                                                                             {% if coupon.getFormattedPrice() is not null %}
-                                                                            <span style="mso-text-raise:6px;font-size:12px;display: block;font-size: 12px;color:gray;font-weight:normal;">{{ format_number(coupon.getFormattedPrice(), currency, 2) }}</span>
+                                                                            <span style="mso-text-raise:6px;font-size:12px;display: block;font-size: 12px;color:gray;font-weight:normal;">{{ format_price(coupon.getFormattedPrice(), currency, 2) }}</span>
                                                                             {% endif %}
                                                                         </div>
                                                                     </div>

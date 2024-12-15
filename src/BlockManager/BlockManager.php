@@ -4,6 +4,7 @@ namespace Lemonade\EmailGenerator\BlockManager;
 
 use Exception;
 use Lemonade\EmailGenerator\Blocks\BlockInterface;
+use Lemonade\EmailGenerator\Localization\SupportedCurrencies;
 use Lemonade\EmailGenerator\Localization\SupportedLanguage;
 use Lemonade\EmailGenerator\Template\TemplateRenderer;
 use Lemonade\EmailGenerator\Localization\Translator;
@@ -21,6 +22,11 @@ class BlockManager
      * @var string Page title
      */
     private string $pageTitle = "Default Page Title";
+
+    /**
+     * @var SupportedCurrencies|null
+     */
+    private ?SupportedCurrencies $currency = SupportedCurrencies::CZK;
 
     /**
      * Constructor for BlockManager.
@@ -75,6 +81,26 @@ class BlockManager
         return $this->pageTitle;
     }
 
+
+    /**
+     * Sets the currency symbol.
+     *
+     * @param SupportedCurrencies|null $currency
+     * @return void
+     */
+    public function setCurrency(?SupportedCurrencies $currency): void
+    {
+        $this->currency = $currency ?? SupportedCurrencies::CZK;
+    }
+
+    /**
+     * @return SupportedCurrencies|null
+     */
+    public function getCurrency(): SupportedCurrencies
+    {
+        return ($this->currency === null ? SupportedCurrencies::CZK : $this->currency);
+    }
+
     /**
      * Sets alignment for rendering BlockInterface elements.
      *
@@ -94,7 +120,10 @@ class BlockManager
      */
     private function renderBlockCallback(BlockInterface $block): string
     {
-        return $block->renderBlock($this->templateRenderer->getTwig(), $this->logger);
+        $currency = $this->getCurrency();
+        $this->logger->info("Rendering block with currency: " . $currency->value);
+
+        return $block->renderBlock($this->templateRenderer->getTwig(), $this->logger, $this->getCurrency());
     }
 
     /**

@@ -19,15 +19,13 @@ class EcommerceCoupon extends AbstractBlock
      *
      * @param ContextService $contextService Context Service.
      * @param CouponCollection $collection A collection of coupons to be used in the block.
-     * @param string $currency A currency symbol for collection of coupons
      */
-    public function __construct(protected readonly ContextService $contextService, CouponCollection $collection, string $currency)
+    public function __construct(protected readonly ContextService $contextService, CouponCollection $collection)
     {
 
         // Initialize context
         $context = $this->contextService->createContext([
-            "coupons" => $collection->all(),
-            "currency" => $currency,
+            "coupons" => $collection->all()
         ]);
 
         // Pass context to the parent constructor
@@ -37,12 +35,12 @@ class EcommerceCoupon extends AbstractBlock
     /**
      * Validates the context for the block.
      *
-     * Ensures that the required data (in this case, "coupons", "currency") is present in the context.
+     * Ensures that the required data (in this case, "coupons") is present in the context.
      *
      * @return void
      */
     public function validateContext(): void
     {
-        $this->context->validate(["coupons", "currency"]);
+        $this->context->validate(["coupons"]);
     }
 }

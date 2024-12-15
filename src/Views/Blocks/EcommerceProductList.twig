@@ -71,12 +71,12 @@
 
                         {# Jednotková cena produktu, formátovaná na dvě desetinná místa #}
                         <dl style="margin:0;padding:0;color:#454545;">
-                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductUnitPrice') }}: {{ format_number(product.getProductUnitPrice(), currency, 2) }} </dd>
+                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductUnitPrice') }}: {{ format_price(product.getProductUnitPrice(), currency, 2) }} </dd>
                         </dl>
 
                         {# Celková cena produktu #}
                         <dl style="margin:0;padding:0;color:#454545;">
-                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductSubtotal') }}: {{ format_number(product.getProductSubtotalPrice(), currency, 2) }}</dd>
+                            <dd style="margin:0px;display:block;">{{ translate('ecommerceOrderProductListProductSubtotal') }}: {{ format_price(product.getProductSubtotalPrice(), currency, 2) }}</dd>
                         </dl>
 
                         {# Pokud má produkt dodatečná data (např. atributy jako barva, velikost) #}
