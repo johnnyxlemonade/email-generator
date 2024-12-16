@@ -28,89 +28,45 @@ To install the library, use Composer:
 composer require lemonade/email-generator
 ```
 
-## Usage
+## Usage Example: Lost Password Email
 
-Here's a quick example of how to use the library to generate an email:
+Here’s how to use the DefaultBuilder to create a "lost password" email:
+
 
 ```php
-use Lemonade\EmailGenerator\BlockManager\BlockManager;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
-use Lemonade\EmailGenerator\ContainerBuilder;
+use Lemonade\EmailGenerator\DefaultBuilder;
+use Lemonade\EmailGenerator\DefaultContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressData;
-use Lemonade\EmailGenerator\DTO\ProductData;
-use Lemonade\EmailGenerator\DTO\SummaryData;
-use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
-use Lemonade\EmailGenerator\Localization\SupportedLanguage;
-use Lemonade\EmailGenerator\Localization\Translator;
-use Lemonade\EmailGenerator\Logger\FileLogger;
-use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
-use Lemonade\EmailGenerator\Template\TemplateRenderer;
-use Psr\Log\LogLevel;
 
-$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::WARNING));
-$translator = new Translator(currentLanguage: SupportedLanguage::LANG_EN, logger: $logger);
-$templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator);
-$blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator);
-$serviceManager = new ServiceFactoryManager();
-$container = new ContainerBuilder(
-    logger: $logger,
-    translator: $translator,
-    templateRenderer: $templateRenderer,
-    blockManager: $blockManager,
-    serviceFactoryManager: $serviceManager
-);
+require __DIR__ . '/../vendor/autoload.php';
 
-// alignment
-$blockManager->setBlockRenderCenter();
-$blockManager->setCurrency(currency: SupportedCurrencies::EUR);
-// Create product collection
-$productService = $container->getProductCollectionService();
-$productCollection = $productService->createCollection();
-$productService->createItem($productCollection, new ProductData(
-    productId: 1, productName: "Example Product", productQuantity: 1, productUnitPrice: 10
-));
+// Vytvoření kontejneru
+$container = DefaultContainerBuilder::create();
 
-// Create summary collection
-$summaryService = $container->getSummaryCollectionService();
-$summaryCollection = $summaryService->createCollection();
-$summaryService->createItem($summaryCollection, new SummaryData(name: "Delivery cost", value: 0));
-$summaryService->createItem($summaryCollection, new SummaryData(name: "Goods", value: 10));
-$summaryService->createItem($summaryCollection, new SummaryData(name: "Total", value: 10, final: true));
-
-// Create address
-$addressService = $container->getAddressService(); // Address service
-$addressData = new AddressData([ // Creating address data
+// Vytvoření adresy
+$addressService = $container->getAddressService();
+$footerAddress = $addressService->getAddress(new AddressData([
     "addressCompanyId" => "CZ12345678",
     "addressCompanyVatId" => "CZ87654321",
     "addressCompanyName" => "Firma XYZ",
     "addressAlias" => "Sídlo",
     "addressName" => "Josef Novák",
-    "addressStreet" => "Street 1234/56",
-    "addressPostcode" => "110 00",
-    "addressCity" => "Prague I",
+    "addressStreet" => "Ulice 1234/56",
+    "addressPostcode" => "12345",
+    "addressCity" => "Praha",
     "addressCountry" => "CZ",
     "addressPhone" => "+420 123 456 789",
-    "addressEmail" => "info@mywebsite.com"
-]);
-$footerAddress = $addressService->getAddress(data: $addressData);
+    "addressEmail" => "info@muj-eshop.com"
+]));
 
-// Add blocks to the email
-$blockManager->addBlock(new StaticBlockGreetingHeader());
-$blockManager->addBlock(new EcommerceNotifyAdministrator());
-$blockManager->addBlock(new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderDate: date("j.n.Y")));
-$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection));
-$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection));
-$blockManager->addBlock(block: new StaticBlockGreetingFooter());
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $container->getContextService(), address: $footerAddress));
+// Použití DefaultBuilder pro sestavení e-mailu
+$builder = new DefaultBuilder($container);
 
-// Output the email
-echo $blockManager->getHtml();
+echo $builder
+    ->addHeader("Password Reset")
+    ->componentLostPassword("Your Website", "https://example.com/reset-password")
+    ->addFooter($footerAddress)
+    ->build();
 
 ```
 

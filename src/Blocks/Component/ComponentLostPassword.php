@@ -23,6 +23,7 @@ class ComponentLostPassword extends AbstractBlock
      */
     public function __construct(protected readonly ContextService $contextService, string $webName, string $anchorLink)
     {
+
         // Initialize context
         $context = $this->contextService->createContext([
             "webName" => $webName,

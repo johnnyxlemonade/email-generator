@@ -14,26 +14,26 @@ class BlockManager
 {
 
     /**
-     * @var array BlockInterface[]
+     * @var array<BlockInterface> List of blocks to be rendered.
      */
     private array $blocks = [];
 
     /**
-     * @var string Page title
+     * @var string Page title for the rendered email.
      */
     private string $pageTitle = "Default Page Title";
 
     /**
-     * @var SupportedCurrencies|null
+     * @var SupportedCurrencies|null The selected currency for rendering blocks.
      */
     private ?SupportedCurrencies $currency = SupportedCurrencies::CZK;
 
     /**
      * Constructor for BlockManager.
      *
-     * @param TemplateRenderer $templateRenderer Template renderer instance.
-     * @param LoggerInterface $logger Logger instance.
-     * @param Translator $translator Translator instance.
+     * @param TemplateRenderer $templateRenderer Instance of TemplateRenderer for rendering templates.
+     * @param LoggerInterface $logger Logger instance for recording logs.
+     * @param Translator $translator Translator instance for managing translations.
      */
     public function __construct(
         private readonly TemplateRenderer $templateRenderer,
@@ -81,12 +81,10 @@ class BlockManager
         return $this->pageTitle;
     }
 
-
     /**
-     * Sets the currency symbol.
+     * Sets the currency for rendering blocks.
      *
-     * @param SupportedCurrencies|null $currency
-     * @return void
+     * @param SupportedCurrencies|null $currency The currency to be set.
      */
     public function setCurrency(?SupportedCurrencies $currency): void
     {
@@ -94,11 +92,15 @@ class BlockManager
     }
 
     /**
-     * @return SupportedCurrencies|null
+     * Returns the currently set currency.
+     *
+     * If no currency is explicitly set, the default currency (CZK) is returned.
+     *
+     * @return SupportedCurrencies The currently set or default currency.
      */
     public function getCurrency(): SupportedCurrencies
     {
-        return ($this->currency === null ? SupportedCurrencies::CZK : $this->currency);
+        return $this->currency ?? SupportedCurrencies::CZK;
     }
 
     /**
@@ -110,7 +112,6 @@ class BlockManager
     {
         $this->templateRenderer->getTwig()->addGlobal("alignment", "center");
     }
-
 
     /**
      * Renders a block using the provided template renderer and logger.
@@ -151,5 +152,35 @@ class BlockManager
 
             return 'We apologize, an error occurred while rendering the entire page.';
         }
+    }
+
+    /**
+     * Returns the instance of TemplateRenderer.
+     *
+     * @return TemplateRenderer The template renderer instance.
+     */
+    public function getTemplateRenderer(): TemplateRenderer
+    {
+        return $this->templateRenderer;
+    }
+
+    /**
+     * Returns the instance of Logger.
+     *
+     * @return LoggerInterface The logger instance.
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    /**
+     * Returns the instance of Translator.
+     *
+     * @return Translator The translator instance.
+     */
+    public function getTranslator(): Translator
+    {
+        return $this->translator;
     }
 }

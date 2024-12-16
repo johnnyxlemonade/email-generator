@@ -1,23 +1,8 @@
 <?php
 
-use Lemonade\EmailGenerator\BlockManager\BlockManager;
-use Lemonade\EmailGenerator\Blocks\Component\AttachmentList;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentBlockText;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentNotification;
-use Lemonade\EmailGenerator\Blocks\Component\ComponentPickupPoint;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingAddress;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingFooter;
-use Lemonade\EmailGenerator\Blocks\Informational\StaticBlockGreetingHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceNotifyAdministrator;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceStatusButton;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceCoupon;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceAddress;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceDelivery;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceHeader;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceMessage;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceProductList;
-use Lemonade\EmailGenerator\Blocks\Order\EcommerceSummaryList;
-use Lemonade\EmailGenerator\ContainerBuilder;
+
+use Lemonade\EmailGenerator\DefaultBuilder;
+use Lemonade\EmailGenerator\DefaultContainerBuilder;
 use Lemonade\EmailGenerator\DTO\AddressData;
 use Lemonade\EmailGenerator\DTO\AttachmentData;
 use Lemonade\EmailGenerator\DTO\CouponData;
@@ -26,35 +11,17 @@ use Lemonade\EmailGenerator\DTO\PickupPointData;
 use Lemonade\EmailGenerator\DTO\ProductData;
 use Lemonade\EmailGenerator\DTO\ShippingData;
 use Lemonade\EmailGenerator\DTO\SummaryData;
-use Lemonade\EmailGenerator\Factories\ServiceFactoryManager;
 use Lemonade\EmailGenerator\Localization\SupportedCurrencies;
 use Lemonade\EmailGenerator\Localization\SupportedLanguage;
-use Lemonade\EmailGenerator\Localization\Translator;
-use Lemonade\EmailGenerator\Logger\FileLogger;
-use Lemonade\EmailGenerator\Logger\FileLoggerConfig;
-use Lemonade\EmailGenerator\Template\TemplateRenderer;
-use Psr\Log\LogLevel;
+
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// 1. Creating basic mandatory services
-$logger = new FileLogger(config: new FileLoggerConfig(logLevel: LogLevel::DEBUG)); // Logger service
-$translator = new Translator(currentLanguage: SupportedLanguage::LANG_EN, logger: $logger); // Translator service
-$templateRenderer = new TemplateRenderer(logger: $logger, translator: $translator); // Template rendering service
-$blockManager = new BlockManager(templateRenderer: $templateRenderer, logger: $logger, translator: $translator); // Block manager for managing email content
-$serviceManager = new ServiceFactoryManager(); // Service factory manager to create various services
+// 1. Initializing ContainerBuilder with context
+$builder  = new DefaultBuilder(container: DefaultContainerBuilder::create(), currency: SupportedCurrencies::EUR);
 
-// 2. Initializing ContainerBuilder with context
-$container = new ContainerBuilder(
-    logger: $logger,
-    translator: $translator,
-    templateRenderer: $templateRenderer,
-    blockManager: $blockManager,
-    serviceFactoryManager: $serviceManager
-);
-
-// 3. Creating products
-$productService    = $container->getProductCollectionService(); // Product collection service
+// 2. Creating products
+$productService    = $builder->getContainerBuilder()->getProductCollectionService(); // Product collection service
 $productCollection = $productService->createCollection(); // Create product collection
 
 // Adding products to the collection
@@ -85,7 +52,7 @@ for ($i = 1; $i <= 6; $i++) {
 }
 
 // 3.1 Creating coupon
-$couponService    = $container->getCouponCollectionService();
+$couponService    = $builder->getContainerBuilder()->getCouponCollectionService();
 $couponCollection = $couponService->createCollection();
 
 // Adding coupont to the collection
@@ -101,14 +68,14 @@ for ($i = 1; $i <= 3; $i++) {
 }
 
 // 4. Shipping and Payment
-$shippingService = $container->getShippingService(); // Shipping service
+$shippingService = $builder->getContainerBuilder()->getShippingService(); // Shipping service
 $shipping = $shippingService->createShipping(data: new ShippingData(name: "Doprava kurýrem", price: 150.0)); // Shipping data
 
-$paymentService = $container->getPaymentService(); // Payment service
+$paymentService = $builder->getContainerBuilder()->getPaymentService(); // Payment service
 $payment = $paymentService->createPayment(data: new PaymentData(name: "Platba kartou", price: 0.0)); // Payment data
 
 // 5. Pickup point
-$pickupPointService = $container->getPickupPointService(); // Pickup point service
+$pickupPointService = $builder->getContainerBuilder()->getPickupPointService(); // Pickup point service
 $pickupPoint = $pickupPointService->createPickupPoint(data: new PickupPointData(
     id: 'PKP001',
     name: 'Výdejní místo Praha',
@@ -121,7 +88,7 @@ $pickupPoint = $pickupPointService->createPickupPoint(data: new PickupPointData(
 )); // Pickup point data
 
 // 6. Attachments
-$attachmentService    = $container->getAttachmentCollectionService(); // Attachment service
+$attachmentService    = $builder->getContainerBuilder()->getAttachmentCollectionService(); // Attachment service
 $attachmentCollection = $attachmentService->createCollection(); // Attachment collection
 
 // Adding attachment data
@@ -141,7 +108,7 @@ $attachmentData = new AttachmentData(
 $attachmentService->createItem(collection: $attachmentCollection, data: $attachmentData);
 
 // 7. Summary
-$summaryService     = $container->getSummaryCollectionService(); // Summary service
+$summaryService     = $builder->getContainerBuilder()->getSummaryCollectionService(); // Summary service
 $summaryCollection  = $summaryService->createCollection(); // Summary collection
 
 // Adding summary data
@@ -152,7 +119,7 @@ $summaryService->createItem(collection: $summaryCollection, data: new SummaryDat
 $summaryService->createItem(collection: $summaryCollection, data: new SummaryData(name: "Celkem", value: 3450, final: true));
 
 // 8. Addresses
-$addressService = $container->getAddressService(); // Address service
+$addressService = $builder->getContainerBuilder()->getAddressService(); // Address service
 $addressData = new AddressData([ // Creating address data
     "addressCompanyId" => "CZ12345678",
     "addressCompanyVatId" => "CZ87654321",
@@ -174,29 +141,17 @@ $footerAddress = $billingAddress->copy();
 $footerAddress->setCompanyName(companyName: "MUj ESHOP");
 $footerAddress->setAddressEmail(email: "info@muj-eshop.com");
 
-// 9. Adding blocks to BlockManager
-$blockManager = $container->getBlockManager(); // Get block manager
-$blockManager->setBlockRenderCenter(); // Set block render center
-$blockManager->setCurrency(currency: SupportedCurrencies::EUR);
-$blockManager->setPageTitle(title: "Rekapitulace objednávky"); // Set page title
-
-// Adding individual blocks to the email
-$contextService = $container->getContextService(); // Context service
-$blockManager->addBlock(block: new StaticBlockGreetingHeader()); // Greeting header block
-$blockManager->addBlock(block: new EcommerceNotifyAdministrator()); // E-commerce notification block
-$blockManager->addBlock(block: new ComponentNotification(contextService: $contextService, heading: "Warning", notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."));
-$blockManager->addBlock(block: new EcommerceHeader(contextService: $container->getContextService(), orderId: 123456789, orderCode: "1234567890X", orderDate: date("j.n.Y"))); // E-commerce header block
-$blockManager->addBlock(block: new EcommerceStatusButton(url: "https://google.com"));
-$blockManager->addBlock(block: new EcommerceAddress(contextService: $container->getContextService(), billingAddress: $billingAddress, deliveryAddress: $deliveryAddress)); // Addresses block
-$blockManager->addBlock(block: new EcommerceProductList(contextService: $container->getContextService(), collection: $productCollection)); // Products list block
-$blockManager->addBlock(block: new EcommerceMessage(contextService: $contextService, message: "Dsads"));
-$blockManager->addBlock(block: new EcommerceDelivery(contextService: $container->getContextService(), shipping: $shipping, payment: $payment)); // Delivery and payment block
-$blockManager->addBlock(block: new ComponentPickupPoint(contextService: $container->getContextService(), pickupPoint: $pickupPoint)); // Pickup point block
-$blockManager->addBlock(block: new EcommerceCoupon(contextService: $container->getContextService(), collection: $couponCollection));
-$blockManager->addBlock(block: new EcommerceSummaryList(contextService: $container->getContextService(), collection: $summaryCollection)); // Summary list block
-$blockManager->addBlock(block: new AttachmentList(contextService: $container->getContextService(), collection: $attachmentCollection)); // Attachments list block
-$blockManager->addBlock(block: new StaticBlockGreetingFooter()); // Footer greeting block
-$blockManager->addBlock(block: new StaticBlockGreetingAddress(contextService: $container->getContextService(), address: $footerAddress)); // Footer address block
-
-// Output HTML email
-echo $blockManager->getHtml(); // Generating and outputting the HTML email
+// Using DefaultBuilder to build the email
+echo $builder
+    ->addHeader(title: "Rekapitulace objednávky")
+    ->addAdministratorNotify()
+    ->addOrderInfo(orderId: 123456789, orderCode: "1234567890X", orderDate: date(format: "j.n.Y"), statusUrl: "https://google.com")
+    ->addCustomerMessage()
+    ->addBillingShippingAddress(billing: $billingAddress, shipping: $deliveryAddress)
+    ->addProducts(productCollection: $productCollection)
+    ->addDelivery(shipping: $shipping, payment: $payment)
+    ->addPickup(point: $pickupPoint)
+    ->addSummary(summaryCollection: $summaryCollection)
+    ->addAttachments(attachmentCollection: $attachmentCollection)
+    ->addFooter(footerAddress: $footerAddress)
+    ->build();

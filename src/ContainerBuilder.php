@@ -61,7 +61,7 @@ class ContainerBuilder
     private function getOrCreateService(string $serviceProperty, callable $factory): object
     {
         if ($this->$serviceProperty === null) {
-            $this->logger->warning("$serviceProperty není nastavena, vytváří se nová instance.");
+            $this->logger->debug("Created new instance of $serviceProperty.");
             $this->$serviceProperty = $factory();
         }
         return $this->$serviceProperty;
@@ -219,6 +219,16 @@ class ContainerBuilder
     public function getBlockManager(): BlockManager
     {
         return $this->blockManager;
+    }
+
+    /**
+     * Returns an instance of ServiceFactoryManager.
+     *
+     * @return ServiceFactoryManager
+     */
+    public function getServiceFactoryManager(): ServiceFactoryManager
+    {
+        return $this->serviceFactoryManager;
     }
 
     // Additional services
