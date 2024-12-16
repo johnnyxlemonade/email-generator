@@ -40,33 +40,34 @@ use Lemonade\EmailGenerator\DTO\AddressData;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Vytvoření kontejneru
+// Step 1: Create the container with pre-configured services
 $container = DefaultContainerBuilder::create();
 
-// Vytvoření adresy
-$addressService = $container->getAddressService();
+// Step 2: Create an address for the footer
+$addressService = $container->getAddressService(); // Fetch the AddressService from the container
 $footerAddress = $addressService->getAddress(new AddressData([
-    "addressCompanyId" => "CZ12345678",
-    "addressCompanyVatId" => "CZ87654321",
-    "addressCompanyName" => "Firma XYZ",
-    "addressAlias" => "Sídlo",
-    "addressName" => "Josef Novák",
-    "addressStreet" => "Ulice 1234/56",
-    "addressPostcode" => "12345",
-    "addressCity" => "Praha",
-    "addressCountry" => "CZ",
-    "addressPhone" => "+420 123 456 789",
-    "addressEmail" => "info@muj-eshop.com"
+    "addressCompanyId" => "CZ12345678",           // Company ID
+    "addressCompanyVatId" => "CZ87654321",       // VAT ID
+    "addressCompanyName" => "Firma XYZ",         // Company name
+    "addressAlias" => "Sídlo",                   // Address alias
+    "addressName" => "Josef Novák",              // Contact person name
+    "addressStreet" => "Ulice 1234/56",          // Street address
+    "addressPostcode" => "12345",                // Postal code
+    "addressCity" => "Praha",                    // City
+    "addressCountry" => "CZ",                    // Country code
+    "addressPhone" => "+420 123 456 789",        // Contact phone
+    "addressEmail" => "info@muj-eshop.com"       // Contact email
 ]));
 
-// Použití DefaultBuilder pro sestavení e-mailu
+// Step 3: Use DefaultBuilder to construct the email
 $builder = new DefaultBuilder($container);
 
+// Step 4: Build the email content
 echo $builder
-    ->addHeader("Password Reset")
-    ->componentLostPassword("Your Website", "https://example.com/reset-password")
-    ->addFooter($footerAddress)
-    ->build();
+    ->addHeader("Password Reset")                           // Add a header with the title "Password Reset"
+    ->componentLostPassword("Your Website", "https://example.com/reset-password") // Add a block for password reset with the website name and reset link
+    ->addFooter($footerAddress)                             // Add a footer with the previously created address
+    ->build();                                              // Build and output the final email HTML
 
 ```
 
