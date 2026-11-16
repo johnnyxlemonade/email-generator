@@ -1,0 +1,4 @@
+module: email_generator
+config:
+  width: 800
+  accent_color: '#15803d'

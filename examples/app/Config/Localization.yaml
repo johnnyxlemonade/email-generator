@@ -1,0 +1,5 @@
+module: localization
+config:
+  default_locale: cs
+  fallback_locale: en
+  supported_locales: [cs, en]

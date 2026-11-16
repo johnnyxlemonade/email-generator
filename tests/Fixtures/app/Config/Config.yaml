@@ -1,0 +1,4 @@
+shared:
+  - Providers
+  - Localization
+  - Email

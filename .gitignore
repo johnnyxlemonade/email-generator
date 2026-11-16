@@ -1,0 +1,10 @@
+/vendor/
+/build/
+/examples/output/
+/examples/assets/
+/composer.lock
+/.idea/
+/.vscode/
+/phpunit.xml
+/phpstan.neon
+/.codex/

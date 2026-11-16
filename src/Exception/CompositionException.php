@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Lemonade\EmailGenerator\Exception;
+
+use LogicException;
+
+/**
+ * Reports unsupported rendering or invalid composition structure with a stable error code
+ */
+final class CompositionException extends LogicException
+{
+    /**
+     * Associates a composition error code with its human-readable message
+     */
+    public function __construct(private readonly ErrorCode $errorCode, string $message)
+    {
+        parent::__construct($message);
+    }
+
+    /**
+     * Returns the stable composition error code
+     */
+    public function errorCode(): ErrorCode
+    {
+        return $this->errorCode;
+    }
+}

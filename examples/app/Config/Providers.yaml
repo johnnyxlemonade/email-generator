@@ -1,0 +1,4 @@
+module: providers
+config:
+  providers:
+    - Lemonade\EmailGenerator\EmailServiceProvider
