@@ -39,6 +39,7 @@ final class ButtonGroupTest extends TestCase
     public function testButtonsParticipateInTheSharedExpansionLimit(): void
     {
         $button = new Button('Action', 'https://example.com');
+
         try {
             ComponentExpander::expand([new ButtonGroup(array_fill(0, 10000, $button))]);
             self::fail('Button group children bypassed the shared expansion limit.');

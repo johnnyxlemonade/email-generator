@@ -78,6 +78,7 @@ final class DocumentTest extends EmailTestCase
             public function components(): iterable
             {
                 yield new Text('Discard');
+
                 throw new RuntimeException('Failure');
             }
         };
@@ -122,6 +123,7 @@ final class DocumentTest extends EmailTestCase
         yield 'size' => [$unbounded, ErrorCode::CompositionSizeExceeded];
 
         $deep = new Group([new Text('Deep')]);
+
         for ($depth = 0; $depth < 33; ++$depth) {
             $deep = new Group([$deep]);
         }

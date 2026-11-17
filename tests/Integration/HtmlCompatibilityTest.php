@@ -26,6 +26,7 @@ final class HtmlCompatibilityTest extends EmailTestCase
         $container = new Container();
         (new CliKernelFactory($container))->create(self::context())->bootstrap();
         $emails = $container->get(EmailGenerator::class);
+
         foreach ($this->documents($emails) as $name => $document) {
             $path = __DIR__ . '/../Fixtures/html/' . $name . '.html';
             self::assertStringEqualsFile($path, $document->render());

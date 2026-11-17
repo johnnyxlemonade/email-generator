@@ -57,12 +57,14 @@ abstract class EmailTestCase extends TestCase
     {
         $document = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
+
         try {
             self::assertTrue($document->loadHTML($html));
         } finally {
             libxml_clear_errors();
             libxml_use_internal_errors($previous);
         }
+
         return new DOMXPath($document);
     }
 }

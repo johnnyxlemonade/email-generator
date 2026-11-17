@@ -72,6 +72,7 @@ final readonly class Signature implements CompositionInterface
             $this->contact->email(),
             $this->contact->phone(),
         ];
+
         foreach ($details as $value) {
             if ($value !== null) {
                 array_push($parts, "\n", $value);

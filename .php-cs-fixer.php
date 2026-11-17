@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->files()
-    ->in([__DIR__ . '/src', __DIR__ . '/tests'])
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
     ->name('*.php');
 
 return (new PhpCsFixer\Config())
@@ -15,17 +18,53 @@ return (new PhpCsFixer\Config())
         '@PER-CS2.0' => true,
         'declare_strict_types' => true,
         'strict_param' => true,
-        'array_syntax' => ['syntax' => 'short'],
+        'array_syntax' => [
+            'syntax' => 'short',
+        ],
         'single_quote' => true,
         'no_unused_imports' => true,
-        'ordered_imports' => ['sort_algorithm' => 'alpha', 'imports_order' => ['class', 'function', 'const']],
-        'trailing_comma_in_multiline' => ['elements' => ['arguments', 'arrays', 'match', 'parameters']],
-        'binary_operator_spaces' => ['default' => 'single_space'],
-        'concat_space' => ['spacing' => 'one'],
+        'ordered_imports' => [
+            'sort_algorithm' => 'alpha',
+            'imports_order' => [
+                'class',
+                'function',
+                'const',
+            ],
+        ],
+        'trailing_comma_in_multiline' => [
+            'elements' => [
+                'arguments',
+                'arrays',
+                'match',
+                'parameters',
+            ],
+        ],
+        'binary_operator_spaces' => [
+            'default' => 'single_space',
+        ],
+        'concat_space' => [
+            'spacing' => 'one',
+        ],
         'blank_line_after_opening_tag' => true,
         'blank_line_after_namespace' => true,
-        'class_attributes_separation' => ['elements' => ['method' => 'one']],
+        'blank_line_before_statement' => [
+            'statements' => [
+                'return',
+                'throw',
+                'try',
+                'foreach',
+                'for',
+                'while',
+            ],
+        ],
+        'class_attributes_separation' => [
+            'elements' => [
+                'method' => 'one',
+            ],
+        ],
         'single_blank_line_at_eof' => true,
         'no_extra_blank_lines' => true,
-        'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
+        'no_superfluous_phpdoc_tags' => [
+            'allow_mixed' => true,
+        ],
     ]);

@@ -92,6 +92,7 @@ final class ImmutableDocumentTest extends EmailTestCase
     private static function snapshotText(Document $document): string
     {
         $component = $document->components()[0];
+
         while ($component instanceof Group) {
             $component = $component->children()[0];
         }
