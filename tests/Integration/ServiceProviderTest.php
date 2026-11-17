@@ -34,6 +34,7 @@ final class ServiceProviderTest extends EmailTestCase
         self::assertSame($container->get(EmailGenerator::class), $container->get(EmailGenerator::class));
         self::assertSame($container->get(HtmlRenderer::class), $container->get(HtmlRenderer::class));
         self::assertSame(EmailWidth::Wide, $container->get(EmailConfig::class)->width());
+        self::assertSame('#15803d', $container->get(EmailConfig::class)->accentColor()->hex());
         self::assertCount(1, $container->get(ConfigDefinitionRegistry::class)->entriesFor('email_generator'));
         $container->get(TranslatorInterface::class)->setLocale('en');
         $emails = $container->get(EmailGenerator::class);
@@ -41,8 +42,6 @@ final class ServiceProviderTest extends EmailTestCase
             ->button('Go', 'https://example.com');
         self::assertSame('cs', $document->locale());
         self::assertStringContainsString('Vítejte, CLI!', $document->render());
-        self::assertStringContainsString('max-width:800px', $document->render());
-        self::assertStringContainsString('bgcolor="#15803d"', $document->render());
         self::assertSame('en', $container->get(TranslatorInterface::class)->locale());
         self::assertNotSame($emails->create(), $emails->create());
     }

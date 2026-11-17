@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Composition;
 
+use Lemonade\EmailGenerator\Component\ButtonGroup;
 use Lemonade\EmailGenerator\Component\Columns;
 use Lemonade\EmailGenerator\Component\Group;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
@@ -68,6 +69,18 @@ final class ComponentExpander
                     first: self::expandBranch($component->first(), [...$ancestors, $component], $visited),
                     second: self::expandBranch($component->second(), [...$ancestors, $component], $visited),
                     gap: $component->gap(),
+                );
+                continue;
+            }
+            if ($component instanceof ButtonGroup) {
+                $visited += count($component->buttons());
+                if ($visited > 10000) {
+                    throw new CompositionException(ErrorCode::CompositionSizeExceeded, 'A composition expansion may contain at most 10000 nodes.');
+                }
+                $result[] = new ButtonGroup(
+                    buttons: $component->buttons(),
+                    gap: $component->gap(),
+                    alignment: $component->alignment(),
                 );
                 continue;
             }

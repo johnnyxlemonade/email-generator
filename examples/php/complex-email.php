@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Examples;
 
+use Lemonade\EmailGenerator\Component\AddressBlock;
 use Lemonade\EmailGenerator\Component\Badge;
 use Lemonade\EmailGenerator\Component\BulletList;
 use Lemonade\EmailGenerator\Component\Columns;
@@ -12,6 +13,7 @@ use Lemonade\EmailGenerator\Component\Heading;
 use Lemonade\EmailGenerator\Component\Image;
 use Lemonade\EmailGenerator\Component\KeyValue;
 use Lemonade\EmailGenerator\Component\Quote;
+use Lemonade\EmailGenerator\Component\Signature;
 use Lemonade\EmailGenerator\Component\Text;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Contract\CompositionInterface;
@@ -20,17 +22,10 @@ use Lemonade\EmailGenerator\Enum\BadgeVariant;
 use Lemonade\EmailGenerator\Enum\TextStyle;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
+use Lemonade\EmailGenerator\ValueObject\Address;
 use Lemonade\EmailGenerator\ValueObject\Color;
+use Lemonade\EmailGenerator\ValueObject\Contact;
 use Lemonade\EmailGenerator\ValueObject\Translation;
-use Lemonade\Framework\Container\Container;
-use Lemonade\Framework\Core\CliKernelFactory;
-use Lemonade\Framework\Core\Context\ApplicationContext;
-use Lemonade\Framework\Core\Context\DebugMode;
-use Lemonade\Framework\Core\Context\Environment;
-use Lemonade\Framework\Core\Context\Path;
-use RuntimeException;
-
-require dirname(__DIR__) . '/vendor/autoload.php';
 
 /**
  * Composes example-specific care instructions from existing public components
@@ -53,22 +48,8 @@ final readonly class OrderCareNote implements CompositionInterface
     }
 }
 
-// The standard example application provides EmailGenerator through framework DI.
-$container = new Container();
-$context = new ApplicationContext(
-    Environment::Testing,
-    new Path(__DIR__, __DIR__ . '/public'),
-    new DebugMode(false),
-);
-(new CliKernelFactory($container))->create($context)->bootstrap();
-$emails = $container->get(EmailGenerator::class);
+/** @var EmailGenerator $emails */
 
-// Image accepts absolute HTTP(S) URLs. Serve local preview assets or supply a hosted asset base.
-$ddevUrl = getenv('DDEV_PRIMARY_URL');
-$defaultAssetBase = is_string($ddevUrl) && $ddevUrl !== ''
-    ? rtrim($ddevUrl, '/') . '/email-generator/examples/assets/complex-email'
-    : 'http://127.0.0.1:8765/assets/complex-email';
-$assetBase = rtrim($argv[1] ?? $defaultAssetBase, '/');
 $orderNumber = 'DD-2026-10482';
 $orderUrl = 'https://example.com/orders/' . $orderNumber;
 $border = new Color('e2e8f0');
@@ -80,7 +61,7 @@ $products = [
         'variant' => 'Slonová kost · 300 ml',
         'quantity' => 2,
         'unitPrice' => 44900,
-        'image' => 'ceramic-mug.png',
+        'imageUrl' => 'https://placehold.co/352x352/png?text=Ceramic+Mug',
         'imageWidth' => 176,
         'description' => 'Ručně glazovaný hrnek s pohodlným uchem. Každý kus má jemně odlišnou kresbu a vlastní charakter.',
     ],
@@ -89,7 +70,7 @@ $products = [
         'variant' => 'Šalvějová · 50 × 70 cm',
         'quantity' => 1,
         'unitPrice' => 34900,
-        'image' => 'linen-towel.png',
+        'imageUrl' => 'https://placehold.co/416x416/png?text=Linen+Towel',
         'imageWidth' => 208,
         'description' => 'Přírodní len pro každodenní použití. Savý, odolný a příjemný na dotek — od ranní kávy až po večerní vaření.',
     ],
@@ -111,7 +92,7 @@ $document = $emails->create(
     title: new Translation('order.title', ['number' => $orderNumber]),
     preheader: 'Děkujeme, Kláro. Platbu jsme přijali a vaši objednávku připravujeme. Celkem ' . $money($total) . '.',
 )
-    ->image($assetBase . '/logo.png', 'Dobrý domov — logo domu', width: 44, height: 44)
+    ->image('https://placehold.co/88x88/png?text=DD', 'Dobrý domov — logo domu', width: 44, height: 44)
     ->text(new RichText(TextRun::strong('DOBRÝ DOMOV'), "\nPoctivé věci pro každý den"))
     ->divider($border)
     ->spacer(8)
@@ -161,7 +142,7 @@ foreach ($products as $product) {
     $document = $document->add(new Group(
         children: [new Columns(
             first: [new Image(
-                url: $assetBase . '/' . $product['image'],
+                url: $product['imageUrl'],
                 alt: $product['name'] . ' — ' . $product['variant'],
                 width: $product['imageWidth'],
                 height: $product['imageWidth'],
@@ -240,6 +221,13 @@ $document = $document
     ->heading('Jsme tu pro vás', level: 2)
     ->text('Máte otázku k objednávce, materiálu nebo péči? Napište nám číslo objednávky a stručně popište, s čím vám můžeme pomoci.')
     ->button('Kontaktovat podporu', 'https://example.com/contact?order=' . $orderNumber)
+    ->add(new Signature(new Contact(
+        name: 'Anna Novotná',
+        position: 'Zákaznická péče',
+        organization: 'Dobrý domov',
+        email: 'podpora@example.com',
+        phone: '+420 555 010 204',
+    )))
     ->text(new RichText(
         TextRun::link('Detail objednávky', $orderUrl),
         ' · ',
@@ -251,8 +239,16 @@ $document = $document
     ->divider($border)
     ->add(new Group(
         children: [
-            new Text(new RichText(TextRun::strong('DOBRÝ DOMOV'), "\nDobrý domov, s. r. o.\nU Zahrady 12, 602 00 Brno")),
-            new Text("podpora@example.com\n+420 555 010 204\nPo–Pá, 9:00–16:00"),
+            new AddressBlock(new Address(
+                name: 'Dobrý domov, s. r. o.',
+                street: 'U Zahrady 12',
+                city: 'Brno',
+                postalCode: '602 00',
+                country: 'Česká republika',
+                email: 'podpora@example.com',
+                phone: '+420 555 010 204',
+            )),
+            new Text('Zákaznická péče: Po–Pá, 9:00–16:00'),
             new Text(new RichText(
                 'Tento e-mail se týká objednávky ' . $orderNumber . '.',
                 "\n",
@@ -310,13 +306,4 @@ $document = $document
     ->add(new KeyValue('Referenční kód', 'DD-2026-10482-REKLAMACE-PECE-O-VYROBEK'))
     ->spacer(8);
 
-$outputDirectory = __DIR__ . '/output';
-if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0775, true) && !is_dir($outputDirectory)) {
-    throw new RuntimeException('Could not create the example output directory.');
-}
-$output = $outputDirectory . '/complex-email.html';
-if (file_put_contents($output, $document->render()) === false) {
-    throw new RuntimeException('Could not write the complex email example.');
-}
-
-echo 'Generated ' . $output . PHP_EOL;
+return $document->render();

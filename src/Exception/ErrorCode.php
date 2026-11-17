@@ -21,6 +21,11 @@ enum ErrorCode: string
     case GroupWidthInvalid = 'group.width_invalid';
     case ColumnsChildrenInvalid = 'columns.children_invalid';
     case ColumnsWidthInvalid = 'columns.width_invalid';
+    case ButtonGroupButtonsInvalid = 'button_group.buttons_invalid';
+    case StepsInvalid = 'steps.invalid';
+    case StepsCurrentInvalid = 'steps.current_invalid';
+    case StepsWidthInvalid = 'steps.width_invalid';
+    case SocialLinksInvalid = 'social_links.invalid';
     case TableInvalid = 'table.invalid';
     case ComponentUnsupported = 'component.unsupported';
     case ConfigurationUnknownOption = 'config.unknown_option';

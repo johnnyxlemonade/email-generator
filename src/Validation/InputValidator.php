@@ -27,6 +27,19 @@ final class InputValidator
     }
 
     /**
+     * Treats null and blank optional strings as absent after validating text
+     */
+    public static function optionalText(?string $value): ?string
+    {
+        if ($value === null || trim($value) === '') {
+            return null;
+        }
+        self::text($value);
+
+        return $value;
+    }
+
+    /**
      * Validates text while accepting already validated rich text
      */
     public static function content(string|Translation|RichText $value): void

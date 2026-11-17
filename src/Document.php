@@ -7,6 +7,7 @@ namespace Lemonade\EmailGenerator;
 use Lemonade\EmailGenerator\Component\{BulletList, Button, Divider, Group, Heading, Image, Spacer, Table, Text};
 use Lemonade\EmailGenerator\Composition\ComponentExpander;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
+use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Enum\Direction;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Text\RichText;
@@ -100,9 +101,9 @@ final readonly class Document
     /**
      * Returns a new document with a button appended
      */
-    public function button(string|Translation $label, string $url): self
+    public function button(string|Translation $label, string $url, ButtonVariant $variant = ButtonVariant::Primary): self
     {
-        return $this->add(new Button($label, $url));
+        return $this->add(new Button($label, $url, $variant));
     }
 
     /**

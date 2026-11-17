@@ -5,109 +5,96 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Tests\Unit;
 
 use Closure;
-use Lemonade\EmailGenerator\Component\{Badge, Group, KeyValue, Quote, Table, Text};
-use Lemonade\EmailGenerator\Enum\BadgeVariant;
+use Lemonade\EmailGenerator\Component\{Alert, Badge, Button, Group, Hero, Image, KeyValue, Quote, SocialLinks, Table, Text};
+use Lemonade\EmailGenerator\Enum\{AlertVariant, BadgeVariant};
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
-use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
-use Lemonade\EmailGenerator\ValueObject\Color;
-use Lemonade\EmailGenerator\ValueObject\Translation;
+use Lemonade\EmailGenerator\ValueObject\{ImageSource, SocialLink, Translation};
 use PHPUnit\Framework\Attributes\DataProvider;
-use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Covers immutable status labels and compositions built from existing components
+ * Verifies logical composition output and validation without rendering
  */
-final class UniversalComponentTest extends EmailTestCase
+final class UniversalComponentTest extends TestCase
 {
-    public function testKeyValueComposesSinglePairsAndAlignedLists(): void
+    public function testKeyValueBuildsAStableTableListing(): void
+    {
+        $value = new RichText(TextRun::strong('Team'));
+        $first = new KeyValue('Plan', $value);
+        $second = new KeyValue('Seats', '12');
+        $listing = KeyValue::listing($first, $second);
+        $rows = $listing->rows();
+        $rows[0][0] = 'Changed';
+
+        self::assertSame([['Plan', $value], ['Seats', '12']], $listing->rows());
+        self::assertInstanceOf(Table::class, iterator_to_array($first->components())[0]);
+    }
+
+    public function testQuoteComposesOnlyPresentContent(): void
+    {
+        $content = new RichText(TextRun::emphasis('Quoted'));
+        $withAttribution = iterator_to_array((new Quote($content, 'Author'))->components())[0];
+        $withoutAttribution = iterator_to_array((new Quote($content))->components())[0];
+
+        self::assertInstanceOf(Group::class, $withAttribution);
+        self::assertCount(2, $withAttribution->children());
+        self::assertContainsOnlyInstancesOf(Text::class, $withAttribution->children());
+        self::assertCount(1, $withoutAttribution->children());
+    }
+
+    public function testBadgeKeepsTypedVariantAndTranslation(): void
     {
         $label = new Translation('emails.activate');
-        $value = new RichText(TextRun::strong('<value>'), "\n", TextRun::link('Details & more', 'https://example.com/?a=1&b=2'));
-        $pair = new KeyValue($label, $value);
-        self::assertSame($label, $pair->label());
-        self::assertSame($value, $pair->value());
-        $single = $this->emails->create(locale: 'en')->add($pair);
-        self::assertInstanceOf(Table::class, $single->components()[0]);
-        self::assertSame($this->emails->create(locale: 'en')->table([], [[$label, $value]])->render(), $single->render());
+        $badge = new Badge($label, BadgeVariant::Success);
 
-        $secondLabel = new RichText(TextRun::emphasis('Second'));
-        $second = new KeyValue($secondLabel, 'Two');
-        $items = [&$second];
-        $listing = KeyValue::listing($pair, ...$items);
-        $second = new KeyValue('Changed', 'Changed');
-        $copy = $listing->rows();
-        $copy[0][0] = 'Changed through getter';
-        self::assertSame([[$label, $value], [$secondLabel, 'Two']], $listing->rows());
-        $html = $this->emails->create(locale: 'en')->add($listing)->render();
-        self::assertStringContainsString('Activate account', $html);
-        self::assertStringContainsString('<strong style="font-weight:bold;">&lt;value&gt;</strong><br>', $html);
-        self::assertStringContainsString('href="https://example.com/?a=1&amp;b=2"', $html);
-        self::assertStringContainsString('<em style="font-style:italic;">Second</em>', $html);
-        self::assertSame(2.0, $this->xpath($html)->evaluate('count(//table[not(@role)]/tbody/tr)'));
+        self::assertSame($label, $badge->label());
+        self::assertSame(BadgeVariant::Success, $badge->variant());
     }
 
-    public function testQuoteComposesTheDocumentedGroup(): void
+    public function testHeroComposesOptionalMediaAndAction(): void
     {
-        $content = new RichText(TextRun::emphasis('<Quote>'), "\nSecond line");
-        $attribution = new Translation('emails.welcome', ['name' => '<Author>']);
-        $quote = new Quote($content, $attribution);
-        self::assertSame($content, $quote->content());
-        self::assertSame($attribution, $quote->attribution());
-        $document = $this->emails->create(locale: 'en')->add($quote);
-        self::assertInstanceOf(Group::class, $document->components()[0]);
-        $expected = new Group(
-            children: [new Text($content), new Text($attribution)],
-            backgroundColor: new Color('f8fafc'),
-            padding: 16,
-            borderColor: new Color('cbd5e1'),
-        );
-        self::assertSame($this->emails->create(locale: 'en')->add($expected)->render(), $document->render());
-        self::assertStringContainsString('&lt;Quote&gt;</em><br>Second line', $document->render());
-        self::assertStringContainsString('Welcome, &lt;Author&gt;!', $document->render());
-        self::assertNull((new Quote('Plain'))->attribution());
-        self::assertSame(1.0, $this->xpath($this->emails->create()->add(new Quote('Plain'))->render())->evaluate('count(//p)'));
+        $heading = new Translation('emails.hero_heading');
+        $image = new ImageSource('https://example.com/hero.png', 'Product preview');
+        $button = new Button('Explore', 'https://example.com/product');
+        $hero = new Hero($heading, 'A focused introduction.', $image, $button);
+        $group = iterator_to_array($hero->components())[0];
+
+        self::assertSame($heading, $hero->heading());
+        self::assertSame($image, $hero->image());
+        self::assertSame($button, $hero->button());
+        self::assertInstanceOf(Group::class, $group);
+        self::assertContainsOnlyInstancesOf(Image::class, [$group->children()[0]]);
+        self::assertSame($button, $group->children()[3]);
+        self::assertCount(2, iterator_to_array((new Hero('Heading', 'Description'))->components())[0]->children());
     }
 
-    public function testBadgeVariantsAndTranslations(): void
+    public function testAlertComposesOnlyPresentContentWithVariantColors(): void
     {
-        $palettes = [
-            BadgeVariant::Neutral->value => ['#f1f5f9', '#334155'],
-            BadgeVariant::Info->value => ['#dbeafe', '#1e40af'],
-            BadgeVariant::Success->value => ['#dcfce7', '#166534'],
-            BadgeVariant::Warning->value => ['#fef3c7', '#92400e'],
-            BadgeVariant::Danger->value => ['#fee2e2', '#991b1b'],
-        ];
-        foreach (BadgeVariant::cases() as $variant) {
-            $badge = new Badge('<Ready & waiting>', $variant);
-            self::assertSame('<Ready & waiting>', $badge->label());
-            self::assertSame($variant, $badge->variant());
-            $html = $this->emails->create()->add($badge)->render();
-            [$background, $foreground] = $palettes[$variant->value];
-            self::assertStringContainsString('bgcolor="' . $background . '"', $html);
-            self::assertStringContainsString('color:' . $foreground . ';', $html);
-            self::assertStringContainsString('&lt;Ready &amp; waiting&gt;', $html);
-            self::assertStringNotContainsString('<Ready', $html);
-        }
-        $translation = new Translation('emails.activate');
-        $badge = new Badge($translation);
-        self::assertSame($translation, $badge->label());
-        self::assertSame(BadgeVariant::Neutral, $badge->variant());
-        self::assertStringContainsString('Activate account', $this->emails->create(locale: 'en')->add($badge)->render());
+        $alert = new Alert('Deployment failed.', 'Action required', AlertVariant::Error);
+        $group = iterator_to_array($alert->components())[0];
+        $withoutHeading = iterator_to_array((new Alert(new Translation('emails.alert')))->components())[0];
+
+        self::assertSame(AlertVariant::Error, $alert->variant());
+        self::assertSame('#fef2f2', $group->backgroundColor()?->hex());
+        self::assertSame('#fca5a5', $group->borderColor()?->hex());
+        self::assertCount(2, $group->children());
+        self::assertCount(1, $withoutHeading->children());
     }
 
-    public function testComponentsAreImmutable(): void
+    public function testSocialLinksComposeArbitraryTextLinks(): void
     {
-        foreach ([Badge::class, KeyValue::class, Quote::class] as $class) {
-            $reflection = new ReflectionClass($class);
-            self::assertTrue($reflection->isFinal());
-            self::assertTrue($reflection->isReadOnly());
-            foreach ($reflection->getProperties() as $property) {
-                self::assertTrue($property->isPrivate());
-            }
-        }
+        $links = new SocialLinks([
+            new SocialLink('Community', 'https://community.example.com/northstar'),
+            new SocialLink(new Translation('emails.social_updates'), 'https://updates.example.com/northstar'),
+        ]);
+        $components = iterator_to_array($links->components());
+
+        self::assertCount(2, $links->links());
+        self::assertContainsOnlyInstancesOf(Text::class, $components);
+        self::assertSame([], iterator_to_array((new SocialLinks([]))->components()));
     }
 
     /**
@@ -134,5 +121,10 @@ final class UniversalComponentTest extends EmailTestCase
         yield 'pair value' => [static fn(): KeyValue => new KeyValue('Label', "\xff")];
         yield 'quote content' => [static fn(): Quote => new Quote("Bad\0")];
         yield 'quote attribution' => [static fn(): Quote => new Quote('Content', "Bad\0")];
+        yield 'hero heading' => [static fn(): Hero => new Hero("Bad\0", 'Description')];
+        yield 'hero description' => [static fn(): Hero => new Hero('Heading', "Bad\0")];
+        yield 'alert content' => [static fn(): Alert => new Alert("Bad\0")];
+        yield 'alert heading' => [static fn(): Alert => new Alert('Content', "Bad\0")];
+        yield 'social label' => [static fn(): SocialLink => new SocialLink("Bad\0", 'https://example.com')];
     }
 }

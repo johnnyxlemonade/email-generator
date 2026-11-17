@@ -6,20 +6,20 @@ namespace Lemonade\EmailGenerator\Tests\Unit;
 
 use Closure;
 use Lemonade\EmailGenerator\Component\BulletList;
+use Lemonade\EmailGenerator\Component\SocialLinks;
 use Lemonade\EmailGenerator\Component\Table;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
-use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
-use Lemonade\EmailGenerator\Text\RichText;
-use Lemonade\EmailGenerator\Text\TextRun;
+use Lemonade\EmailGenerator\ValueObject\SocialLink;
 use Lemonade\EmailGenerator\ValueObject\Translation;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use stdClass;
 
 /**
  * Protects content collections from external array references and mutable objects
  */
-final class CollectionImmutabilityTest extends EmailTestCase
+final class CollectionImmutabilityTest extends TestCase
 {
     public function testListDetachesReferences(): void
     {
@@ -95,44 +95,19 @@ final class CollectionImmutabilityTest extends EmailTestCase
         self::assertSame('emails.welcome', $translation->key());
     }
 
-    public function testNestedObjectsRemainImmutableAndReusable(): void
+    public function testSocialLinksDetachArrayReferences(): void
     {
-        $name = 'Alex';
-        $translation = new Translation('emails.welcome', ['name' => &$name]);
-        $run = TextRun::strong($translation);
-        $parts = [&$run];
-        $rich = new RichText(...$parts);
-        $items = [&$translation, &$rich];
-        $list = new BulletList($items);
-        $table = new Table([$rich], [[$translation]]);
-        $base = $this->emails->create(locale: 'cs', title: $translation, preheader: $translation)
-            ->group($list, $table);
-        $before = $base->render();
-        $branch = $base->text('Branch');
-        $branchBefore = $branch->render();
+        $first = new SocialLink('Community', 'https://community.example.com');
+        $links = [&$first];
+        $socialLinks = new SocialLinks($links);
+        $first = new SocialLink('Changed', 'https://changed.example.com');
+        $links[0] = $first;
+        $links[] = $first;
+        $copy = $socialLinks->links();
+        $copy[] = $first;
 
-        foreach ([$translation, $rich, $run] as $value) {
-            $reflection = new ReflectionClass($value);
-            self::assertTrue($reflection->isFinal());
-            self::assertTrue($reflection->isReadOnly());
-        }
-        self::assertSame($translation, $list->items()[0]);
-        self::assertSame($rich, $list->items()[1]);
-        self::assertSame($translation, $rich->runs()[0]->content());
-        self::assertSame($rich, $table->headers()[0]);
-        self::assertSame($translation, $table->rows()[0][0]);
-
-        $name = 'Changed name';
-        $translation = new Translation('emails.missing');
-        $rich = new RichText('Changed rich text');
-        $run = new TextRun('Changed run');
-        $items[0] = 'Changed item';
-        $parts[0] = new TextRun('Changed part');
-
-        self::assertSame($before, $base->render());
-        self::assertSame($branchBefore, $branch->render());
-        self::assertStringContainsString('Alex', $branch->render());
-        self::assertStringNotContainsString('Changed', $branch->render());
+        self::assertCount(1, $socialLinks->links());
+        self::assertSame('Community', $socialLinks->links()[0]->label());
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Component;
 
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
+use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Validation\InputValidator;
 use Lemonade\EmailGenerator\ValueObject\Translation;
 
@@ -16,8 +17,11 @@ final readonly class Button implements ComponentInterface
     /**
      * Validates the button label and absolute HTTP link
      */
-    public function __construct(private string|Translation $label, private string $url)
-    {
+    public function __construct(
+        private string|Translation $label,
+        private string $url,
+        private ButtonVariant $variant = ButtonVariant::Primary,
+    ) {
         InputValidator::text($label);
         InputValidator::url($url);
     }
@@ -36,5 +40,13 @@ final readonly class Button implements ComponentInterface
     public function url(): string
     {
         return $this->url;
+    }
+
+    /**
+     * Returns the predefined visual emphasis
+     */
+    public function variant(): ButtonVariant
+    {
+        return $this->variant;
     }
 }

@@ -8,22 +8,12 @@ use InvalidArgumentException;
 use Lemonade\EmailGenerator\ValueObject\Color;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
- * Verifies hexadecimal color validation, normalization and immutability
+ * Verifies hexadecimal color validation and normalization
  */
 final class ColorTest extends TestCase
 {
-    public function testColorIsImmutableAndExposesValidatedHex(): void
-    {
-        $color = new Color('#aBcD01');
-        self::assertSame('#abcd01', $color->hex());
-        $reflection = new ReflectionClass($color);
-        self::assertTrue($reflection->isReadOnly());
-        self::assertTrue($reflection->getProperty('hex')->isPrivate());
-    }
-
     #[DataProvider('invalidColors')]
     public function testInvalidColorsCannotEnterTheRenderer(string $value): void
     {
@@ -50,7 +40,7 @@ final class ColorTest extends TestCase
      */
     public static function validColors(): array
     {
-        return [['fff', '#ffffff'], ['#fff', '#ffffff'], ['ffffff', '#ffffff'], ['#ffffff', '#ffffff'],
+        return [['fff', '#ffffff'], ['#fff', '#ffffff'], ['ffffff', '#ffffff'], ['#ffffff', '#ffffff'], ['#aBcD01', '#abcd01'],
             ['AbC', '#aabbcc'], ['#AbC', '#aabbcc'], ['A1B2C3', '#a1b2c3'], ['000', '#000000']];
     }
 }

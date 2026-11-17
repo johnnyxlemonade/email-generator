@@ -13,6 +13,7 @@ use Lemonade\Framework\Container\ContainerInterface;
 use Lemonade\Framework\Core\Config\Definition\ConfigDefinitionRegistry;
 use Lemonade\Framework\Core\ServiceProviderInterface;
 use Lemonade\Framework\Localization\Config\LocalizationConfig;
+use Lemonade\Framework\Localization\TranslationResourceRegistry;
 use Lemonade\Framework\Localization\TranslatorInterface;
 
 /**
@@ -25,6 +26,10 @@ final class EmailServiceProvider implements ServiceProviderInterface
      */
     public function register(ContainerBuilderInterface $container): void
     {
+        $container->get(TranslationResourceRegistry::class)->register(
+            dirname(__DIR__) . '/resources/Language',
+            self::class,
+        );
         $container->singleton(EmailConfigResolver::class, EmailConfigResolver::class);
         $container->singleton(EmailConfig::class, static fn(ContainerInterface $container): EmailConfig => $container
             ->get(EmailConfigResolver::class)

@@ -60,13 +60,16 @@ $html = $emails
 Every fluent method returns a new document. Retain its return value when calling
 methods separately. `title` sets the HTML document title, not a MIME subject.
 
-Built-in components include `Heading`, `Text`, `Image`, `Button`, `BulletList`,
-`Table`, `Divider`, `Spacer`, `Group`, `Columns`, `Badge`, `KeyValue` and `Quote`.
+Built-in components include `Heading`, `Text`, `Image`, `Button`, `ButtonGroup`,
+`Steps`, `BulletList`, `Table`, `Divider`, `Spacer`, `Group`, `Columns`, `Badge`,
+`KeyValue`, `Quote`, `Signature` and `AddressBlock`.
 Use `RichText` and `TextRun` for inline formatting, `Translation` for framework
 catalog entries, and `CompositionInterface` for reusable groups of components
-without renderer registration.
+without renderer registration. `Signature` accepts a `Contact` and optional
+`ImageSource`; `AddressBlock` accepts an `Address`. These immutable value objects
+own their data validation and normalization.
 
-See the [usage and API reference](docs/usage.md) for component options,
+See the [API reference](docs/api.md) for component options,
 nesting, immutable documents, configuration, localization and validation.
 
 ## Package boundaries
@@ -85,18 +88,19 @@ rendering inside Outlook or Gmail.
 
 ## Examples
 
-[generate.php](examples/generate.php) demonstrates localization, components and
-right-to-left content. [complex-email.php](examples/complex-email.php) builds a
-complete order confirmation using all built-in components and nested layouts.
+[generate.php](examples/generate.php) builds versioned previews from the matching
+readable sources in [`examples/php/`](examples/php/). They cover complete email
+scenarios plus minimal standalone examples of every current component and
+built-in composition.
 
 ```bash
 composer examples
-php examples/complex-email.php
 ```
 
-The examples include versioned PHP sources, configuration and translation catalogs.
-Generated HTML and preview images are ignored. See the
-[example guide](docs/examples.md) for image setup, output files and layout limits.
+The examples include versioned PHP sources, generated HTML previews, application
+configuration and translation catalogs. See the
+[example README](examples/README.md) for the directory layout, catalog and layout
+notes.
 
 ## Development and QA
 

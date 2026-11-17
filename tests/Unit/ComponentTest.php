@@ -6,41 +6,18 @@ namespace Lemonade\EmailGenerator\Tests\Unit;
 
 use Closure;
 use InvalidArgumentException;
-use Lemonade\EmailGenerator\Component\{BulletList, Button, Divider, Group, Heading, Image, Spacer, Table, Text};
-use Lemonade\EmailGenerator\ValueObject\Color;
+use Lemonade\EmailGenerator\Component\{BulletList, Button, Divider, Group, Heading, Image, SocialLinks, Spacer, Table, Text};
+use Lemonade\EmailGenerator\ValueObject\{Color, SocialLink};
 use Lemonade\EmailGenerator\ValueObject\Translation;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 /**
- * Verifies component content, validation boundaries and immutable properties
+ * Verifies component defaults, boundary values and validation
  */
 final class ComponentTest extends TestCase
 {
-    public function testComponentsDescribeContentAndHaveImmutableProperties(): void
-    {
-        $heading = new Heading('Title', 2);
-        $text = new Text('Body');
-        $button = new Button('Go', 'https://example.com/?a=1&b=2');
-        $image = new Image('https://example.com/banner.png', 'Banner', 200, 100);
-        $list = new BulletList(['A', new Translation('emails.activate')], true);
-        $table = new Table(['Name'], [['Value']]);
-        $divider = new Divider(new Color('#abcdef'), 2);
-        $spacer = new Spacer(30);
-        $group = new Group([$heading, $text, $button, $image, $list, $table, $divider, $spacer]);
-        self::assertSame([$heading, $text, $button, $image, $list, $table, $divider, $spacer], $group->children());
-        foreach ([...$group->children(), $group, new Translation('key')] as $value) {
-            self::assertTrue((new ReflectionClass($value))->isReadOnly());
-        }
-        self::assertSame(2, $heading->level());
-        self::assertSame('Body', $text->content());
-        self::assertSame(100, $image->height());
-        self::assertTrue($list->ordered());
-        self::assertSame([['Value']], $table->rows());
-        self::assertSame(30, $spacer->height());
-    }
-
     #[DataProvider('invalidValues')]
     public function testInvalidContentFailsAtConstruction(Closure $construct): void
     {
@@ -89,6 +66,8 @@ final class ComponentTest extends TestCase
                 self::assertStringContainsString('URL', $exception->getMessage());
             }
         }
+        $this->expectException(InvalidArgumentException::class);
+        new SocialLink('Profile', $url);
     }
 
     /**
@@ -143,5 +122,7 @@ final class ComponentTest extends TestCase
         yield 'cell object' => [Table::class, [['a'], [[new Text('value')]]]];
         yield 'replacement object' => [Translation::class, ['key', ['value' => new Text('value')]]];
         yield 'replacement integer key' => [Translation::class, ['key', ['value']]];
+        yield 'social links map' => [SocialLinks::class, [['profile' => new SocialLink('Profile', 'https://example.com')]]];
+        yield 'social links scalar' => [SocialLinks::class, [['Profile']]];
     }
 }

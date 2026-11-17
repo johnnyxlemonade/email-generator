@@ -7,6 +7,7 @@ namespace Lemonade\EmailGenerator\Tests\Support;
 use DOMDocument;
 use DOMXPath;
 use Lemonade\EmailGenerator\EmailGenerator;
+use Lemonade\EmailGenerator\EmailServiceProvider;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\Framework\Core\Context\ApplicationContext;
 use Lemonade\Framework\Core\Context\DebugMode;
@@ -15,6 +16,7 @@ use Lemonade\Framework\Core\Context\Path;
 use Lemonade\Framework\Localization\Config\LocalizationConfigDefinition;
 use Lemonade\Framework\Localization\Config\LocalizationConfigResolver;
 use Lemonade\Framework\Localization\FileTranslator;
+use Lemonade\Framework\Localization\TranslationResourceRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,7 +44,9 @@ abstract class EmailTestCase extends TestCase
         $config = (new LocalizationConfigResolver())->resolve(
             LocalizationConfigDefinition::create()->defaultLocale('cs')->fallbackLocale('en')->supportedLocales(['cs', 'en']),
         );
-        $this->translator = new FileTranslator(self::context(), $config);
+        $resources = new TranslationResourceRegistry();
+        $resources->register(dirname(__DIR__, 2) . '/resources/Language', EmailServiceProvider::class);
+        $this->translator = new FileTranslator(self::context(), $config, $resources);
         $this->emails = new EmailGenerator(new HtmlRenderer($this->translator), $config->defaultLocale);
     }
 

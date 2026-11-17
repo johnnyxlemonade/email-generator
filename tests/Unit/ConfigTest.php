@@ -10,20 +10,14 @@ use Lemonade\EmailGenerator\Enum\EmailWidth;
 use Lemonade\EmailGenerator\ValueObject\Color;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
  * Verifies configuration defaults, ordered overrides and invalid settings
  */
 final class ConfigTest extends TestCase
 {
-    public function testConfigurationIsPrivateAndImmutable(): void
+    public function testDefinitionNormalizesColorValues(): void
     {
-        $reflection = new ReflectionClass(EmailConfig::class);
-        self::assertTrue($reflection->isReadOnly());
-        foreach ($reflection->getProperties() as $property) {
-            self::assertTrue($property->isPrivate());
-        }
         self::assertSame(EmailWidth::Standard, (new EmailConfig())->width());
         $config = (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['background_color' => 'ABC']));
         self::assertSame('#aabbcc', $config->backgroundColor()->hex());

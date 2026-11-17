@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Presentation;
 
-use Lemonade\EmailGenerator\Component\{Badge, BulletList, Button, Columns, Divider, Group, Heading, Image, Spacer, Table, Text};
+use Lemonade\EmailGenerator\Component\{Badge, BulletList, Button, ButtonGroup, Columns, Divider, Group, Heading, Image, Spacer, Steps, Table, Text};
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Exception\CompositionException;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
-use Lemonade\EmailGenerator\Presentation\Renderer\{BadgeRenderer, BulletListRenderer, ButtonRenderer, ColumnsRenderer, DividerRenderer, GroupRenderer, HeadingRenderer, ImageRenderer, SpacerRenderer, TableRenderer, TextRenderer};
+use Lemonade\EmailGenerator\Presentation\Renderer\{BadgeRenderer, BulletListRenderer, ButtonGroupRenderer, ButtonRenderer, ColumnsRenderer, DividerRenderer, GroupRenderer, HeadingRenderer, ImageRenderer, SpacerRenderer, StepsRenderer, TableRenderer, TextRenderer};
 
 /**
  * Dispatches component rendering and applies shared row layout and spacing
@@ -45,6 +45,8 @@ final readonly class ComponentRenderer
             Group::class => new GroupRenderer(),
             Columns::class => new ColumnsRenderer(),
             Badge::class => new BadgeRenderer(),
+            ButtonGroup::class => new ButtonGroupRenderer(),
+            Steps::class => new StepsRenderer(),
         ];
     }
 
@@ -79,6 +81,14 @@ final readonly class ComponentRenderer
         }
 
         return $rows;
+    }
+
+    /**
+     * Renders nested component content without adding a shared table row or spacing
+     */
+    public function renderContent(ComponentInterface $component, int $contentWidth): ?RenderedComponent
+    {
+        return $this->dispatch($component, $contentWidth);
     }
 
     /**
