@@ -12,9 +12,13 @@ namespace Lemonade\EmailGenerator\Presentation;
 final readonly class RenderedComponent
 {
     /**
-     * Sets content and an optional exact row height that replaces normal spacing
+     * Sets content, optional exact row height and semantic spacing after the row
      */
-    public function __construct(private string $html, private ?int $height = null) {}
+    public function __construct(
+        private string $html,
+        private ?int $height = null,
+        private int $spacingAfter = 16,
+    ) {}
 
     /**
      * Returns component HTML without a shared layout row
@@ -30,5 +34,13 @@ final readonly class RenderedComponent
     public function height(): ?int
     {
         return $this->height;
+    }
+
+    /**
+     * Returns the preferred gap after normally sized content
+     */
+    public function spacingAfter(): int
+    {
+        return $this->spacingAfter;
     }
 }

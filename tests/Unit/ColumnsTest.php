@@ -25,7 +25,7 @@ final class ColumnsTest extends TestCase
         $second = new Text('Second');
         $firstInput = [&$first];
         $secondInput = [&$second];
-        $columns = new Columns($firstInput, $secondInput, gap: 23);
+        $columns = new Columns($firstInput, $secondInput, gap: 23, firstWidth: 112, mobileFirstWidth: 72);
         $originalFirst = $first;
         $originalSecond = $second;
         $first = new Text('Changed');
@@ -36,6 +36,8 @@ final class ColumnsTest extends TestCase
         self::assertSame([$originalFirst], $columns->first());
         self::assertSame([$originalSecond], $columns->second());
         self::assertSame(23, $columns->gap());
+        self::assertSame(112, $columns->firstWidth());
+        self::assertSame(72, $columns->mobileFirstWidth());
     }
 
     public function testExpansionSnapshotsCompositionsInBothColumns(): void
@@ -103,5 +105,9 @@ final class ColumnsTest extends TestCase
         yield 'second foreign child' => [static fn(): Columns => new Columns([], ['Text']), ErrorCode::ColumnsChildrenInvalid]; // @phpstan-ignore argument.type
         yield 'negative gap' => [static fn(): Columns => new Columns([], [], -1), ErrorCode::ValueOutOfRange];
         yield 'large gap' => [static fn(): Columns => new Columns([], [], 65), ErrorCode::ValueOutOfRange];
+        yield 'zero first width' => [static fn(): Columns => new Columns([], [], firstWidth: 0), ErrorCode::ValueOutOfRange];
+        yield 'large first width' => [static fn(): Columns => new Columns([], [], firstWidth: 601), ErrorCode::ValueOutOfRange];
+        yield 'zero mobile first width' => [static fn(): Columns => new Columns([], [], mobileFirstWidth: 0), ErrorCode::ValueOutOfRange];
+        yield 'large mobile first width' => [static fn(): Columns => new Columns([], [], mobileFirstWidth: 601), ErrorCode::ValueOutOfRange];
     }
 }

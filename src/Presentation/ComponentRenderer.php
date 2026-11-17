@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Presentation;
 
-use Lemonade\EmailGenerator\Component\{Badge, BulletList, Button, ButtonGroup, Columns, Divider, Group, Heading, Image, Spacer, Steps, Table, Text};
+use Lemonade\EmailGenerator\Component\{AddressBlock, Badge, BulletList, Button, ButtonGroup, Columns, Divider, Group, Heading, Image, Spacer, Steps, Table, Text};
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Exception\CompositionException;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
-use Lemonade\EmailGenerator\Presentation\Renderer\{BadgeRenderer, BulletListRenderer, ButtonGroupRenderer, ButtonRenderer, ColumnsRenderer, DividerRenderer, GroupRenderer, HeadingRenderer, ImageRenderer, SpacerRenderer, StepsRenderer, TableRenderer, TextRenderer};
+use Lemonade\EmailGenerator\Presentation\Renderer\{AddressBlockRenderer, BadgeRenderer, BulletListRenderer, ButtonGroupRenderer, ButtonRenderer, ColumnsRenderer, DividerRenderer, GroupRenderer, HeadingRenderer, ImageRenderer, SpacerRenderer, StepsRenderer, TableRenderer, TextRenderer};
 
 /**
  * Dispatches component rendering and applies shared row layout and spacing
@@ -34,6 +34,7 @@ final readonly class ComponentRenderer
     {
         $this->contentWidth = $contentWidth ?? $context->config()->width()->value - 64;
         $this->renderers = $renderers ?? [
+            AddressBlock::class => new AddressBlockRenderer(),
             Heading::class => new HeadingRenderer(),
             Text::class => new TextRenderer(),
             Image::class => new ImageRenderer(),
@@ -116,7 +117,7 @@ final readonly class ComponentRenderer
                 . 'px;font-size:1px;line-height:' . $content->height() . 'px;mso-line-height-rule:exactly;">'
                 . $content->html() . '</td></tr>' . "\n";
         }
-        $spacing = $last ? 0 : 16;
+        $spacing = $last ? 0 : $content->spacingAfter();
 
         return '<tr><td style="padding:0 0 ' . $spacing . 'px;color:' . $this->context->config()->textColor()->hex()
             . ';font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;word-wrap:break-word;">'

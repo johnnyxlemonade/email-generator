@@ -30,6 +30,7 @@ final class UniversalComponentTest extends TestCase
         $rows[0][0] = 'Changed';
 
         self::assertSame([['Plan', $value], ['Seats', '12']], $listing->rows());
+        self::assertTrue($listing->compact());
         self::assertInstanceOf(Table::class, iterator_to_array($first->components())[0]);
     }
 

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Tests\Integration;
 
+use Lemonade\EmailGenerator\Component\Signature;
+use Lemonade\EmailGenerator\Component\Steps;
 use Lemonade\EmailGenerator\Configuration\EmailConfig;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\Direction;
 use Lemonade\EmailGenerator\Enum\EmailWidth;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
-use Lemonade\EmailGenerator\ValueObject\Translation;
+use Lemonade\EmailGenerator\ValueObject\{Contact, ImageSource, Translation};
 
 /**
  * Verifies email structure, escaping, image sizing and text direction
@@ -47,6 +49,32 @@ final class RendererTest extends EmailTestCase
         $xpath = $this->xpath($emails->create()->image('https://example.com/banner.png', '', 1000, 500)->render());
         self::assertSame('416', $xpath->evaluate('string(//img/@width)'));
         self::assertSame('208', $xpath->evaluate('string(//img/@height)'));
+    }
+
+    public function testSignatureKeepsDesktopImageWidthAndDefinesCompactMobileColumns(): void
+    {
+        $html = $this->emails->create()->add(new Signature(
+            new Contact('Maya Chen', 'Customer Success'),
+            new ImageSource('https://example.com/maya.png', 'Maya Chen'),
+        ))->render();
+        $xpath = $this->xpath($html);
+
+        self::assertSame('112', $xpath->evaluate('string(//img/@width)'));
+        self::assertStringContainsString('email-columns-mobile-first-72', $html);
+        self::assertStringContainsString('.email-column-first img{width:72px!important;', $html);
+    }
+
+    public function testStepsExposeTextStatesAndACompactMobileIndicator(): void
+    {
+        $html = $this->emails->create()->add(new Steps(['Created', 'Processing', 'Delivered'], currentStep: 2))->render();
+        $xpath = $this->xpath($html);
+
+        self::assertSame(1.0, $xpath->evaluate('count(//*[@aria-current="step"])'));
+        self::assertStringContainsString('email-step-completed', $html);
+        self::assertStringContainsString('email-step-current', $html);
+        self::assertStringContainsString('email-step-pending', $html);
+        self::assertStringContainsString('border-left:4px solid', $html);
+        self::assertStringNotContainsString('text-decoration:line-through', $html);
     }
 
     public function testRtlAndRegionalLocaleAreExplicit(): void

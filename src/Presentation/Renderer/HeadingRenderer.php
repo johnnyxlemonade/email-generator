@@ -31,10 +31,10 @@ final readonly class HeadingRenderer implements HtmlComponentRendererInterface
         ComponentRenderer $dispatcher,
         int $contentWidth,
     ): RenderedComponent {
-        $size = [1 => 28, 2 => 24, 3 => 20, 4 => 18, 5 => 16, 6 => 14][$component->level()];
+        $size = [1 => 28, 2 => 22, 3 => 18, 4 => 16, 5 => 14, 6 => 13][$component->level()];
 
         return new RenderedComponent('<h' . $component->level() . ' style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:'
             . $size . 'px;line-height:' . ($size + 8) . 'px;font-weight:bold;">'
-            . RichTextRenderer::render($component->content(), $context) . '</h' . $component->level() . '>');
+            . RichTextRenderer::render($component->content(), $context) . '</h' . $component->level() . '>', spacingAfter: 12);
     }
 }

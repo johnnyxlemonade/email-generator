@@ -133,7 +133,7 @@ return $emails->create(
     ->divider(new Color('d9f99d'), thickness: 2)
     ->add(new Group(
         children: [
-            new Heading('Keep building with Lemonade', level: 2),
+            new Heading('Keep building with Lemonade', level: 3),
             new Text(new RichText(
                 TextRun::link('Read the documentation', $documentationUrl),
                 ' · ',

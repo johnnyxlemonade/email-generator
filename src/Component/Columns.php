@@ -10,7 +10,7 @@ use Lemonade\EmailGenerator\Exception\InvalidInputException;
 use Lemonade\EmailGenerator\Validation\InputValidator;
 
 /**
- * Two equal content columns that stack on narrow screens
+ * Two content columns that stack on narrow screens
  */
 final readonly class Columns implements ComponentInterface
 {
@@ -30,9 +30,20 @@ final readonly class Columns implements ComponentInterface
      * @param list<ComponentInterface> $first
      * @param list<ComponentInterface> $second
      */
-    public function __construct(array $first, array $second, private int $gap = 16)
-    {
+    public function __construct(
+        array $first,
+        array $second,
+        private int $gap = 16,
+        private ?int $firstWidth = null,
+        private ?int $mobileFirstWidth = null,
+    ) {
         InputValidator::range($gap, 0, 64, 'Columns gap');
+        if ($firstWidth !== null) {
+            InputValidator::range($firstWidth, 1, 600, 'First column width');
+        }
+        if ($mobileFirstWidth !== null) {
+            InputValidator::range($mobileFirstWidth, 1, 600, 'Mobile first column width');
+        }
         $this->first = self::snapshot($first);
         $this->second = self::snapshot($second);
     }
@@ -63,6 +74,22 @@ final readonly class Columns implements ComponentInterface
     public function gap(): int
     {
         return $this->gap;
+    }
+
+    /**
+     * Returns the optional fixed desktop width of the first column
+     */
+    public function firstWidth(): ?int
+    {
+        return $this->firstWidth;
+    }
+
+    /**
+     * Returns the optional first-column width that keeps the mobile layout horizontal
+     */
+    public function mobileFirstWidth(): ?int
+    {
+        return $this->mobileFirstWidth;
     }
 
     /**

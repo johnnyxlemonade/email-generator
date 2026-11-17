@@ -33,6 +33,7 @@ final class DocumentLayout
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="x-apple-disable-message-reformatting">
 <title>{$title}</title>
+<style type="text/css">@media only screen and (max-width:600px){.email-content{padding:24px 20px!important;}}</style>
 <!--[if mso]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
 </head>
 <body style="margin:0;padding:0;width:100%;background-color:{$config->backgroundColor()->hex()};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
@@ -41,7 +42,7 @@ final class DocumentLayout
 <tr><td align="center" style="padding:24px 0;">
 <!--[if mso]><table role="presentation" align="center" width="{$width}" border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
 <table role="presentation" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="{$config->contentColor()->hex()}" dir="{$direction}" style="width:100%;max-width:{$width}px;background-color:{$config->contentColor()->hex()};border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
-<tr><td style="padding:32px;color:{$config->textColor()->hex()};font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;">
+<tr><td class="email-content" style="padding:32px;color:{$config->textColor()->hex()};font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;">
 <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
 {$rows}</table>
 </td></tr></table>

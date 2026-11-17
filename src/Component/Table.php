@@ -32,7 +32,7 @@ final readonly class Table implements ComponentInterface
      * @param list<string|Translation|RichText> $headers
      * @param list<list<string|Translation|RichText>> $rows
      */
-    public function __construct(array $headers, array $rows)
+    public function __construct(array $headers, array $rows, private bool $compact = false)
     {
         InputValidator::textList($headers);
         if (!array_is_list($rows) || ($headers === [] && $rows === [])) {
@@ -81,5 +81,13 @@ final readonly class Table implements ComponentInterface
     public function rows(): array
     {
         return $this->rows;
+    }
+
+    /**
+     * Returns whether the table uses a compact label-value presentation
+     */
+    public function compact(): bool
+    {
+        return $this->compact;
     }
 }

@@ -31,6 +31,9 @@ final readonly class TableRenderer implements HtmlComponentRendererInterface
         ComponentRenderer $dispatcher,
         int $contentWidth,
     ): RenderedComponent {
+        if ($component->compact()) {
+            return $this->renderCompact($component, $context);
+        }
         $style = 'padding:10px;border:1px solid #e2e8f0;color:' . $context->config()->textColor()->hex()
             . ';font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;';
         $html = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;table-layout:fixed;mso-table-lspace:0pt;mso-table-rspace:0pt;">';
@@ -50,6 +53,26 @@ final readonly class TableRenderer implements HtmlComponentRendererInterface
             $html .= '</tr>';
         }
 
-        return new RenderedComponent($html . '</tbody></table>');
+        return new RenderedComponent($html . '</tbody></table>', spacingAfter: 24);
+    }
+
+    /**
+     * Renders label-value rows without the visual weight of a data grid
+     */
+    private function renderCompact(Table $component, RenderContext $context): RenderedComponent
+    {
+        $html = '<table class="email-key-value" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;table-layout:fixed;mso-table-lspace:0pt;mso-table-rspace:0pt;"><tbody>';
+        $lastIndex = count($component->rows()) - 1;
+        foreach ($component->rows() as $index => $row) {
+            $border = $index === $lastIndex ? '' : 'border-bottom:1px solid #e2e8f0;';
+            $html .= '<tr><td width="38%" valign="top" style="width:38%;padding:8px 12px 8px 0;' . $border
+                . 'color:#64748b;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
+                . RichTextRenderer::render($row[0], $context) . '</td>'
+                . '<td valign="top" style="padding:8px 0 8px 12px;' . $border . 'color:' . $context->config()->textColor()->hex()
+                . ';font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
+                . RichTextRenderer::render($row[1], $context) . '</td></tr>';
+        }
+
+        return new RenderedComponent($html . '</tbody></table>', spacingAfter: 24);
     }
 }

@@ -53,6 +53,6 @@ final readonly class GroupRenderer implements HtmlComponentRendererInterface
         return new RenderedComponent('<table class="email-group" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
             . '<tr><td' . $background . ' style="' . $style . '">'
             . '<table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
-            . $rows . '</table></td></tr></table>');
+            . $rows . '</table></td></tr></table>', spacingAfter: 24);
     }
 }

@@ -34,6 +34,6 @@ final readonly class DividerRenderer implements HtmlComponentRendererInterface
         return new RenderedComponent('<table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
             . '<tr><td height="' . $component->thickness() . '" bgcolor="' . $component->color()->hex() . '" aria-hidden="true" style="height:'
             . $component->thickness() . 'px;background-color:' . $component->color()->hex() . ';font-size:1px;line-height:'
-            . $component->thickness() . 'px;mso-line-height-rule:exactly;">&nbsp;</td></tr></table>');
+            . $component->thickness() . 'px;mso-line-height-rule:exactly;">&nbsp;</td></tr></table>', spacingAfter: 20);
     }
 }

@@ -69,6 +69,8 @@ final class ComponentExpander
                     first: self::expandBranch($component->first(), [...$ancestors, $component], $visited),
                     second: self::expandBranch($component->second(), [...$ancestors, $component], $visited),
                     gap: $component->gap(),
+                    firstWidth: $component->firstWidth(),
+                    mobileFirstWidth: $component->mobileFirstWidth(),
                 );
                 continue;
             }

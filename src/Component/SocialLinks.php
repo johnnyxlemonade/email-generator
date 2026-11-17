@@ -64,7 +64,7 @@ final readonly class SocialLinks implements CompositionInterface
         $parts = [];
         foreach ($this->links as $index => $link) {
             if ($index > 0) {
-                $parts[] = ' · ';
+                $parts[] = "\u{00A0}· ";
             }
             $parts[] = TextRun::link($link->label(), $link->url());
         }

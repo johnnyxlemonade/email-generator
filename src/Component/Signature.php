@@ -54,6 +54,8 @@ final readonly class Signature implements CompositionInterface
             first: [new Image($this->image->url(), $this->image->alt(), width: 112)],
             second: [$details],
             gap: 16,
+            firstWidth: 112,
+            mobileFirstWidth: 72,
         );
     }
 

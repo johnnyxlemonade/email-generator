@@ -81,7 +81,7 @@ final readonly class Hero implements CompositionInterface
         yield new Group(
             children: $children,
             backgroundColor: new Color('f8fafc'),
-            padding: 32,
+            padding: 24,
             borderColor: new Color('e2e8f0'),
         );
     }

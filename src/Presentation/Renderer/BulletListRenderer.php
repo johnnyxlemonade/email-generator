@@ -40,6 +40,6 @@ final readonly class BulletListRenderer implements HtmlComponentRendererInterfac
             $html .= '<li style="margin:0;padding:0 0 4px;">' . RichTextRenderer::render($item, $context) . '</li>';
         }
 
-        return new RenderedComponent($html . '</' . $tag . '>');
+        return new RenderedComponent($html . '</' . $tag . '>', spacingAfter: 20);
     }
 }

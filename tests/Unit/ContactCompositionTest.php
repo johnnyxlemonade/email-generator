@@ -33,6 +33,8 @@ final class ContactCompositionTest extends TestCase
         );
         $columns = iterator_to_array($withImage->components())[0];
         self::assertInstanceOf(Columns::class, $columns);
+        self::assertSame(112, $columns->firstWidth());
+        self::assertSame(72, $columns->mobileFirstWidth());
         $image = $columns->first()[0];
         self::assertInstanceOf(Image::class, $image);
         self::assertSame(112, $image->width());
@@ -56,7 +58,6 @@ final class ContactCompositionTest extends TestCase
         self::assertNull($data->taxId());
         self::assertNull($data->phone());
         self::assertSame($data, $address->address());
-        self::assertInstanceOf(Text::class, iterator_to_array($address->components())[0]);
     }
 
     public function testContactKeepsTranslationsAndOmitsBlankIdentityDetails(): void

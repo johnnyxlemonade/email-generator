@@ -49,6 +49,6 @@ final readonly class ButtonGroupRenderer implements HtmlComponentRendererInterfa
             . '<div class="email-button-group" style="font-size:0;line-height:0;text-align:' . $component->alignment()->value . ';">'
             . '<!--[if mso]><table role="presentation" align="' . $component->alignment()->value
             . '" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;"><tr><![endif]-->'
-            . $items . '<!--[if mso]></tr></table><![endif]--></div>');
+            . $items . '<!--[if mso]></tr></table><![endif]--></div>', spacingAfter: 24);
     }
 }

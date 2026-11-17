@@ -37,6 +37,6 @@ final readonly class ImageRenderer implements HtmlComponentRendererInterface
 
         return new RenderedComponent('<img src="' . RenderContext::escape($component->url()) . '" alt="' . $context->text($component->alt())
             . '" width="' . $width . '"' . $height
-            . ' border="0" style="display:block;width:100%;max-width:' . $width . 'px;height:auto;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">');
+            . ' border="0" style="display:block;width:100%;max-width:' . $width . 'px;height:auto;background-color:#e2e8f0;border:0;color:#64748b;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;text-align:center;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">', spacingAfter: 20);
     }
 }

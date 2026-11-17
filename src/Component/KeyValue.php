@@ -61,6 +61,6 @@ final readonly class KeyValue implements CompositionInterface
             $rows[] = [$pair->label(), $pair->value()];
         }
 
-        return new Table(headers: [], rows: $rows);
+        return new Table(headers: [], rows: $rows, compact: true);
     }
 }
