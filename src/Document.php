@@ -42,10 +42,13 @@ final readonly class Document
         InputValidator::locale($locale);
         InputValidator::text($title);
         InputValidator::text($preheader);
+
         $snapshot = [];
+
         foreach ($components as $component) {
             array_push($snapshot, ...ComponentExpander::expand([$component]));
         }
+
         $this->components = $snapshot;
     }
 
@@ -55,6 +58,7 @@ final readonly class Document
     public function add(ComponentInterface ...$components): self
     {
         $expanded = ComponentExpander::expand($components);
+
         return new self(
             renderer: $this->renderer,
             locale: $this->locale,

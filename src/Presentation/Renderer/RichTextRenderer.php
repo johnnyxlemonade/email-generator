@@ -24,6 +24,7 @@ final readonly class RichTextRenderer
     {
         if ($value instanceof RichText) {
             $html = '';
+
             foreach ($value->runs() as $run) {
                 $html .= self::run($run, $context);
             }
@@ -46,6 +47,7 @@ final readonly class RichTextRenderer
             TextStyle::Emphasis => '<em style="font-style:italic;">' . $content . '</em>',
             TextStyle::StrongEmphasis => '<strong style="font-weight:bold;"><em style="font-style:italic;">' . $content . '</em></strong>',
         };
+
         if ($run->url() !== null) {
             return '<a href="' . RenderContext::escape($run->url()) . '" style="color:' . $context->config()->accentColor()->hex()
                 . ';text-decoration:underline;">' . $content . '</a>';

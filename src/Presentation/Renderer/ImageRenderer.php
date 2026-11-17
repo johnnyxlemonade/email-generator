@@ -33,11 +33,16 @@ final readonly class ImageRenderer implements HtmlComponentRendererInterface
     ): RenderedComponent {
         // Clamp to the shell's inner width, including proportional HTML dimensions for Outlook.
         $width = min($component->width(), $contentWidth);
-        $height = $component->height() === null ? '' : ' height="' . max(1, (int) round($component->height() * $width / $component->width())) . '"';
+        $height = $component->height() === null
+            ? ''
+            : ' height="' . max(1, (int) round($component->height() * $width / $component->width())) . '"';
 
-        return new RenderedComponent('<img src="' . RenderContext::escape($component->url()) . '" alt="' . $context->text($component->alt())
+        $html = '<img src="' . RenderContext::escape($component->url()) . '" alt="' . $context->text($component->alt())
             . '" width="' . $width . '"' . $height
             . ' border="0" style="display:block;width:100%;max-width:' . $width . 'px;height:auto;background-color:#e2e8f0;border:0;color:#64748b;font-family:'
-            . $context->config()->fontFamily()->css() . ';font-size:14px;line-height:20px;text-align:center;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">', spacingAfter: 20);
+            . $context->config()->fontFamily()->css()
+            . ';font-size:14px;line-height:20px;text-align:center;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">';
+
+        return new RenderedComponent($html, spacingAfter: 20);
     }
 }

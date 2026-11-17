@@ -40,9 +40,13 @@ final readonly class BadgeRenderer implements HtmlComponentRendererInterface
             BadgeVariant::Danger => ['#fee2e2', '#991b1b'],
         };
 
-        return new RenderedComponent('<table class="email-badge" role="presentation" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
+        $html = '<table class="email-badge" role="presentation" border="0" cellpadding="0" cellspacing="0" '
+            . 'style="max-width:100%;border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
             . '<tr><td bgcolor="' . $background . '" style="padding:4px 8px;border-radius:4px;background-color:' . $background
-            . ';color:' . $foreground . ';font-family:' . $context->config()->fontFamily()->css() . ';font-size:12px;font-weight:bold;line-height:18px;word-wrap:break-word;">'
-            . $context->text($component->label()) . '</td></tr></table>', spacingAfter: 12);
+            . ';color:' . $foreground . ';font-family:' . $context->config()->fontFamily()->css()
+            . ';font-size:12px;font-weight:bold;line-height:18px;word-wrap:break-word;">'
+            . $context->text($component->label()) . '</td></tr></table>';
+
+        return new RenderedComponent($html, spacingAfter: 12);
     }
 }

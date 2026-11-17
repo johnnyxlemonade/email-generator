@@ -34,8 +34,10 @@ final readonly class BulletListRenderer implements HtmlComponentRendererInterfac
         if ($component->items() === []) {
             return new RenderedComponent('');
         }
+
         $tag = $component->ordered() ? 'ol' : 'ul';
         $html = '<' . $tag . ' style="margin:0;padding:0 24px;">';
+
         foreach ($component->items() as $item) {
             $html .= '<li style="margin:0;padding:0 0 4px;">' . RichTextRenderer::render($item, $context) . '</li>';
         }

@@ -37,23 +37,43 @@ final readonly class Steps implements ComponentInterface
         if (!array_is_list($steps) || $steps === []) {
             throw new InvalidInputException(ErrorCode::StepsInvalid, 'Steps must be a non-empty list of names.');
         }
+
         $snapshot = [];
+
         foreach ($steps as $step) {
             if (!is_string($step) && !$step instanceof Translation) {
-                throw new InvalidInputException(ErrorCode::StepsInvalid, 'Step names must be strings or Translation objects.');
+                throw new InvalidInputException(
+                    ErrorCode::StepsInvalid,
+                    'Step names must be strings or Translation objects.',
+                );
             }
+
             InputValidator::text($step);
+
             $snapshot[] = $step;
         }
-        if ($progress === StepsProgress::InProgress && ($currentStep === null || $currentStep < 1 || $currentStep > count($snapshot))) {
-            throw new InvalidInputException(ErrorCode::StepsCurrentInvalid, 'An in-progress process requires a one-based current position in the steps list.');
+
+        if (
+            $progress === StepsProgress::InProgress
+            && ($currentStep === null || $currentStep < 1 || $currentStep > count($snapshot))
+        ) {
+            throw new InvalidInputException(
+                ErrorCode::StepsCurrentInvalid,
+                'An in-progress process requires a one-based current position in the steps list.',
+            );
         }
+
         if ($progress !== StepsProgress::InProgress && $currentStep !== null) {
-            throw new InvalidInputException(ErrorCode::StepsCurrentInvalid, 'A process that has not started or is complete cannot have a current step.');
+            throw new InvalidInputException(
+                ErrorCode::StepsCurrentInvalid,
+                'A process that has not started or is complete cannot have a current step.',
+            );
         }
+
         InputValidator::text($completedLabel);
         InputValidator::text($currentLabel);
         InputValidator::text($pendingLabel);
+
         $this->steps = $snapshot;
     }
 

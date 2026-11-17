@@ -4,12 +4,42 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Presentation;
 
-use Lemonade\EmailGenerator\Component\{AddressBlock, Badge, BulletList, Button, ButtonGroup, Columns, Divider, Group, Heading, Image, Spacer, Steps, Table, Text};
+use Lemonade\EmailGenerator\Component\{
+    AddressBlock,
+    Badge,
+    BulletList,
+    Button,
+    ButtonGroup,
+    Columns,
+    Divider,
+    Group,
+    Heading,
+    Image,
+    Spacer,
+    Steps,
+    Table,
+    Text,
+};
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Exception\CompositionException;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
-use Lemonade\EmailGenerator\Presentation\Renderer\{AddressBlockRenderer, BadgeRenderer, BulletListRenderer, ButtonGroupRenderer, ButtonRenderer, ColumnsRenderer, DividerRenderer, GroupRenderer, HeadingRenderer, ImageRenderer, SpacerRenderer, StepsRenderer, TableRenderer, TextRenderer};
+use Lemonade\EmailGenerator\Presentation\Renderer\{
+    AddressBlockRenderer,
+    BadgeRenderer,
+    BulletListRenderer,
+    ButtonGroupRenderer,
+    ButtonRenderer,
+    ColumnsRenderer,
+    DividerRenderer,
+    GroupRenderer,
+    HeadingRenderer,
+    ImageRenderer,
+    SpacerRenderer,
+    StepsRenderer,
+    TableRenderer,
+    TextRenderer,
+};
 
 /**
  * Dispatches component rendering and applies shared row layout and spacing
@@ -30,8 +60,11 @@ final readonly class ComponentRenderer
      *
      * @param array<class-string<ComponentInterface>, HtmlComponentRendererInterface<*>>|null $renderers
      */
-    public function __construct(private RenderContext $context, ?int $contentWidth = null, ?array $renderers = null)
-    {
+    public function __construct(
+        private RenderContext $context,
+        ?int $contentWidth = null,
+        ?array $renderers = null,
+    ) {
         $this->contentWidth = $contentWidth ?? $context->config()->width()->value - 64;
         $this->renderers = $renderers ?? [
             AddressBlock::class => new AddressBlockRenderer(),
@@ -66,17 +99,24 @@ final readonly class ComponentRenderer
      *
      * @param list<ComponentInterface> $components
      */
-    public function renderComponents(array $components, ?int $contentWidth = null, bool $trimTrailingSpacing = false): string
-    {
+    public function renderComponents(
+        array $components,
+        ?int $contentWidth = null,
+        bool $trimTrailingSpacing = false,
+    ): string {
         $rendered = [];
+
         foreach ($components as $component) {
             $content = $this->dispatch($component, $contentWidth ?? $this->contentWidth);
+
             if ($content !== null) {
                 $rendered[] = $content;
             }
         }
+
         $rows = '';
         $lastIndex = count($rendered) - 1;
+
         foreach ($rendered as $index => $content) {
             $rows .= $this->row($content, $trimTrailingSpacing && $index === $lastIndex);
         }
@@ -101,6 +141,7 @@ final readonly class ComponentRenderer
             ErrorCode::ComponentUnsupported,
             'Document contains an unexpanded or unsupported component.',
         );
+
         /** @var HtmlComponentRendererInterface<ComponentInterface> $renderer */
         $renderer = $registeredRenderer;
 
@@ -117,6 +158,7 @@ final readonly class ComponentRenderer
                 . 'px;font-size:1px;line-height:' . $content->height() . 'px;mso-line-height-rule:exactly;">'
                 . $content->html() . '</td></tr>' . "\n";
         }
+
         $spacing = $last ? 0 : $content->spacingAfter();
 
         return '<tr><td style="padding:0 0 ' . $spacing . 'px;color:' . $this->context->config()->textColor()->hex()

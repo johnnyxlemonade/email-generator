@@ -38,12 +38,14 @@ final readonly class Columns implements ComponentInterface
         private ?int $mobileFirstWidth = null,
     ) {
         InputValidator::range($gap, 0, 64, 'Columns gap');
+
         if ($firstWidth !== null) {
             InputValidator::range($firstWidth, 1, 600, 'First column width');
         }
         if ($mobileFirstWidth !== null) {
             InputValidator::range($mobileFirstWidth, 1, 600, 'Mobile first column width');
         }
+
         $this->first = self::snapshot($first);
         $this->second = self::snapshot($second);
     }
@@ -103,11 +105,17 @@ final readonly class Columns implements ComponentInterface
         if (!array_is_list($children)) {
             throw new InvalidInputException(ErrorCode::ColumnsChildrenInvalid, 'Column children must be a list of components.');
         }
+
         $snapshot = [];
+
         foreach ($children as $child) {
             if (!$child instanceof ComponentInterface) {
-                throw new InvalidInputException(ErrorCode::ColumnsChildrenInvalid, 'Column children must implement ComponentInterface.');
+                throw new InvalidInputException(
+                    ErrorCode::ColumnsChildrenInvalid,
+                    'Column children must implement ComponentInterface.',
+                );
             }
+
             $snapshot[] = $child;
         }
 

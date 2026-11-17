@@ -31,16 +31,27 @@ final readonly class ButtonGroup implements ComponentInterface
         private HorizontalAlignment $alignment = HorizontalAlignment::Left,
     ) {
         InputValidator::range($gap, 0, 64, 'Button group gap');
+
         if (!array_is_list($buttons) || count($buttons) < 2) {
-            throw new InvalidInputException(ErrorCode::ButtonGroupButtonsInvalid, 'A button group requires a list of at least two buttons.');
+            throw new InvalidInputException(
+                ErrorCode::ButtonGroupButtonsInvalid,
+                'A button group requires a list of at least two buttons.',
+            );
         }
+
         $snapshot = [];
+
         foreach ($buttons as $button) {
             if (!$button instanceof Button) {
-                throw new InvalidInputException(ErrorCode::ButtonGroupButtonsInvalid, 'Button group entries must be Button components.');
+                throw new InvalidInputException(
+                    ErrorCode::ButtonGroupButtonsInvalid,
+                    'Button group entries must be Button components.',
+                );
             }
+
             $snapshot[] = $button;
         }
+
         $this->buttons = $snapshot;
     }
 

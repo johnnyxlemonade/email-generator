@@ -31,33 +31,47 @@ final class EmailConfigResolver
             'accent_color' => $defaults->accentColor(),
             'button_text_color' => $defaults->buttonTextColor(),
         ];
+
         foreach ($definitions as $definition) {
             foreach ($definition->toArray() as $key => $value) {
                 if ($key === 'width') {
                     if (!is_int($value)) {
                         throw new InvalidInputException(ErrorCode::ConfigurationInvalidType, 'Email width must be an integer.');
                     }
+
                     $width = EmailWidth::tryFrom($value)
-                        ?? throw new InvalidInputException(ErrorCode::WidthInvalid, 'Email width must be 480 (Compact), 600 (Standard) or 800 (Wide).');
+                        ?? throw new InvalidInputException(
+                            ErrorCode::WidthInvalid,
+                            'Email width must be 480 (Compact), 600 (Standard) or 800 (Wide).',
+                        );
+
                     continue;
                 }
+
                 if ($key === 'font_family') {
                     if (!is_string($value)) {
                         throw new InvalidInputException(ErrorCode::ConfigurationInvalidType, 'Email font family must be a string.');
                     }
+
                     $fontFamily = FontFamily::tryFrom($value)
                         ?? throw new InvalidInputException(
                             ErrorCode::FontFamilyInvalid,
                             'Email font family must be arial, verdana, tahoma, trebuchet, georgia, times_new_roman or courier_new.',
                         );
+
                     continue;
                 }
+
                 if (!is_string($key) || !array_key_exists($key, $colors)) {
-                    throw new InvalidInputException(ErrorCode::ConfigurationUnknownOption, 'Unknown email_generator configuration option: ' . $key);
+                    throw new InvalidInputException(
+                        ErrorCode::ConfigurationUnknownOption,
+                        'Unknown email_generator configuration option: ' . $key,
+                    );
                 }
                 if (!is_string($value)) {
                     throw new InvalidInputException(ErrorCode::ConfigurationInvalidType, 'Email colors must be strings.');
                 }
+
                 $colors[$key] = new Color($value);
             }
         }

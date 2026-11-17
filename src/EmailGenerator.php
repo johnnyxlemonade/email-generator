@@ -31,6 +31,12 @@ final readonly class EmailGenerator
         string|Translation $preheader = '',
         Direction $direction = Direction::Ltr,
     ): Document {
-        return new Document($this->renderer, $locale ?? $this->defaultLocale, $title, $preheader, $direction);
+        return new Document(
+            renderer: $this->renderer,
+            locale: $locale ?? $this->defaultLocale,
+            title: $title,
+            preheader: $preheader,
+            direction: $direction,
+        );
     }
 }

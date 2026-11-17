@@ -69,11 +69,14 @@ final readonly class Hero implements CompositionInterface
     public function components(): iterable
     {
         $children = [];
+
         if ($this->image !== null) {
             $children[] = new Image($this->image->url(), $this->image->alt());
         }
+
         $children[] = new Heading($this->heading);
         $children[] = new Text($this->description);
+
         if ($this->button !== null) {
             $children[] = $this->button;
         }

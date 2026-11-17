@@ -36,13 +36,17 @@ final readonly class GroupRenderer implements HtmlComponentRendererInterface
         if ($component->children() === []) {
             return null;
         }
+
         $width = $contentWidth - 2 * $component->padding() - ($component->borderColor() === null ? 0 : 2);
+
         if ($width < 1) {
             throw new InvalidInputException(ErrorCode::GroupWidthInvalid, 'Group padding and borders leave no room for content.');
         }
+
         $rows = $dispatcher->renderComponents($component->children(), $width, true);
         $background = $component->backgroundColor() === null ? '' : ' bgcolor="' . $component->backgroundColor()->hex() . '"';
         $style = 'padding:' . $component->padding() . 'px;';
+
         if ($component->backgroundColor() !== null) {
             $style .= 'background-color:' . $component->backgroundColor()->hex() . ';';
         }
@@ -50,9 +54,12 @@ final readonly class GroupRenderer implements HtmlComponentRendererInterface
             $style .= 'border:1px solid ' . $component->borderColor()->hex() . ';';
         }
 
-        return new RenderedComponent('<table class="email-group" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
+        $html = '<table class="email-group" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" '
+            . 'style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
             . '<tr><td' . $background . ' style="' . $style . '">'
             . '<table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">'
-            . $rows . '</table></td></tr></table>', spacingAfter: 24);
+            . $rows . '</table></td></tr></table>';
+
+        return new RenderedComponent($html, spacingAfter: 24);
     }
 }

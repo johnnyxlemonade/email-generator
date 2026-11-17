@@ -65,7 +65,14 @@ final readonly class Signature implements CompositionInterface
     private function formattedDetails(): RichText
     {
         $parts = [TextRun::strong($this->contact->name())];
-        foreach ([$this->contact->position(), $this->contact->organization(), $this->contact->email(), $this->contact->phone()] as $value) {
+
+        $details = [
+            $this->contact->position(),
+            $this->contact->organization(),
+            $this->contact->email(),
+            $this->contact->phone(),
+        ];
+        foreach ($details as $value) {
             if ($value !== null) {
                 array_push($parts, "\n", $value);
             }

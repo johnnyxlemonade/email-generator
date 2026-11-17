@@ -30,6 +30,7 @@ final readonly class Contact
         ?string $phone = null,
     ) {
         InputValidator::text($name);
+
         $this->position = self::optionalTranslatableText($position);
         $this->organization = self::optionalTranslatableText($organization);
         $this->email = InputValidator::optionalText($email);
@@ -84,6 +85,7 @@ final readonly class Contact
         if ($value === null || (is_string($value) && trim($value) === '')) {
             return null;
         }
+
         InputValidator::text($value);
 
         return $value;

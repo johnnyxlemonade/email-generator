@@ -31,13 +31,20 @@ final readonly class SocialLinks implements CompositionInterface
         if (!array_is_list($links)) {
             throw new InvalidInputException(ErrorCode::SocialLinksInvalid, 'Social links must be a list.');
         }
+
         $snapshot = [];
+
         foreach ($links as $link) {
             if (!$link instanceof SocialLink) {
-                throw new InvalidInputException(ErrorCode::SocialLinksInvalid, 'Social link entries must be SocialLink objects.');
+                throw new InvalidInputException(
+                    ErrorCode::SocialLinksInvalid,
+                    'Social link entries must be SocialLink objects.',
+                );
             }
+
             $snapshot[] = $link;
         }
+
         $this->links = $snapshot;
     }
 
@@ -61,11 +68,14 @@ final readonly class SocialLinks implements CompositionInterface
         if ($this->links === []) {
             return;
         }
+
         $parts = [];
+
         foreach ($this->links as $index => $link) {
             if ($index > 0) {
                 $parts[] = "\u{00A0}· ";
             }
+
             $parts[] = TextRun::link($link->label(), $link->url());
         }
 

@@ -27,10 +27,13 @@ final readonly class BulletList implements ComponentInterface
     public function __construct(array $items, private bool $ordered = false)
     {
         InputValidator::textList($items);
+
         $snapshot = [];
+
         foreach ($items as $item) {
             $snapshot[] = $item;
         }
+
         $this->items = $snapshot;
     }
 

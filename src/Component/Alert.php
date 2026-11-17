@@ -8,7 +8,6 @@ use Lemonade\EmailGenerator\Contract\CompositionInterface;
 use Lemonade\EmailGenerator\Enum\AlertVariant;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Validation\InputValidator;
-use Lemonade\EmailGenerator\ValueObject\Color;
 use Lemonade\EmailGenerator\ValueObject\Translation;
 
 /**
@@ -62,22 +61,19 @@ final readonly class Alert implements CompositionInterface
     public function components(): iterable
     {
         $children = [];
+
         if ($this->heading !== null) {
             $children[] = new Heading($this->heading, level: 3);
         }
         $children[] = new Text($this->content);
-        [$background, $border] = match ($this->variant) {
-            AlertVariant::Info => ['eff6ff', '93c5fd'],
-            AlertVariant::Success => ['f0fdf4', '86efac'],
-            AlertVariant::Warning => ['fffbeb', 'fcd34d'],
-            AlertVariant::Error => ['fef2f2', 'fca5a5'],
-        };
+
+        $palette = $this->variant->palette();
 
         yield new Group(
             children: $children,
-            backgroundColor: new Color($background),
+            backgroundColor: $palette->background(),
             padding: 16,
-            borderColor: new Color($border),
+            borderColor: $palette->border(),
         );
     }
 }

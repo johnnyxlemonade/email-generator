@@ -57,6 +57,7 @@ final readonly class KeyValue implements CompositionInterface
     public static function listing(self $first, self ...$rest): Table
     {
         $rows = [[$first->label(), $first->value()]];
+
         foreach ($rest as $pair) {
             $rows[] = [$pair->label(), $pair->value()];
         }

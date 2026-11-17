@@ -20,10 +20,12 @@ final readonly class Color
     public function __construct(string $hex)
     {
         $this->validate($hex);
+
         $digits = strtolower(ltrim($hex, '#'));
         if (strlen($digits) === 3) {
             $digits = $digits[0] . $digits[0] . $digits[1] . $digits[1] . $digits[2] . $digits[2];
         }
+
         $this->hex = '#' . $digits;
     }
 
@@ -41,7 +43,10 @@ final readonly class Color
     private function validate(string $hex): void
     {
         if (preg_match('/\A#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\z/', $hex) !== 1) {
-            throw new InvalidInputException(ErrorCode::ColorInvalid, 'Color must contain three or six hexadecimal digits, optionally prefixed with #.');
+            throw new InvalidInputException(
+                ErrorCode::ColorInvalid,
+                'Color must contain three or six hexadecimal digits, optionally prefixed with #.',
+            );
         }
     }
 }

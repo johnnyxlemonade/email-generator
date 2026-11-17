@@ -38,6 +38,7 @@ final readonly class Address
         InputValidator::text($city);
         InputValidator::text($postalCode);
         InputValidator::text($country);
+
         $this->companyId = InputValidator::optionalText($companyId);
         $this->taxId = InputValidator::optionalText($taxId);
         $this->email = InputValidator::optionalText($email);

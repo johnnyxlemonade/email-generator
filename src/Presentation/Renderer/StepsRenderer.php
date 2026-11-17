@@ -38,9 +38,11 @@ final readonly class StepsRenderer implements HtmlComponentRendererInterface
         if ($contentWidth < $count) {
             throw new InvalidInputException(ErrorCode::StepsWidthInvalid, 'Steps need at least one available pixel per step.');
         }
+
         $baseWidth = intdiv($contentWidth, $count);
         $remainingWidth = $contentWidth - $baseWidth * $count;
         $cells = '';
+
         foreach ($component->steps() as $index => $name) {
             $position = $index + 1;
             $state = $this->state($component, $position);
@@ -49,13 +51,17 @@ final readonly class StepsRenderer implements HtmlComponentRendererInterface
                 'current' => $component->currentLabel(),
                 'pending' => $component->pendingLabel(),
             };
+
             $width = $baseWidth + ($index === $count - 1 ? $remainingWidth : 0);
             $color = $state === 'pending' ? '#cbd5e1' : $context->config()->accentColor()->hex();
             $borderWidth = $state === 'current' ? 4 : 2;
             $current = $state === 'current' ? ' aria-current="step"' : '';
             $nameStyle = $state === 'current' ? 'font-weight:bold;' : '';
-            $stateStyle = $state === 'pending' ? 'color:#64748b;' : 'color:' . $context->config()->accentColor()->hex() . ';font-weight:bold;';
+            $stateStyle = $state === 'pending'
+                ? 'color:#64748b;'
+                : 'color:' . $context->config()->accentColor()->hex() . ';font-weight:bold;';
             $background = $state === 'current' ? 'background-color:#f8fafc;' : '';
+
             $cells .= '<td class="email-step email-step-' . $state . '" role="listitem"' . $current . ' width="' . $width
                 . '" valign="top" style="width:' . $width . 'px;padding:10px 8px 8px;border-top:' . $borderWidth . 'px solid ' . $color
                 . ';' . $background . 'font-family:' . $context->config()->fontFamily()->css() . ';font-size:14px;line-height:20px;text-align:left;vertical-align:top;">'
@@ -65,14 +71,16 @@ final readonly class StepsRenderer implements HtmlComponentRendererInterface
                 . $context->text($stateLabel) . '</span></td>';
         }
 
-        return new RenderedComponent('<style type="text/css">@media only screen and (max-width:600px){'
+        $html = '<style type="text/css">@media only screen and (max-width:600px){'
             . '.email-steps,.email-steps tbody,.email-steps tr{display:block!important;width:100%!important;}'
             . '.email-step{display:block!important;width:auto!important;margin-bottom:8px!important;padding:6px 10px!important;border-top:0!important;border-left:2px solid #cbd5e1!important;}'
             . '.email-step-completed{border-left-color:' . $context->config()->accentColor()->hex() . '!important;}'
             . '.email-step-current{border-left:4px solid ' . $context->config()->accentColor()->hex() . '!important;}'
             . '.email-step:last-child{margin-bottom:0!important;}}</style>'
             . '<table class="email-steps" role="list" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;table-layout:fixed;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;"><tr>'
-            . $cells . '</tr></table>', spacingAfter: 24);
+            . $cells . '</tr></table>';
+
+        return new RenderedComponent($html, spacingAfter: 24);
     }
 
     /**
@@ -85,9 +93,11 @@ final readonly class StepsRenderer implements HtmlComponentRendererInterface
         if ($component->progress() === StepsProgress::NotStarted) {
             return 'pending';
         }
+
         if ($component->progress() === StepsProgress::Completed) {
             return 'completed';
         }
+
         if ($position === $component->currentStep()) {
             return 'current';
         }

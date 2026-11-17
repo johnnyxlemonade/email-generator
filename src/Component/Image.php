@@ -16,11 +16,16 @@ final readonly class Image implements ComponentInterface
     /**
      * Validates the image URL, alternative text and display dimensions
      */
-    public function __construct(private string $url, private string|Translation $alt, private int $width = 536, private ?int $height = null)
-    {
+    public function __construct(
+        private string $url,
+        private string|Translation $alt,
+        private int $width = 536,
+        private ?int $height = null,
+    ) {
         InputValidator::url($url);
         InputValidator::text($alt);
         InputValidator::range($width, 1, 2000, 'Image width');
+
         if ($height !== null) {
             InputValidator::range($height, 1, 2000, 'Image height');
         }

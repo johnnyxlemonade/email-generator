@@ -22,9 +22,11 @@ final readonly class RichText
     public function __construct(string|Translation|TextRun ...$parts)
     {
         $runs = [];
+
         foreach ($parts as $part) {
             $runs[] = $part instanceof TextRun ? $part : new TextRun($part);
         }
+
         $this->runs = $runs;
     }
 

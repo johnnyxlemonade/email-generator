@@ -46,44 +46,18 @@ final readonly class Table implements ComponentInterface
         private HorizontalAlignment $alignment = HorizontalAlignment::Left,
         array $columnAlignments = [],
     ) {
-        InputValidator::textList($headers);
-        if (!array_is_list($rows) || ($headers === [] && $rows === [])) {
-            throw new InvalidInputException(ErrorCode::TableInvalid, 'Table needs headers or rows, with rows supplied as a list.');
+        $this->headers = self::snapshotHeaders($headers);
+        $this->rows = self::snapshotRows($rows, count($this->headers));
+
+        $columnCount = count($this->headers);
+        if ($columnCount === 0) {
+            $columnCount = count($this->rows[0] ?? throw new InvalidInputException(
+                ErrorCode::TableInvalid,
+                'Table needs at least one column.',
+            ));
         }
-        $columns = $headers === [] ? null : count($headers);
-        $rowSnapshot = [];
-        foreach ($rows as $row) {
-            if (!is_array($row)) {
-                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table rows must be lists of text values.');
-            }
-            InputValidator::textList($row);
-            $columns ??= count($row);
-            if ($columns === 0 || count($row) !== $columns) {
-                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table rows must be non-empty and match the column count.');
-            }
-            $cells = [];
-            foreach ($row as $cell) {
-                $cells[] = $cell;
-            }
-            $rowSnapshot[] = $cells;
-        }
-        $headerSnapshot = [];
-        foreach ($headers as $header) {
-            $headerSnapshot[] = $header;
-        }
-        if ($columns === null) {
-            throw new InvalidInputException(ErrorCode::TableInvalid, 'Table needs at least one column.');
-        }
-        $alignmentSnapshot = [];
-        foreach ($columnAlignments as $column => $alignment) {
-            if (!is_int($column) || $column < 0 || $column >= $columns || !$alignment instanceof HorizontalAlignment) {
-                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table column alignments must reference existing columns.');
-            }
-            $alignmentSnapshot[$column] = $alignment;
-        }
-        $this->headers = $headerSnapshot;
-        $this->rows = $rowSnapshot;
-        $this->columnAlignments = $alignmentSnapshot;
+
+        $this->columnAlignments = self::snapshotAlignments($columnAlignments, $columnCount);
     }
 
     /**
@@ -120,5 +94,89 @@ final readonly class Table implements ComponentInterface
     public function alignmentForColumn(int $column): HorizontalAlignment
     {
         return $this->columnAlignments[$column] ?? $this->alignment;
+    }
+
+    /**
+     * Validates and copies headers without retaining PHP references
+     *
+     * @param array<mixed> $headers
+     * @return list<string|Translation|RichText>
+     */
+    private static function snapshotHeaders(array $headers): array
+    {
+        InputValidator::textList($headers);
+
+        $snapshot = [];
+
+        foreach ($headers as $header) {
+            $snapshot[] = $header;
+        }
+
+        return $snapshot;
+    }
+
+    /**
+     * Validates rectangular rows and copies every cell without retaining PHP references
+     *
+     * @param array<mixed> $rows
+     * @return list<list<string|Translation|RichText>>
+     */
+    private static function snapshotRows(array $rows, int $headerCount): array
+    {
+        if (!array_is_list($rows) || ($headerCount === 0 && $rows === [])) {
+            throw new InvalidInputException(ErrorCode::TableInvalid, 'Table needs headers or rows, with rows supplied as a list.');
+        }
+
+        $columnCount = $headerCount === 0 ? null : $headerCount;
+        $snapshot = [];
+
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table rows must be lists of text values.');
+            }
+
+            InputValidator::textList($row);
+            $columnCount ??= count($row);
+
+            if ($columnCount === 0 || count($row) !== $columnCount) {
+                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table rows must be non-empty and match the column count.');
+            }
+
+            $cells = [];
+
+            foreach ($row as $cell) {
+                $cells[] = $cell;
+            }
+
+            $snapshot[] = $cells;
+        }
+
+        return $snapshot;
+    }
+
+    /**
+     * Validates column indexes and copies alignment overrides
+     *
+     * @param array<mixed> $alignments
+     * @return array<int, HorizontalAlignment>
+     */
+    private static function snapshotAlignments(array $alignments, int $columnCount): array
+    {
+        $snapshot = [];
+
+        foreach ($alignments as $column => $alignment) {
+            if (
+                !is_int($column)
+                || $column < 0
+                || $column >= $columnCount
+                || !$alignment instanceof HorizontalAlignment
+            ) {
+                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table column alignments must reference existing columns.');
+            }
+
+            $snapshot[$column] = $alignment;
+        }
+
+        return $snapshot;
     }
 }

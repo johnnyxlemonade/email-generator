@@ -30,20 +30,33 @@ final class EmailServiceProvider implements ServiceProviderInterface
             dirname(__DIR__) . '/resources/Language',
             self::class,
         );
+
         $container->singleton(EmailConfigResolver::class, EmailConfigResolver::class);
-        $container->singleton(EmailConfig::class, static fn(ContainerInterface $container): EmailConfig => $container
-            ->get(EmailConfigResolver::class)
-            ->resolve(...$container->get(ConfigDefinitionRegistry::class)->typedEntriesFor(
-                EmailConfigDefinition::moduleKey(),
-                EmailConfigDefinition::class,
-            )));
-        $container->singleton(HtmlRenderer::class, static fn(ContainerInterface $container): HtmlRenderer => new HtmlRenderer(
-            $container->get(TranslatorInterface::class),
-            $container->get(EmailConfig::class),
-        ));
-        $container->singleton(EmailGenerator::class, static fn(ContainerInterface $container): EmailGenerator => new EmailGenerator(
-            $container->get(HtmlRenderer::class),
-            $container->get(LocalizationConfig::class)->defaultLocale,
-        ));
+
+        $container->singleton(
+            EmailConfig::class,
+            static fn(ContainerInterface $container): EmailConfig => $container
+                ->get(EmailConfigResolver::class)
+                ->resolve(...$container->get(ConfigDefinitionRegistry::class)->typedEntriesFor(
+                    EmailConfigDefinition::moduleKey(),
+                    EmailConfigDefinition::class,
+                )),
+        );
+
+        $container->singleton(
+            HtmlRenderer::class,
+            static fn(ContainerInterface $container): HtmlRenderer => new HtmlRenderer(
+                $container->get(TranslatorInterface::class),
+                $container->get(EmailConfig::class),
+            ),
+        );
+
+        $container->singleton(
+            EmailGenerator::class,
+            static fn(ContainerInterface $container): EmailGenerator => new EmailGenerator(
+                $container->get(HtmlRenderer::class),
+                $container->get(LocalizationConfig::class)->defaultLocale,
+            ),
+        );
     }
 }

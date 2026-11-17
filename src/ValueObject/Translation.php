@@ -29,15 +29,23 @@ final readonly class Translation
         if (trim($key) === '') {
             throw new InvalidInputException(ErrorCode::TranslationKeyInvalid, 'Translation key must not be empty.');
         }
+
         $snapshot = [];
+
         foreach ($replacements as $name => $value) {
             if (!is_string($name) || (!is_scalar($value) && $value !== null)) {
-                throw new InvalidInputException(ErrorCode::TranslationReplacementsInvalid, 'Translation replacements must map string names to scalar values or null.');
+                throw new InvalidInputException(
+                    ErrorCode::TranslationReplacementsInvalid,
+                    'Translation replacements must map string names to scalar values or null.',
+                );
             }
+
             InputValidator::text($name);
             InputValidator::text((string) $value);
+
             $snapshot[$name] = $value;
         }
+
         $this->replacements = $snapshot;
     }
 

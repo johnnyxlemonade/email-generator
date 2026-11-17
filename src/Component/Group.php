@@ -27,9 +27,11 @@ final readonly class Group implements ComponentInterface
         private ?Color $borderColor = null,
     ) {
         InputValidator::range($padding, 0, 64, 'Group padding');
+
         if (!array_is_list($children)) {
             throw new InvalidInputException(ErrorCode::GroupChildrenInvalid, 'Group children must be a list of components.');
         }
+
         foreach ($children as $child) {
             if (!$child instanceof ComponentInterface) {
                 throw new InvalidInputException(ErrorCode::GroupChildrenInvalid, 'Group children must implement ComponentInterface.');
