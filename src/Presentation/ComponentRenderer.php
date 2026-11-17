@@ -6,6 +6,7 @@ namespace Lemonade\EmailGenerator\Presentation;
 
 use Lemonade\EmailGenerator\Component\{
     AddressBlock,
+    AttachmentList,
     Badge,
     BulletList,
     Button,
@@ -26,6 +27,7 @@ use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
 use Lemonade\EmailGenerator\Presentation\Renderer\{
     AddressBlockRenderer,
+    AttachmentListRenderer,
     BadgeRenderer,
     BulletListRenderer,
     ButtonGroupRenderer,
@@ -68,6 +70,7 @@ final readonly class ComponentRenderer
         $this->contentWidth = $contentWidth ?? $context->config()->width()->value - 64;
         $this->renderers = $renderers ?? [
             AddressBlock::class => new AddressBlockRenderer(),
+            AttachmentList::class => new AttachmentListRenderer(),
             Heading::class => new HeadingRenderer(),
             Text::class => new TextRenderer(),
             Image::class => new ImageRenderer(),

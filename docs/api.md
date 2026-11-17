@@ -67,6 +67,7 @@ and is exposed through typed getters.
 | `Hero` | Heading and description as `string|Translation|RichText`, optional `ImageSource` and `Button` |
 | `Alert` | Required content, optional heading and `AlertVariant` |
 | `SocialLinks` | List of validated `SocialLink` value objects; an empty list emits no content |
+| `AttachmentList` | List of validated `AttachmentItem` value objects; an empty list emits no content |
 
 `BadgeVariant` provides `Neutral`, `Info`, `Success`, `Warning` and `Danger`.
 `HorizontalAlignment` provides `Left`, `Center` and `Right`. It controls text
@@ -157,7 +158,7 @@ $addressBlock = new AddressBlock(new Address(
 ));
 ```
 
-### Universal compositions
+### Reusable components and compositions
 
 `Hero` creates one bordered visual group from existing primitives. Its heading
 and description are always present; the image and call-to-action are independent
@@ -178,10 +179,21 @@ its ordered list and renders normal underlined text links separated by spaces,
 allowing email clients to wrap the line on narrow screens. Icon output is not
 provided because the public image API does not associate an image with a link.
 
+`AttachmentList` presents file metadata only; it does not create MIME parts or
+send files. Each `AttachmentItem` requires a display filename with a safe file
+extension, accepts a non-negative byte count and accepts an optional absolute
+HTTP(S) URL. The uppercase type label is derived from the extension, and byte
+counts are formatted with decimal `B`, `KB`, `MB`, `GB` or `TB` units. A filename
+becomes a strong text link only when its item has a URL. One compact bordered
+table keeps its rows together with one-pixel dividers, while the file size is
+shown as secondary text outside the format badge. The renderer uses the package
+catalog for its singular or plural heading and emits no content for an empty
+list.
+
 ```php
-use Lemonade\EmailGenerator\Component\{Alert, Button, Hero, SocialLinks};
+use Lemonade\EmailGenerator\Component\{Alert, AttachmentList, Button, Hero, SocialLinks};
 use Lemonade\EmailGenerator\Enum\AlertVariant;
-use Lemonade\EmailGenerator\ValueObject\{ImageSource, SocialLink};
+use Lemonade\EmailGenerator\ValueObject\{AttachmentItem, ImageSource, SocialLink};
 
 $hero = new Hero(
     heading: 'Introducing Workspaces',
@@ -199,6 +211,15 @@ $alert = new Alert(
 $socialLinks = new SocialLinks([
     new SocialLink('Community', 'https://community.example.com/product'),
     new SocialLink('Updates', 'https://updates.example.com/product'),
+]);
+
+$attachments = new AttachmentList([
+    new AttachmentItem('Contract.pdf', bytes: 1_800_000),
+    new AttachmentItem(
+        'Technical-specification.xlsx',
+        bytes: 245_000,
+        url: 'https://example.com/documents/specification.xlsx',
+    ),
 ]);
 ```
 

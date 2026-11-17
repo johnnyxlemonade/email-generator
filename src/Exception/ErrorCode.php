@@ -26,6 +26,8 @@ enum ErrorCode: string
     case StepsCurrentInvalid = 'steps.current_invalid';
     case StepsWidthInvalid = 'steps.width_invalid';
     case SocialLinksInvalid = 'social_links.invalid';
+    case AttachmentListInvalid = 'attachment_list.invalid';
+    case AttachmentFilenameInvalid = 'attachment.filename_invalid';
     case TableInvalid = 'table.invalid';
     case ComponentUnsupported = 'component.unsupported';
     case ConfigurationUnknownOption = 'config.unknown_option';

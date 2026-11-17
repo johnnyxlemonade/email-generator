@@ -62,11 +62,12 @@ methods separately. `title` sets the HTML document title, not a MIME subject.
 
 Built-in components include `Heading`, `Text`, `Image`, `Button`, `ButtonGroup`,
 `Steps`, `BulletList`, `Table`, `Divider`, `Spacer`, `Group`, `Columns`, `Badge`,
-`KeyValue`, `Quote`, `Signature` and `AddressBlock`.
+`KeyValue`, `Quote`, `Signature`, `AddressBlock` and `AttachmentList`.
 Use `RichText` and `TextRun` for inline formatting, `Translation` for framework
 catalog entries, and `CompositionInterface` for reusable groups of components
 without renderer registration. `Signature` accepts a `Contact` and optional
-`ImageSource`; `AddressBlock` accepts an `Address`. These immutable value objects
+`ImageSource`; `AddressBlock` accepts an `Address`; `AttachmentList` accepts
+validated `AttachmentItem` metadata. These immutable value objects
 own their data validation and normalization.
 
 See the [API reference](docs/api.md) for component options,
@@ -76,7 +77,7 @@ nesting, immutable documents, configuration, localization and validation.
 
 - Lemonade Framework owns the container, application bootstrap, configuration and translation services.
 - Email Generator owns document composition, content validation and HTML rendering.
-- The host application owns business content, public image URLs, MIME messages, delivery, attachments and queues.
+- The host application owns business content, public image URLs, MIME messages, delivery, physical attachments and queues.
 
 The public API accepts typed content and options. Text and attributes are
 escaped; URLs must be absolute HTTP(S). Raw HTML, arbitrary CSS and custom

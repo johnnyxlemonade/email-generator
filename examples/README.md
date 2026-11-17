@@ -18,7 +18,7 @@ argument, the script starts one isolated run of itself for every variant. This
 keeps example-local helper classes isolated while retaining a single generator
 entrypoint.
 
-Each of the 51 files in `php/` remains the single source of its email content.
+Each of the 54 files in `php/` remains the single source of its email content.
 The generator executes every source with four independently bootstrapped
 `EmailGenerator` instances configured through `EmailConfigDefinition`.
 All example content and generated documents use English (`lang="en"`).
@@ -31,7 +31,7 @@ All example content and generated documents use English (`lang="en"`).
 | Desktop | `Desktop` (1200 px) | `html/desktop/` |
 
 The generated `html/` directory is ignored by Git. It is local disposable
-output, not a versioned fixture. Running `composer examples` recreates all 204
+output, not a versioned fixture. Running `composer examples` recreates all 216
 flat HTML files and removes stale files that no longer have a matching source
 and variant.
 
@@ -47,9 +47,11 @@ variant has no preview wrapper, CSS width override or HTML post-processing.
 - [`example-complex-email.php`](php/example-complex-email.php)
 - [`example-consultation-confirmation.php`](php/example-consultation-confirmation.php)
 - [`example-customer-feedback.php`](php/example-customer-feedback.php)
+- [`example-document-package-delivery.php`](php/example-document-package-delivery.php)
 - [`example-email-verification.php`](php/example-email-verification.php)
 - [`example-event-registration.php`](php/example-event-registration.php)
 - [`example-financial-data.php`](php/example-financial-data.php)
+- [`example-invoice-with-attachments.php`](php/example-invoice-with-attachments.php)
 - [`example-maintenance-announcement.php`](php/example-maintenance-announcement.php)
 - [`example-minimal-transactional.php`](php/example-minimal-transactional.php)
 - [`example-monthly-newsletter.php`](php/example-monthly-newsletter.php)
