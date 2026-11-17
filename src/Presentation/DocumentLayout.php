@@ -42,7 +42,7 @@ final class DocumentLayout
 <tr><td align="center" style="padding:24px 0;">
 <!--[if mso]><table role="presentation" align="center" width="{$width}" border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
 <table role="presentation" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="{$config->contentColor()->hex()}" dir="{$direction}" style="width:100%;max-width:{$width}px;background-color:{$config->contentColor()->hex()};border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
-<tr><td class="email-content" style="padding:32px;color:{$config->textColor()->hex()};font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;">
+<tr><td class="email-content" style="padding:32px;color:{$config->textColor()->hex()};font-family:{$config->fontFamily()->css()};font-size:16px;line-height:24px;">
 <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
 {$rows}</table>
 </td></tr></table>

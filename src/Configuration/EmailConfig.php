@@ -5,23 +5,22 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Configuration;
 
 use Lemonade\EmailGenerator\Enum\EmailWidth;
+use Lemonade\EmailGenerator\Enum\FontFamily;
 use Lemonade\EmailGenerator\ValueObject\Color;
+use Lemonade\EmailGenerator\ValueObject\EmailPalette;
 
 /**
- * Immutable email dimensions and colors used during rendering
+ * Immutable email dimensions, colors and typography used during rendering
  */
 final readonly class EmailConfig
 {
     /**
-     * Sets the email width and rendering palette with standard defaults
+     * Sets the email width, rendering palette and font stack
      */
     public function __construct(
         private EmailWidth $width = EmailWidth::Standard,
-        private Color $backgroundColor = new Color('#f1f5f9'),
-        private Color $contentColor = new Color('#ffffff'),
-        private Color $textColor = new Color('#1e293b'),
-        private Color $accentColor = new Color('#2563eb'),
-        private Color $buttonTextColor = new Color('#ffffff'),
+        private EmailPalette $palette = new EmailPalette(),
+        private FontFamily $fontFamily = FontFamily::Arial,
     ) {}
 
     /**
@@ -33,11 +32,19 @@ final readonly class EmailConfig
     }
 
     /**
+     * Returns the complete rendering color palette
+     */
+    public function palette(): EmailPalette
+    {
+        return $this->palette;
+    }
+
+    /**
      * Returns the color surrounding the email content
      */
     public function backgroundColor(): Color
     {
-        return $this->backgroundColor;
+        return $this->palette->background();
     }
 
     /**
@@ -45,7 +52,7 @@ final readonly class EmailConfig
      */
     public function contentColor(): Color
     {
-        return $this->contentColor;
+        return $this->palette->content();
     }
 
     /**
@@ -53,7 +60,7 @@ final readonly class EmailConfig
      */
     public function textColor(): Color
     {
-        return $this->textColor;
+        return $this->palette->text();
     }
 
     /**
@@ -61,7 +68,7 @@ final readonly class EmailConfig
      */
     public function accentColor(): Color
     {
-        return $this->accentColor;
+        return $this->palette->accent();
     }
 
     /**
@@ -69,6 +76,14 @@ final readonly class EmailConfig
      */
     public function buttonTextColor(): Color
     {
-        return $this->buttonTextColor;
+        return $this->palette->buttonText();
+    }
+
+    /**
+     * Returns the CSS font-family stack
+     */
+    public function fontFamily(): FontFamily
+    {
+        return $this->fontFamily;
     }
 }

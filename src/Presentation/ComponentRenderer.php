@@ -120,7 +120,7 @@ final readonly class ComponentRenderer
         $spacing = $last ? 0 : $content->spacingAfter();
 
         return '<tr><td style="padding:0 0 ' . $spacing . 'px;color:' . $this->context->config()->textColor()->hex()
-            . ';font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;word-wrap:break-word;">'
+            . ';font-family:' . $this->context->config()->fontFamily()->css() . ';font-size:16px;line-height:24px;word-wrap:break-word;">'
             . $content->html() . '</td></tr>' . "\n";
     }
 }

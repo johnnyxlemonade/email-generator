@@ -38,7 +38,7 @@ final readonly class HeadingRenderer implements HtmlComponentRendererInterface
         $style = $alignment === HorizontalAlignment::Left ? '' : 'text-align:' . $alignment->value . ';';
 
         return new RenderedComponent('<h' . $component->level() . $attribute . ' style="margin:0;' . $style
-            . 'font-family:Arial,Helvetica,sans-serif;font-size:'
+            . 'font-family:' . $context->config()->fontFamily()->css() . ';font-size:'
             . $size . 'px;line-height:' . ($size + 8) . 'px;font-weight:bold;">'
             . RichTextRenderer::render($component->content(), $context) . '</h' . $component->level() . '>', spacingAfter: 12);
     }

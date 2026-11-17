@@ -58,7 +58,7 @@ final readonly class StepsRenderer implements HtmlComponentRendererInterface
             $background = $state === 'current' ? 'background-color:#f8fafc;' : '';
             $cells .= '<td class="email-step email-step-' . $state . '" role="listitem"' . $current . ' width="' . $width
                 . '" valign="top" style="width:' . $width . 'px;padding:10px 8px 8px;border-top:' . $borderWidth . 'px solid ' . $color
-                . ';' . $background . 'font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;text-align:left;vertical-align:top;">'
+                . ';' . $background . 'font-family:' . $context->config()->fontFamily()->css() . ';font-size:14px;line-height:20px;text-align:left;vertical-align:top;">'
                 . '<span style="display:block;color:' . $context->config()->textColor()->hex() . ';' . $nameStyle . '">'
                 . $position . '. ' . $context->text($name) . '</span>'
                 . '<span style="display:block;' . $stateStyle . 'font-size:12px;line-height:18px;">'

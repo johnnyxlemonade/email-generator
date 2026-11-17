@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Tests\Integration;
 
-use Lemonade\EmailGenerator\Component\Signature;
-use Lemonade\EmailGenerator\Component\Steps;
+use Lemonade\EmailGenerator\Component\{AddressBlock, Badge, KeyValue, Signature, Steps};
 use Lemonade\EmailGenerator\Configuration\EmailConfig;
 use Lemonade\EmailGenerator\EmailGenerator;
+use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Enum\Direction;
 use Lemonade\EmailGenerator\Enum\EmailWidth;
+use Lemonade\EmailGenerator\Enum\FontFamily;
 use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
-use Lemonade\EmailGenerator\ValueObject\{Contact, ImageSource, Translation};
+use Lemonade\EmailGenerator\ValueObject\{Address, Contact, ImageSource, Translation};
 
 /**
  * Verifies email structure, escaping, image sizing and text direction
@@ -52,6 +53,29 @@ final class RendererTest extends EmailTestCase
         $xpath = $this->xpath($emails->create()->image('https://example.com/banner.png', '', 1000, 500)->render());
         self::assertSame('416', $xpath->evaluate('string(//img/@width)'));
         self::assertSame('208', $xpath->evaluate('string(//img/@height)'));
+    }
+
+    public function testConfiguredFontFamilyIsUsedByTheLayoutAndAllTextRenderers(): void
+    {
+        $fontFamily = FontFamily::Georgia;
+        $emails = new EmailGenerator(new HtmlRenderer($this->translator, new EmailConfig(fontFamily: $fontFamily)));
+        $html = $emails->create()
+            ->heading('Heading')
+            ->image('https://example.com/image.png', 'Image')
+            ->button('Primary', 'https://example.com/primary')
+            ->button('Secondary', 'https://example.com/secondary', ButtonVariant::Secondary)
+            ->table(['Column'], [['Value']])
+            ->add(
+                new KeyValue('Label', 'Value'),
+                new AddressBlock(new Address('Name', 'Street', 'City', 'Postal code', 'Country')),
+                new Badge('Ready'),
+                new Steps(['Created']),
+            )
+            ->render();
+
+        self::assertGreaterThan(10, substr_count($html, 'font-family:' . $fontFamily->css()));
+        self::assertSame(substr_count($html, 'font-family:'), substr_count($html, 'font-family:' . $fontFamily->css()));
+        self::assertStringNotContainsString('font-family:Arial,Helvetica,sans-serif', $html);
     }
 
     public function testSignatureKeepsDesktopImageWidthAndDefinesCompactMobileColumns(): void

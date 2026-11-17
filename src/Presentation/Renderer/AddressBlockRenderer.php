@@ -33,7 +33,7 @@ final readonly class AddressBlockRenderer implements HtmlComponentRendererInterf
         int $contentWidth,
     ): RenderedComponent {
         $address = $component->address();
-        $html = '<p class="email-address" style="margin:0;color:#475569;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;">'
+        $html = '<p class="email-address" style="margin:0;color:#475569;font-family:' . $context->config()->fontFamily()->css() . ';font-size:13px;line-height:19px;">'
             . '<strong style="color:' . $context->config()->textColor()->hex() . ';font-weight:bold;">' . $context->text($address->name()) . '</strong>'
             . '<br>' . $context->text($address->street())
             . '<br>' . $context->text($address->city())

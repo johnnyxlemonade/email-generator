@@ -236,9 +236,12 @@ Empty lists retain their normal component row.
 
 ## Configuration
 
-`EmailConfig` is immutable. `EmailWidth` supports `Compact` (480), `Standard`
-(600, default) and `Wide` (800) pixels. The outer document reserves 32 pixels of
-padding on each side, and nested containers further reduce the available width.
+`EmailConfig` is immutable and combines `EmailWidth`, `EmailPalette` and
+`FontFamily`. `EmailPalette` groups the background, content, text, accent and
+button label colors while the existing color getters on `EmailConfig` delegate
+to it. `EmailWidth` supports `Compact` (480), `Standard` (600, default) and
+`Wide` (800) pixels. The outer document reserves 32 pixels of padding on each
+side, and nested containers further reduce the available width.
 
 Map `EmailConfigDefinition` to the framework module key `Email` and include
 `Email` in the application's shared configuration list. The YAML module is
@@ -252,11 +255,17 @@ Map `EmailConfigDefinition` to the framework module key `Email` and include
 | `text_color` | `1e293b` |
 | `accent_color` | `2563eb` |
 | `button_text_color` | `fff` |
+| `font_family` | `arial` |
 
 Colors use `Color`, which accepts three or six hexadecimal digits with an
 optional `#` and normalizes them to lowercase six-digit CSS values. The fluent
-`EmailConfigDefinition` exposes matching typed methods for PHP configuration.
-Unknown options, invalid types and unsupported widths are rejected.
+`EmailConfigDefinition` exposes matching typed methods for PHP configuration,
+including `fontFamily(FontFamily $fontFamily)`. `FontFamily` provides `Arial`,
+`Verdana`, `Tahoma`, `Trebuchet`, `Georgia`, `TimesNewRoman` and `CourierNew`;
+their configuration values are `arial`, `verdana`, `tahoma`, `trebuchet`,
+`georgia`, `times_new_roman` and `courier_new`. Each option emits a complete
+fallback stack in inline `font-family` declarations. Unknown options, invalid
+types, unsupported widths and unsupported font families are rejected.
 
 ## Validation and errors
 

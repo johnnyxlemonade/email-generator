@@ -35,7 +35,7 @@ final readonly class TableRenderer implements HtmlComponentRendererInterface
             return $this->renderCompact($component, $context);
         }
         $style = 'padding:10px;border:1px solid #e2e8f0;color:' . $context->config()->textColor()->hex()
-            . ';font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;';
+            . ';font-family:' . $context->config()->fontFamily()->css() . ';font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;';
         $html = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;table-layout:fixed;mso-table-lspace:0pt;mso-table-rspace:0pt;">';
         if ($component->headers() !== []) {
             $html .= '<thead><tr>';
@@ -73,11 +73,11 @@ final readonly class TableRenderer implements HtmlComponentRendererInterface
             $valueAlignment = $component->alignmentForColumn(1)->value;
             $html .= '<tr><td width="38%" align="' . $labelAlignment . '" valign="top" style="width:38%;padding:8px 12px 8px 0;' . $border
                 . 'text-align:' . $labelAlignment . ';'
-                . 'color:#64748b;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
+                . 'color:#64748b;font-family:' . $context->config()->fontFamily()->css() . ';font-size:13px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
                 . RichTextRenderer::render($row[0], $context) . '</td>'
                 . '<td align="' . $valueAlignment . '" valign="top" style="padding:8px 0 8px 12px;' . $border
                 . 'text-align:' . $valueAlignment . ';color:' . $context->config()->textColor()->hex()
-                . ';font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
+                . ';font-family:' . $context->config()->fontFamily()->css() . ';font-size:14px;line-height:20px;vertical-align:top;word-wrap:break-word;">'
                 . RichTextRenderer::render($row[1], $context) . '</td></tr>';
         }
 

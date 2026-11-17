@@ -7,7 +7,8 @@ namespace Lemonade\EmailGenerator\Tests\Unit;
 use InvalidArgumentException;
 use Lemonade\EmailGenerator\Configuration\{EmailConfig, EmailConfigDefinition, EmailConfigResolver};
 use Lemonade\EmailGenerator\Enum\EmailWidth;
-use Lemonade\EmailGenerator\ValueObject\Color;
+use Lemonade\EmailGenerator\Enum\FontFamily;
+use Lemonade\EmailGenerator\ValueObject\{Color, EmailPalette};
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +19,10 @@ final class ConfigTest extends TestCase
 {
     public function testDefinitionNormalizesColorValues(): void
     {
-        self::assertSame(EmailWidth::Standard, (new EmailConfig())->width());
+        $defaults = new EmailConfig();
+        self::assertSame(EmailWidth::Standard, $defaults->width());
+        self::assertEquals(new EmailPalette(), $defaults->palette());
+        self::assertSame(FontFamily::Arial, $defaults->fontFamily());
         $config = (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['background_color' => 'ABC']));
         self::assertSame('#aabbcc', $config->backgroundColor()->hex());
     }
@@ -27,7 +31,8 @@ final class ConfigTest extends TestCase
     {
         $resolver = new EmailConfigResolver();
         self::assertEquals(new EmailConfig(), $resolver->resolve());
-        $base = EmailConfigDefinition::create()->width(EmailWidth::Compact)->accentColor(new Color('#ff0000'))->backgroundColor(new Color('#eeeeee'));
+        $base = EmailConfigDefinition::create()->width(EmailWidth::Compact)->accentColor(new Color('#ff0000'))
+            ->backgroundColor(new Color('#eeeeee'))->fontFamily(FontFamily::Georgia);
         $override = EmailConfigDefinition::create()->width(EmailWidth::Wide)->accentColor(new Color('#00ff00'))
             ->textColor(new Color('#111111'))->contentColor(new Color('#fafafa'))->buttonTextColor(new Color('#000000'));
         $resolved = $resolver->resolve($base, $override);
@@ -37,6 +42,7 @@ final class ConfigTest extends TestCase
         self::assertSame('#111111', $resolved->textColor()->hex());
         self::assertSame('#fafafa', $resolved->contentColor()->hex());
         self::assertSame('#000000', $resolved->buttonTextColor()->hex());
+        self::assertSame(FontFamily::Georgia, $resolved->fontFamily());
         self::assertSame(EmailWidth::Compact, $resolver->resolve($base)->width());
         self::assertEquals($override, EmailConfigDefinition::fromArrayData($override->toArray()));
     }
@@ -65,6 +71,8 @@ final class ConfigTest extends TestCase
         yield 'unknown key' => [['widht' => 600]];
         yield 'numeric key' => [[0 => 600]];
         yield 'wrong color type' => [['accent_color' => 123]];
+        yield 'wrong font type' => [['font_family' => 123]];
+        yield 'unknown font' => [['font_family' => 'comic_sans']];
         yield 'color CSS injection' => [['accent_color' => '#ffffff;display:none']];
         yield 'color HTML injection' => [['text_color' => '"><script>']];
         yield 'invalid color length' => [['background_color' => '#ffff']];

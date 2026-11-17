@@ -40,7 +40,7 @@ final readonly class ButtonRenderer implements HtmlComponentRendererInterface
                 . ';border:1px solid ' . $config->accentColor()->hex() . ';border-radius:4px;">'
                 . '<a href="' . RenderContext::escape($component->url()) . '" style="display:inline-block;border-style:solid;border-width:11px 19px;border-color:'
                 . $config->contentColor()->hex() . ';border-radius:3px;color:' . $config->accentColor()->hex()
-                . ';font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;line-height:24px;text-align:center;text-decoration:none;mso-line-height-rule:exactly;">'
+                . ';font-family:' . $config->fontFamily()->css() . ';font-size:16px;font-weight:bold;line-height:24px;text-align:center;text-decoration:none;mso-line-height-rule:exactly;">'
                 . $context->text($component->label()) . '</a></td></tr></table>', spacingAfter: 20);
         }
 
@@ -48,7 +48,7 @@ final readonly class ButtonRenderer implements HtmlComponentRendererInterface
             . '<tr><td align="center" bgcolor="' . $config->accentColor()->hex() . '" style="background-color:' . $config->accentColor()->hex() . ';border-radius:4px;">'
             . '<a href="' . RenderContext::escape($component->url()) . '" style="display:inline-block;border-style:solid;border-width:12px 20px;border-color:'
             . $config->accentColor()->hex() . ';border-radius:4px;color:' . $config->buttonTextColor()->hex()
-            . ';font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;line-height:24px;text-align:center;text-decoration:none;mso-line-height-rule:exactly;">'
+            . ';font-family:' . $config->fontFamily()->css() . ';font-size:16px;font-weight:bold;line-height:24px;text-align:center;text-decoration:none;mso-line-height-rule:exactly;">'
             . $context->text($component->label()) . '</a></td></tr></table>', spacingAfter: 20);
     }
 }

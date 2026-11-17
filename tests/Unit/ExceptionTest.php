@@ -43,6 +43,7 @@ final class ExceptionTest extends TestCase
         yield 'text' => [static fn() => new Text("\xFF"), ErrorCode::TextInvalid];
         yield 'dimension' => [static fn() => new Spacer(-1), ErrorCode::ValueOutOfRange];
         yield 'width' => [static fn() => (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['width' => 640])), ErrorCode::WidthInvalid];
+        yield 'font family' => [static fn() => (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['font_family' => 'unknown'])), ErrorCode::FontFamilyInvalid];
         yield 'config type' => [static fn() => (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['width' => '600'])), ErrorCode::ConfigurationInvalidType];
         yield 'config key' => [static fn() => (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['unknown' => true])), ErrorCode::ConfigurationUnknownOption];
     }

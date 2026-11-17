@@ -31,6 +31,7 @@ enum ErrorCode: string
     case ConfigurationUnknownOption = 'config.unknown_option';
     case ConfigurationInvalidType = 'config.invalid_type';
     case WidthInvalid = 'width.invalid';
+    case FontFamilyInvalid = 'font_family.invalid';
     case CompositionCycle = 'composition.cycle';
     case CompositionDepthExceeded = 'composition.depth_exceeded';
     case CompositionSizeExceeded = 'composition.size_exceeded';
