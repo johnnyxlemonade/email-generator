@@ -2,6 +2,7 @@
 /build/
 /examples/output/
 /examples/assets/
+/examples/html/
 /composer.lock
 /.idea/
 /.vscode/

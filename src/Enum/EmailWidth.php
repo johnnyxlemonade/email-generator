@@ -12,4 +12,5 @@ enum EmailWidth: int
     case Compact = 480;
     case Standard = 600;
     case Wide = 800;
+    case Desktop = 1200;
 }

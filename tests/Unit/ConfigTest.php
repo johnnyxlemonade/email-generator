@@ -47,6 +47,17 @@ final class ConfigTest extends TestCase
         self::assertEquals($override, EmailConfigDefinition::fromArrayData($override->toArray()));
     }
 
+    public function testEverySupportedEmailWidthResolvesFromPublicConfiguration(): void
+    {
+        $resolver = new EmailConfigResolver();
+
+        foreach (EmailWidth::cases() as $width) {
+            $config = $resolver->resolve(EmailConfigDefinition::create()->width($width));
+
+            self::assertSame($width, $config->width());
+        }
+    }
+
     /**
      * @param array<mixed> $values
      */
@@ -63,7 +74,7 @@ final class ConfigTest extends TestCase
     public static function invalidConfiguration(): iterable
     {
         yield 'narrow' => [['width' => 319]];
-        yield 'wide' => [['width' => 1001]];
+        yield 'unsupported width' => [['width' => 1001]];
         yield 'string width' => [['width' => '600']];
         yield 'null width' => [['width' => null]];
         yield 'boolean width' => [['width' => true]];

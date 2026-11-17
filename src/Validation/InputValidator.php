@@ -17,6 +17,19 @@ use Lemonade\EmailGenerator\ValueObject\Translation;
 final class InputValidator
 {
     /**
+     * Requires three or six hexadecimal digits with an optional hash prefix
+     */
+    public static function color(string $hex): void
+    {
+        if (preg_match('/\A#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\z/', $hex) !== 1) {
+            throw new InvalidInputException(
+                ErrorCode::ColorInvalid,
+                'Color must contain three or six hexadecimal digits, optionally prefixed with #.',
+            );
+        }
+    }
+
+    /**
      * Rejects malformed UTF-8 and disallowed control characters in literal text
      */
     public static function text(string|Translation $value): void

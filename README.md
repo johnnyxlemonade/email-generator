@@ -88,7 +88,7 @@ rendering inside Outlook or Gmail.
 
 ## Examples
 
-[generate.php](examples/generate.php) builds versioned previews from the matching
+[generate.php](examples/generate.php) builds local previews from the matching
 readable sources in [`examples/php/`](examples/php/). They cover complete email
 scenarios plus minimal standalone examples of every current component and
 built-in composition.
@@ -97,8 +97,9 @@ built-in composition.
 composer examples
 ```
 
-The examples include versioned PHP sources, generated HTML previews, application
-configuration and translation catalogs. See the
+The examples include versioned PHP sources, application configuration and
+translation catalogs. Generated HTML is written to the ignored `examples/html/`
+directory. See the
 [example README](examples/README.md) for the directory layout, catalog and layout
 notes.
 

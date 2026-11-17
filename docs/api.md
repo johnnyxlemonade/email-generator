@@ -239,9 +239,10 @@ Empty lists retain their normal component row.
 `EmailConfig` is immutable and combines `EmailWidth`, `EmailPalette` and
 `FontFamily`. `EmailPalette` groups the background, content, text, accent and
 button label colors while the existing color getters on `EmailConfig` delegate
-to it. `EmailWidth` supports `Compact` (480), `Standard` (600, default) and
-`Wide` (800) pixels. The outer document reserves 32 pixels of padding on each
-side, and nested containers further reduce the available width.
+to it. `EmailWidth` supports `Compact` (480), `Standard` (600, default),
+`Wide` (800) and `Desktop` (1200) pixels. The outer document reserves 32 pixels
+of padding on each side, and nested containers further reduce the available
+width.
 
 Map `EmailConfigDefinition` to the framework module key `Email` and include
 `Email` in the application's shared configuration list. The YAML module is

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\Tests\Integration;
 
-use Lemonade\EmailGenerator\Component\{AddressBlock, Badge, KeyValue, Signature, Steps};
+use Lemonade\EmailGenerator\Component\{AddressBlock, Badge, Columns, Group, Image, KeyValue, Signature, Steps, Text};
 use Lemonade\EmailGenerator\Configuration\EmailConfig;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
@@ -16,7 +16,7 @@ use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
-use Lemonade\EmailGenerator\ValueObject\{Address, Contact, ImageSource, Translation};
+use Lemonade\EmailGenerator\ValueObject\{Address, Color, Contact, ImageSource, Translation};
 
 /**
  * Verifies email structure, escaping, image sizing and text direction
@@ -53,6 +53,38 @@ final class RendererTest extends EmailTestCase
         $xpath = $this->xpath($emails->create()->image('https://example.com/banner.png', '', 1000, 500)->render());
         self::assertSame('416', $xpath->evaluate('string(//img/@width)'));
         self::assertSame('208', $xpath->evaluate('string(//img/@height)'));
+    }
+
+    public function testDesktopWidthFlowsThroughContainersAndWidthSensitiveComponents(): void
+    {
+        $emails = new EmailGenerator(new HtmlRenderer($this->translator, new EmailConfig(width: EmailWidth::Desktop)));
+        $html = $emails->create()
+            ->image('https://example.com/full.png', 'Full width', 2000, 1000)
+            ->add(new Columns(
+                first: [new Text('First')],
+                second: [new Text('Second')],
+                gap: 24,
+            ))
+            ->add(new Group(
+                children: [new Image('https://example.com/group.png', 'Grouped', 2000, 1000)],
+                padding: 24,
+                borderColor: new Color('#cccccc'),
+            ))
+            ->table(['Item', 'Amount'], [['Desktop plan', '$120.00']])
+            ->add(new Signature(
+                new Contact('Maya Chen', 'Customer Success'),
+                new ImageSource('https://example.com/maya.png', 'Maya Chen'),
+            ))
+            ->render();
+        $xpath = $this->xpath($html);
+
+        self::assertStringContainsString('max-width:1200px;background-color:', $html);
+        self::assertSame('1136', $xpath->evaluate('string(//img[@alt="Full width"]/@width)'));
+        self::assertSame('1086', $xpath->evaluate('string(//img[@alt="Grouped"]/@width)'));
+        self::assertSame('112', $xpath->evaluate('string(//img[@alt="Maya Chen"]/@width)'));
+        self::assertStringContainsString('max-width:556px;', $html);
+        self::assertStringContainsString('max-width:1008px;', $html);
+        self::assertSame(1.0, $xpath->evaluate('count(//table[thead]/tbody)'));
     }
 
     public function testConfiguredFontFamilyIsUsedByTheLayoutAndAllTextRenderers(): void

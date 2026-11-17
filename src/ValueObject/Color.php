@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Lemonade\EmailGenerator\ValueObject;
 
-use Lemonade\EmailGenerator\Exception\ErrorCode;
-use Lemonade\EmailGenerator\Exception\InvalidInputException;
+use Lemonade\EmailGenerator\Validation\InputValidator;
 
 /**
  * A validated CSS color; arbitrary CSS never enters the renderer
@@ -19,9 +18,10 @@ final readonly class Color
      */
     public function __construct(string $hex)
     {
-        $this->validate($hex);
+        InputValidator::color($hex);
 
         $digits = strtolower(ltrim($hex, '#'));
+
         if (strlen($digits) === 3) {
             $digits = $digits[0] . $digits[0] . $digits[1] . $digits[1] . $digits[2] . $digits[2];
         }
@@ -35,18 +35,5 @@ final readonly class Color
     public function hex(): string
     {
         return $this->hex;
-    }
-
-    /**
-     * Rejects values other than three or six hexadecimal digits with an optional hash
-     */
-    private function validate(string $hex): void
-    {
-        if (preg_match('/\A#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\z/', $hex) !== 1) {
-            throw new InvalidInputException(
-                ErrorCode::ColorInvalid,
-                'Color must contain three or six hexadecimal digits, optionally prefixed with #.',
-            );
-        }
     }
 }

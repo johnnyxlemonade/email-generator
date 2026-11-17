@@ -42,7 +42,7 @@ final class EmailConfigResolver
                     $width = EmailWidth::tryFrom($value)
                         ?? throw new InvalidInputException(
                             ErrorCode::WidthInvalid,
-                            'Email width must be 480 (Compact), 600 (Standard) or 800 (Wide).',
+                            'Email width must be 480 (Compact), 600 (Standard), 800 (Wide) or 1200 (Desktop).',
                         );
 
                     continue;

@@ -33,6 +33,16 @@ final class ExceptionTest extends TestCase
         }
     }
 
+    public function testInvalidWidthMessageListsEverySupportedVariant(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage(
+            'Email width must be 480 (Compact), 600 (Standard), 800 (Wide) or 1200 (Desktop).',
+        );
+
+        (new EmailConfigResolver())->resolve(EmailConfigDefinition::fromArrayData(['width' => 1000]));
+    }
+
     /**
      * @return iterable<string, array{Closure(): mixed, ErrorCode}>
      */
