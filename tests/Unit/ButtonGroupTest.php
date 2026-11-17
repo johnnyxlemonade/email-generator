@@ -7,7 +7,7 @@ namespace Lemonade\EmailGenerator\Tests\Unit;
 use Closure;
 use Lemonade\EmailGenerator\Component\{Button, ButtonGroup, Group};
 use Lemonade\EmailGenerator\Composition\ComponentExpander;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Exception\CompositionException;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
@@ -24,7 +24,7 @@ final class ButtonGroupTest extends TestCase
         $first = new Button('Primary', 'https://example.com/primary');
         $second = new Button('Secondary', 'https://example.com/secondary');
         $input = [&$first, &$second];
-        $group = new ButtonGroup($input, gap: 23, alignment: ButtonGroupAlignment::Center);
+        $group = new ButtonGroup($input, gap: 23, alignment: HorizontalAlignment::Center);
         $first = new Button('Changed', 'https://example.com/changed');
         $input[] = $first;
         $copy = $group->buttons();
@@ -33,7 +33,7 @@ final class ButtonGroupTest extends TestCase
         self::assertSame(2, count($group->buttons()));
         self::assertSame('Primary', $group->buttons()[0]->label());
         self::assertSame(23, $group->gap());
-        self::assertSame(ButtonGroupAlignment::Center, $group->alignment());
+        self::assertSame(HorizontalAlignment::Center, $group->alignment());
     }
 
     public function testButtonsParticipateInTheSharedExpansionLimit(): void

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Enum;
 
 /**
- * Horizontal alignment of actions inside a button group
+ * Horizontal alignment of component content
  */
-enum ButtonGroupAlignment: string
+enum HorizontalAlignment: string
 {
     case Left = 'left';
     case Center = 'center';

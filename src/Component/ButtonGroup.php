@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Component;
 
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
 use Lemonade\EmailGenerator\Validation\InputValidator;
@@ -28,7 +28,7 @@ final readonly class ButtonGroup implements ComponentInterface
     public function __construct(
         array $buttons,
         private int $gap = 12,
-        private ButtonGroupAlignment $alignment = ButtonGroupAlignment::Left,
+        private HorizontalAlignment $alignment = HorizontalAlignment::Left,
     ) {
         InputValidator::range($gap, 0, 64, 'Button group gap');
         if (!array_is_list($buttons) || count($buttons) < 2) {
@@ -65,7 +65,7 @@ final readonly class ButtonGroup implements ComponentInterface
     /**
      * Returns the desktop horizontal alignment
      */
-    public function alignment(): ButtonGroupAlignment
+    public function alignment(): HorizontalAlignment
     {
         return $this->alignment;
     }

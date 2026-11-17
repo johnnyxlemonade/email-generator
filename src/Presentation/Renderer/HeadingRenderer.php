@@ -6,6 +6,7 @@ namespace Lemonade\EmailGenerator\Presentation\Renderer;
 
 use Lemonade\EmailGenerator\Component\Heading;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Presentation\ComponentRenderer;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
 use Lemonade\EmailGenerator\Presentation\RenderContext;
@@ -32,8 +33,12 @@ final readonly class HeadingRenderer implements HtmlComponentRendererInterface
         int $contentWidth,
     ): RenderedComponent {
         $size = [1 => 28, 2 => 22, 3 => 18, 4 => 16, 5 => 14, 6 => 13][$component->level()];
+        $alignment = $component->alignment();
+        $attribute = $alignment === HorizontalAlignment::Left ? '' : ' align="' . $alignment->value . '"';
+        $style = $alignment === HorizontalAlignment::Left ? '' : 'text-align:' . $alignment->value . ';';
 
-        return new RenderedComponent('<h' . $component->level() . ' style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:'
+        return new RenderedComponent('<h' . $component->level() . $attribute . ' style="margin:0;' . $style
+            . 'font-family:Arial,Helvetica,sans-serif;font-size:'
             . $size . 'px;line-height:' . ($size + 8) . 'px;font-weight:bold;">'
             . RichTextRenderer::render($component->content(), $context) . '</h' . $component->level() . '>', spacingAfter: 12);
     }

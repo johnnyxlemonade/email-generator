@@ -13,7 +13,7 @@ use Lemonade\EmailGenerator\Component\Quote;
 use Lemonade\EmailGenerator\Component\Text;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\BadgeVariant;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
@@ -86,7 +86,7 @@ return $emails->create(
             new Button('View full ticket', $ticketUrl, ButtonVariant::Secondary),
         ],
         gap: 12,
-        alignment: ButtonGroupAlignment::Left,
+        alignment: HorizontalAlignment::Left,
     ))
     ->divider(new Color('ddd6fe'))
     ->text(new RichText(

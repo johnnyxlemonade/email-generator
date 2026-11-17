@@ -13,7 +13,7 @@ use Lemonade\EmailGenerator\Component\Steps;
 use Lemonade\EmailGenerator\Component\Text;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\BadgeVariant;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
@@ -102,7 +102,7 @@ return $emails->create(
             new Button('Delivery preferences', $deliveryUrl, ButtonVariant::Secondary),
         ],
         gap: 12,
-        alignment: ButtonGroupAlignment::Center,
+        alignment: HorizontalAlignment::Center,
     ))
     ->add(new Group(
         children: [new Text(new RichText(

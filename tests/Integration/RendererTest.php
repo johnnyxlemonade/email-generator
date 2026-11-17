@@ -10,8 +10,11 @@ use Lemonade\EmailGenerator\Configuration\EmailConfig;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\Direction;
 use Lemonade\EmailGenerator\Enum\EmailWidth;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Tests\Support\EmailTestCase;
+use Lemonade\EmailGenerator\Text\RichText;
+use Lemonade\EmailGenerator\Text\TextRun;
 use Lemonade\EmailGenerator\ValueObject\{Contact, ImageSource, Translation};
 
 /**
@@ -75,6 +78,51 @@ final class RendererTest extends EmailTestCase
         self::assertStringContainsString('email-step-pending', $html);
         self::assertStringContainsString('border-left:4px solid', $html);
         self::assertStringNotContainsString('text-decoration:line-through', $html);
+    }
+
+    public function testTableUsesLeftAlignmentByDefault(): void
+    {
+        $xpath = $this->xpath($this->emails->create()->table(['Item'], [['Plan']])->render());
+
+        self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//th[@align="left" and contains(@style, "text-align:left;")])'));
+        self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//td[@align="left" and contains(@style, "text-align:left;")])'));
+    }
+
+    public function testTextAndHeadingApplyAlignmentWithoutChangingTypedContent(): void
+    {
+        $xpath = $this->xpath($this->emails->create(locale: 'cs')
+            ->text(new RichText(TextRun::strong('Centered')), alignment: HorizontalAlignment::Center)
+            ->heading(new Translation('emails.activate'), level: 2, alignment: HorizontalAlignment::Right)
+            ->render());
+
+        self::assertSame(1.0, $xpath->evaluate('count(//p[@align="center" and contains(@style, "text-align:center;")]/strong[text()="Centered"])'));
+        self::assertSame(1.0, $xpath->evaluate('count(//h2[@align="right" and contains(@style, "text-align:right;") and text()="Aktivovat účet"])'));
+    }
+
+    public function testTableAppliesGlobalAlignmentToHeadersAndCells(): void
+    {
+        $xpath = $this->xpath($this->emails->create()->table(
+            ['Item'],
+            [['Plan']],
+            alignment: HorizontalAlignment::Center,
+        )->render());
+
+        self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//th[@align="center" and contains(@style, "text-align:center;")])'));
+        self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//td[@align="center" and contains(@style, "text-align:center;")])'));
+    }
+
+    public function testTableColumnAlignmentOverridesGlobalAlignment(): void
+    {
+        $xpath = $this->xpath($this->emails->create()->table(
+            ['Item', 'Quantity', 'Amount'],
+            [['Plan', '3', '$120.00'], ['Support', '1', '$25.00']],
+            alignment: HorizontalAlignment::Center,
+            columnAlignments: [0 => HorizontalAlignment::Left, 2 => HorizontalAlignment::Right],
+        )->render());
+
+        self::assertSame(3.0, $xpath->evaluate('count(//table[thead]//tr/*[1][@align="left" and contains(@style, "text-align:left;")])'));
+        self::assertSame(3.0, $xpath->evaluate('count(//table[thead]//tr/*[2][@align="center" and contains(@style, "text-align:center;")])'));
+        self::assertSame(3.0, $xpath->evaluate('count(//table[thead]//tr/*[3][@align="right" and contains(@style, "text-align:right;")])'));
     }
 
     public function testRtlAndRegionalLocaleAreExplicit(): void

@@ -24,12 +24,12 @@ stored collections are also immutable snapshots.
 | Method | Result |
 | --- | --- |
 | `add(ComponentInterface ...$components)` | Appends components or expands compositions |
-| `heading($content, int $level = 1)` | Appends `Heading` |
-| `text($content)` | Appends `Text` |
+| `heading($content, int $level = 1, HorizontalAlignment $alignment = Left)` | Appends `Heading` |
+| `text($content, HorizontalAlignment $alignment = Left)` | Appends `Text` |
 | `image(string $url, $alt, int $width = 536, ?int $height = null)` | Appends `Image` |
 | `button($label, string $url, ButtonVariant $variant = Primary)` | Appends `Button` |
 | `list(array $items, bool $ordered = false)` | Appends `BulletList` |
-| `table(array $headers, array $rows)` | Appends `Table` |
+| `table(array $headers, array $rows, HorizontalAlignment $alignment = Left, array $columnAlignments = [])` | Appends `Table` |
 | `divider(Color $color = #e2e8f0, int $thickness = 1)` | Appends `Divider` |
 | `spacer(int $height = 16)` | Appends `Spacer` |
 | `group(ComponentInterface ...$components)` | Appends a default `Group` |
@@ -47,18 +47,18 @@ and is exposed through typed getters.
 
 | Component | Constructor contract and constraints |
 | --- | --- |
-| `Heading` | `string|Translation|RichText $content`, level 1–6 |
-| `Text` | `string|Translation|RichText $content`; line breaks are preserved |
+| `Heading` | `string|Translation|RichText $content`, level 1–6 and optional text alignment |
+| `Text` | `string|Translation|RichText $content` and optional text alignment; line breaks are preserved |
 | `Image` | Absolute HTTP(S) URL, `string|Translation` alternative text, width 1–2000, optional height 1–2000 |
 | `Button` | `string|Translation` label, absolute HTTP(S) URL, `ButtonVariant::Primary` or `Secondary` |
 | `BulletList` | List of `string|Translation|RichText`; ordered or unordered |
-| `Table` | Rectangular text headers/rows; at least one column, headers or rows required |
+| `Table` | Rectangular text headers/rows; at least one column, headers or rows required; table-wide and per-column text alignment |
 | `Divider` | `Color`, thickness 1–10 pixels |
 | `Spacer` | Height 1–1000 pixels |
 | `Group` | List of components, optional background/border colors, padding 0–64 pixels |
 | `Columns` | Two component lists and gap 0–64 pixels; columns are equal width |
 | `Badge` | `string|Translation` label and `BadgeVariant` |
-| `ButtonGroup` | At least two `Button` objects, gap 0–64 pixels and `ButtonGroupAlignment` |
+| `ButtonGroup` | At least two `Button` objects, gap 0–64 pixels and `HorizontalAlignment` |
 | `Steps` | Non-empty list of `string|Translation` names, process position and visible state labels |
 | `KeyValue` | Label and value as `string|Translation|RichText`; logical composition using `Table` |
 | `Quote` | Content and optional attribution as `string|Translation|RichText`; logical composition using `Group` and `Text` |
@@ -69,8 +69,10 @@ and is exposed through typed getters.
 | `SocialLinks` | List of validated `SocialLink` value objects; an empty list emits no content |
 
 `BadgeVariant` provides `Neutral`, `Info`, `Success`, `Warning` and `Danger`.
-`ButtonGroupAlignment` provides `Left`, `Center` and `Right`. Component-level
-examples and generated output are linked from the
+`HorizontalAlignment` provides `Left`, `Center` and `Right`. It controls text
+inside `Text`, `Heading` and `Table`; `Table` column overrides take precedence
+over its table-wide setting. For `ButtonGroup`, it controls the placement of the
+button group rather than button text. Component-level examples and generated output are linked from the
 [example catalog](../examples/README.md#component-examples).
 
 ### ButtonGroup

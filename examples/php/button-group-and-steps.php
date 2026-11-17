@@ -6,7 +6,7 @@ use Lemonade\EmailGenerator\Component\Button;
 use Lemonade\EmailGenerator\Component\ButtonGroup;
 use Lemonade\EmailGenerator\Component\Steps;
 use Lemonade\EmailGenerator\EmailGenerator;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
 
 /** @var EmailGenerator $emails */
@@ -24,6 +24,6 @@ return $emails->create(
             new Button('Contact support', 'https://example.com/support?order=123', ButtonVariant::Secondary),
         ],
         gap: 12,
-        alignment: ButtonGroupAlignment::Center,
+        alignment: HorizontalAlignment::Center,
     ))
     ->render();

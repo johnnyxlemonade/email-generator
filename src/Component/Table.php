@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemonade\EmailGenerator\Component;
 
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
 use Lemonade\EmailGenerator\Text\RichText;
@@ -27,13 +28,24 @@ final readonly class Table implements ComponentInterface
     private array $rows;
 
     /**
+     * @var array<int, HorizontalAlignment>
+     */
+    private array $columnAlignments;
+
+    /**
      * Validates the table and detaches references in headers, rows and cells
      *
      * @param list<string|Translation|RichText> $headers
      * @param list<list<string|Translation|RichText>> $rows
+     * @param array<int, HorizontalAlignment> $columnAlignments
      */
-    public function __construct(array $headers, array $rows, private bool $compact = false)
-    {
+    public function __construct(
+        array $headers,
+        array $rows,
+        private bool $compact = false,
+        private HorizontalAlignment $alignment = HorizontalAlignment::Left,
+        array $columnAlignments = [],
+    ) {
         InputValidator::textList($headers);
         if (!array_is_list($rows) || ($headers === [] && $rows === [])) {
             throw new InvalidInputException(ErrorCode::TableInvalid, 'Table needs headers or rows, with rows supplied as a list.');
@@ -59,8 +71,19 @@ final readonly class Table implements ComponentInterface
         foreach ($headers as $header) {
             $headerSnapshot[] = $header;
         }
+        if ($columns === null) {
+            throw new InvalidInputException(ErrorCode::TableInvalid, 'Table needs at least one column.');
+        }
+        $alignmentSnapshot = [];
+        foreach ($columnAlignments as $column => $alignment) {
+            if (!is_int($column) || $column < 0 || $column >= $columns || !$alignment instanceof HorizontalAlignment) {
+                throw new InvalidInputException(ErrorCode::TableInvalid, 'Table column alignments must reference existing columns.');
+            }
+            $alignmentSnapshot[$column] = $alignment;
+        }
         $this->headers = $headerSnapshot;
         $this->rows = $rowSnapshot;
+        $this->columnAlignments = $alignmentSnapshot;
     }
 
     /**
@@ -89,5 +112,13 @@ final readonly class Table implements ComponentInterface
     public function compact(): bool
     {
         return $this->compact;
+    }
+
+    /**
+     * Returns the column override or the table-wide alignment
+     */
+    public function alignmentForColumn(int $column): HorizontalAlignment
+    {
+        return $this->columnAlignments[$column] ?? $this->alignment;
     }
 }

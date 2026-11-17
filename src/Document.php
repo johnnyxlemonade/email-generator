@@ -9,6 +9,7 @@ use Lemonade\EmailGenerator\Composition\ComponentExpander;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Enum\Direction;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Presentation\HtmlRenderer;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Validation\InputValidator;
@@ -77,17 +78,22 @@ final readonly class Document
     /**
      * Returns a new document with a heading appended
      */
-    public function heading(string|Translation|RichText $content, int $level = 1): self
-    {
-        return $this->add(new Heading($content, $level));
+    public function heading(
+        string|Translation|RichText $content,
+        int $level = 1,
+        HorizontalAlignment $alignment = HorizontalAlignment::Left,
+    ): self {
+        return $this->add(new Heading($content, $level, $alignment));
     }
 
     /**
      * Returns a new document with text appended
      */
-    public function text(string|Translation|RichText $content): self
-    {
-        return $this->add(new Text($content));
+    public function text(
+        string|Translation|RichText $content,
+        HorizontalAlignment $alignment = HorizontalAlignment::Left,
+    ): self {
+        return $this->add(new Text($content, $alignment));
     }
 
     /**
@@ -121,10 +127,20 @@ final readonly class Document
      *
      * @param list<string|Translation|RichText> $headers
      * @param list<list<string|Translation|RichText>> $rows
+     * @param array<int, HorizontalAlignment> $columnAlignments
      */
-    public function table(array $headers, array $rows): self
-    {
-        return $this->add(new Table($headers, $rows));
+    public function table(
+        array $headers,
+        array $rows,
+        HorizontalAlignment $alignment = HorizontalAlignment::Left,
+        array $columnAlignments = [],
+    ): self {
+        return $this->add(new Table(
+            headers: $headers,
+            rows: $rows,
+            alignment: $alignment,
+            columnAlignments: $columnAlignments,
+        ));
     }
 
     /**

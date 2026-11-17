@@ -11,7 +11,7 @@ use Lemonade\EmailGenerator\Component\KeyValue;
 use Lemonade\EmailGenerator\Component\Text;
 use Lemonade\EmailGenerator\EmailGenerator;
 use Lemonade\EmailGenerator\Enum\BadgeVariant;
-use Lemonade\EmailGenerator\Enum\ButtonGroupAlignment;
+use Lemonade\EmailGenerator\Enum\HorizontalAlignment;
 use Lemonade\EmailGenerator\Enum\ButtonVariant;
 use Lemonade\EmailGenerator\Text\RichText;
 use Lemonade\EmailGenerator\Text\TextRun;
@@ -85,7 +85,7 @@ return $emails->create(
             new Button('View invoice', $invoiceUrl, ButtonVariant::Secondary),
         ],
         gap: 12,
-        alignment: ButtonGroupAlignment::Left,
+        alignment: HorizontalAlignment::Left,
     ))
     ->add(new Group(
         children: [new Text(new RichText(
