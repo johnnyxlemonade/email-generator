@@ -7,8 +7,6 @@ namespace Lemonade\EmailGenerator\Presentation\Renderer;
 use Lemonade\EmailGenerator\Component\Badge;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
 use Lemonade\EmailGenerator\Enum\BadgeVariant;
-use Lemonade\EmailGenerator\Exception\CompositionException;
-use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\ComponentRenderer;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
 use Lemonade\EmailGenerator\Presentation\RenderContext;
@@ -17,22 +15,23 @@ use Lemonade\EmailGenerator\Presentation\RenderedComponent;
 /**
  * Renders a compact table-backed label using a fixed status palette
  *
+ * @implements HtmlComponentRendererInterface<Badge>
+ *
  * @internal
  */
 final readonly class BadgeRenderer implements HtmlComponentRendererInterface
 {
     /**
      * Renders an escaped status label in a compact table with fixed variant colors
+     *
+     * @param Badge $component
      */
     public function render(
         ComponentInterface $component,
         RenderContext $context,
-        int $contentWidth,
         ComponentRenderer $dispatcher,
+        int $contentWidth,
     ): RenderedComponent {
-        if (!$component instanceof Badge) {
-            throw new CompositionException(ErrorCode::ComponentUnsupported, 'BadgeRenderer requires Badge.');
-        }
         [$background, $foreground] = match ($component->variant()) {
             BadgeVariant::Neutral => ['#f1f5f9', '#334155'],
             BadgeVariant::Info => ['#dbeafe', '#1e40af'],

@@ -6,8 +6,6 @@ namespace Lemonade\EmailGenerator\Presentation\Renderer;
 
 use Lemonade\EmailGenerator\Component\Button;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
-use Lemonade\EmailGenerator\Exception\CompositionException;
-use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Presentation\ComponentRenderer;
 use Lemonade\EmailGenerator\Presentation\Contract\HtmlComponentRendererInterface;
 use Lemonade\EmailGenerator\Presentation\RenderContext;
@@ -16,22 +14,23 @@ use Lemonade\EmailGenerator\Presentation\RenderedComponent;
 /**
  * Renders Button content without its outer layout row
  *
+ * @implements HtmlComponentRendererInterface<Button>
+ *
  * @internal
  */
 final readonly class ButtonRenderer implements HtmlComponentRendererInterface
 {
     /**
      * Renders an escaped button link using the configured accent and label colors
+     *
+     * @param Button $component
      */
     public function render(
         ComponentInterface $component,
         RenderContext $context,
-        int $contentWidth,
         ComponentRenderer $dispatcher,
+        int $contentWidth,
     ): RenderedComponent {
-        if (!$component instanceof Button) {
-            throw new CompositionException(ErrorCode::ComponentUnsupported, 'ButtonRenderer requires Button.');
-        }
         $config = $context->config();
 
         return new RenderedComponent('<table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;">'

@@ -12,6 +12,8 @@ use Lemonade\EmailGenerator\Presentation\RenderedComponent;
 /**
  * Renders one component's content separately from shared layout rows
  *
+ * @template T of ComponentInterface
+ *
  * @internal
  */
 interface HtmlComponentRendererInterface
@@ -20,11 +22,13 @@ interface HtmlComponentRendererInterface
      * Returns content and row sizing, or null to omit an invisible component
      *
      * Nested content uses the supplied dispatcher with its reduced available width
+     *
+     * @param T $component
      */
     public function render(
         ComponentInterface $component,
         RenderContext $context,
-        int $contentWidth,
         ComponentRenderer $dispatcher,
+        int $contentWidth,
     ): ?RenderedComponent;
 }

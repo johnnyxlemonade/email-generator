@@ -24,28 +24,34 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 final class ComponentRendererTest extends EmailTestCase
 {
+    /**
+     * @template T of ComponentInterface
+     *
+     * @param HtmlComponentRendererInterface<T> $renderer
+     * @param T $component
+     */
     #[DataProvider('renderers')]
     public function testIndividualRenderer(HtmlComponentRendererInterface $renderer, ComponentInterface $component, string $expected): void
     {
         $context = new RenderContext($this->translator, new EmailConfig(), 'en');
-        $result = $renderer->render($component, $context, 300, new ComponentRenderer($context));
+        $result = $renderer->render($component, $context, new ComponentRenderer($context), 300);
         self::assertNotNull($result);
         self::assertStringContainsString($expected, $result->html());
         self::assertStringNotContainsString('<script>', $result->html());
         self::assertStringStartsNotWith('<tr><td', $result->html());
     }
 
-    #[DataProvider('renderers')]
-    public function testRendererRejectsWrongComponent(HtmlComponentRendererInterface $renderer, ComponentInterface $component, string $expected): void
+    public function testDefaultDispatcherMapsEveryComponentToItsRenderer(): void
     {
         $context = new RenderContext($this->translator, new EmailConfig(), 'en');
-        $dispatcher = new ComponentRenderer($context, renderers: [$component::class => $renderer]);
-        $this->expectException(CompositionException::class);
-        $renderer->render(new class implements ComponentInterface {}, $context, 300, $dispatcher);
+        $dispatcher = new ComponentRenderer($context, 300);
+        foreach (self::renderers() as [, $component, $expected]) {
+            self::assertStringContainsString($expected, $dispatcher->render($component));
+        }
     }
 
     /**
-     * @return iterable<string, array{HtmlComponentRendererInterface, ComponentInterface, string}>
+     * @return iterable<string, array{HtmlComponentRendererInterface<*>, ComponentInterface, string}>
      */
     public static function renderers(): iterable
     {
@@ -77,7 +83,7 @@ final class ComponentRendererTest extends EmailTestCase
     {
         $component = new class implements ComponentInterface {};
         $renderer = new class implements HtmlComponentRendererInterface {
-            public function render(ComponentInterface $component, RenderContext $context, int $contentWidth, ComponentRenderer $dispatcher): RenderedComponent
+            public function render(ComponentInterface $component, RenderContext $context, ComponentRenderer $dispatcher, int $contentWidth): RenderedComponent
             {
                 return new RenderedComponent('Available width ' . $contentWidth);
             }
@@ -123,6 +129,6 @@ final class ComponentRendererTest extends EmailTestCase
         $expected = '<tr><td height="23" aria-hidden="true" style="height:23px;font-size:1px;line-height:23px;mso-line-height-rule:exactly;">&nbsp;</td></tr>' . "\n";
         self::assertSame($expected, $dispatcher->render($spacer));
         self::assertSame($expected, $dispatcher->render($spacer, true));
-        self::assertSame(23, (new SpacerRenderer())->render($spacer, $context, 300, $dispatcher)->height());
+        self::assertSame(23, (new SpacerRenderer())->render($spacer, $context, $dispatcher, 300)->height());
     }
 }

@@ -121,7 +121,7 @@ final class ColumnsTest extends EmailTestCase
             /**
              * Exposes the width forwarded through nested containers
              */
-            public function render(ComponentInterface $component, RenderContext $context, int $contentWidth, ComponentRenderer $dispatcher): RenderedComponent
+            public function render(ComponentInterface $component, RenderContext $context, ComponentRenderer $dispatcher, int $contentWidth): RenderedComponent
             {
                 return new RenderedComponent('Available width ' . $contentWidth);
             }

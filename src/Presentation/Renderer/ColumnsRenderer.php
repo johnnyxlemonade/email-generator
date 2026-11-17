@@ -6,7 +6,6 @@ namespace Lemonade\EmailGenerator\Presentation\Renderer;
 
 use Lemonade\EmailGenerator\Component\Columns;
 use Lemonade\EmailGenerator\Contract\ComponentInterface;
-use Lemonade\EmailGenerator\Exception\CompositionException;
 use Lemonade\EmailGenerator\Exception\ErrorCode;
 use Lemonade\EmailGenerator\Exception\InvalidInputException;
 use Lemonade\EmailGenerator\Presentation\ComponentRenderer;
@@ -17,22 +16,23 @@ use Lemonade\EmailGenerator\Presentation\RenderedComponent;
 /**
  * Renders fluid stacking columns with exact-width Outlook table cells
  *
+ * @implements HtmlComponentRendererInterface<Columns>
+ *
  * @internal
  */
 final readonly class ColumnsRenderer implements HtmlComponentRendererInterface
 {
     /**
      * Splits available width between nested columns and supplies mobile and Outlook layout
+     *
+     * @param Columns $component
      */
     public function render(
         ComponentInterface $component,
         RenderContext $context,
-        int $contentWidth,
         ComponentRenderer $dispatcher,
+        int $contentWidth,
     ): ?RenderedComponent {
-        if (!$component instanceof Columns) {
-            throw new CompositionException(ErrorCode::ComponentUnsupported, 'ColumnsRenderer requires Columns.');
-        }
         if ($component->first() === [] && $component->second() === []) {
             return null;
         }

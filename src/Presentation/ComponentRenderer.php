@@ -21,14 +21,14 @@ final readonly class ComponentRenderer
     private int $contentWidth;
 
     /**
-     * @var array<class-string<ComponentInterface>, HtmlComponentRendererInterface>
+     * @var array<class-string<ComponentInterface>, object>
      */
     private array $renderers;
 
     /**
      * Registers the built-in renderers for this render's isolated context
      *
-     * @param array<class-string<ComponentInterface>, HtmlComponentRendererInterface>|null $renderers
+     * @param array<class-string<ComponentInterface>, HtmlComponentRendererInterface<*>>|null $renderers
      */
     public function __construct(private RenderContext $context, ?int $contentWidth = null, ?array $renderers = null)
     {
@@ -86,12 +86,14 @@ final readonly class ComponentRenderer
      */
     private function dispatch(ComponentInterface $component, int $contentWidth): ?RenderedComponent
     {
-        $renderer = $this->renderers[$component::class] ?? throw new CompositionException(
+        $registeredRenderer = $this->renderers[$component::class] ?? throw new CompositionException(
             ErrorCode::ComponentUnsupported,
             'Document contains an unexpanded or unsupported component.',
         );
+        /** @var HtmlComponentRendererInterface<ComponentInterface> $renderer */
+        $renderer = $registeredRenderer;
 
-        return $renderer->render($component, $this->context, $contentWidth, $this);
+        return $renderer->render($component, $this->context, $this, $contentWidth);
     }
 
     /**
