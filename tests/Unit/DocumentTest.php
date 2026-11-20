@@ -24,8 +24,8 @@ final class DocumentTest extends EmailTestCase
 {
     public function testDocumentsAndReturnedComponentArraysAreIndependent(): void
     {
-        $first = $this->emails->create(locale: 'cs', title: 'First')->heading('Only first');
-        $second = $this->emails->create(locale: 'en', title: 'Second')->text('Only second');
+        $first = $this->emails()->create(locale: 'cs', title: 'First')->heading('Only first');
+        $second = $this->emails()->create(locale: 'en', title: 'Second')->text('Only second');
         $branch = $first->text('Only branch');
         $copy = $first->components();
         $copy[] = new Text('External');
@@ -52,7 +52,7 @@ final class DocumentTest extends EmailTestCase
                 yield new Group([new Text($this->text)]);
             }
         };
-        $document = $this->emails->create()->group(new Text('Before'), $custom)->text('After');
+        $document = $this->emails()->create()->group(new Text('Before'), $custom)->text('After');
         $custom->text = 'Changed';
 
         $outer = $document->components()[0];
@@ -168,7 +168,7 @@ final class DocumentTest extends EmailTestCase
     public function testInvalidLocaleIsRejected(string $locale): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->emails->create(locale: $locale);
+        $this->emails()->create(locale: $locale);
     }
 
     /**
@@ -181,6 +181,6 @@ final class DocumentTest extends EmailTestCase
 
     public function testDefaultDirectionIsLtr(): void
     {
-        self::assertSame(Direction::Ltr, $this->emails->create()->direction());
+        self::assertSame(Direction::Ltr, $this->emails()->create()->direction());
     }
 }

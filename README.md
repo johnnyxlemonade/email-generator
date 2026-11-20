@@ -1,9 +1,9 @@
 # Lemonade Email Generator
 
-[![PHPStan](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpstan.yml/badge.svg)](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpstan.yml)
-[![Tests](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpunit.yml/badge.svg)](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpunit.yml)
-[![Coding Standards](https://github.com/johnnyxlemonade/email-generator/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/johnnyxlemonade/email-generator/actions/workflows/coding-standards.yml)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Tests](https://img.shields.io/github/actions/workflow/status/johnnyxlemonade/email-generator/phpunit.yml?branch=main&label=Tests&logo=githubactions&logoColor=white&labelColor=0f766e)](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpunit.yml)
+[![PHP 8.3–8.6](https://img.shields.io/badge/PHP-8.3%20%7C%208.4%20%7C%208.5%20%7C%208.6-777BB4?logo=php&logoColor=white)](#requirements)
+[![PHPStan](https://img.shields.io/github/actions/workflow/status/johnnyxlemonade/email-generator/phpstan.yml?branch=main&label=PHPStan&logo=php&logoColor=white&labelColor=5b4baf)](https://github.com/johnnyxlemonade/email-generator/actions/workflows/phpstan.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 
 `johnnyxlemonade/email-generator` provides component-based HTML email generation
 for Lemonade Framework applications. It integrates with the framework container,
@@ -13,10 +13,12 @@ Applications compose immutable documents from typed components, formatted text
 and translations. The package renders HTML with table-based layouts, inline CSS,
 responsive columns and Outlook fallback markup.
 
-## Installation
+## Requirements
 
-The package requires PHP `>=8.3 <8.6` and
-`johnnyxlemonade/framework:dev-main`.
+- PHP 8.3 or newer, tested on PHP 8.3, 8.4, 8.5 and 8.6.
+- `johnnyxlemonade/framework:dev-main`.
+
+## Installation
 
 ```bash
 composer require johnnyxlemonade/email-generator:dev-main
@@ -116,7 +118,7 @@ composer qa
 `composer qa` runs PHP CS Fixer, PHPStan and PHPUnit. GitHub Actions cover
 [coding standards](.github/workflows/coding-standards.yml),
 [static analysis](.github/workflows/phpstan.yml) and
-[tests on PHP 8.3–8.5](.github/workflows/phpunit.yml).
+[tests on PHP 8.3–8.6](.github/workflows/phpunit.yml).
 
 ## License
 

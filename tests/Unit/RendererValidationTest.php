@@ -22,7 +22,7 @@ final class RendererValidationTest extends EmailTestCase
 {
     public function testUnsupportedLeafIsRejectedByTheDispatcher(): void
     {
-        $renderer = new ComponentRenderer(new RenderContext($this->translator, new EmailConfig(), 'en'));
+        $renderer = new ComponentRenderer(new RenderContext($this->translator(), new EmailConfig(), 'en'));
 
         try {
             $renderer->render(new class implements ComponentInterface {});
@@ -35,7 +35,7 @@ final class RendererValidationTest extends EmailTestCase
     #[DataProvider('exhaustedWidths')]
     public function testComponentsRejectExhaustedAvailableWidth(ComponentInterface $component, int $width, ErrorCode $code): void
     {
-        $renderer = new ComponentRenderer(new RenderContext($this->translator, new EmailConfig(), 'en'), $width);
+        $renderer = new ComponentRenderer(new RenderContext($this->translator(), new EmailConfig(), 'en'), $width);
 
         try {
             $renderer->render($component);

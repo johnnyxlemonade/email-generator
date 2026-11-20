@@ -15,7 +15,7 @@ final class AttachmentListRenderingTest extends EmailTestCase
 {
     public function testFilesRenderAsEscapedRowsWithOnlyExplicitLinks(): void
     {
-        $html = $this->emails->create(locale: 'en')->add(new AttachmentList([
+        $html = $this->emails()->create(locale: 'en')->add(new AttachmentList([
             new AttachmentItem(
                 'Contract <final>.pdf',
                 1_800_000,
@@ -41,7 +41,7 @@ final class AttachmentListRenderingTest extends EmailTestCase
 
     public function testSingleFileHeadingUsesTheDocumentLocale(): void
     {
-        $html = $this->emails->create(locale: 'cs')
+        $html = $this->emails()->create(locale: 'cs')
             ->add(new AttachmentList([new AttachmentItem('Smlouva.pdf', 0)]))
             ->render();
 
@@ -52,7 +52,7 @@ final class AttachmentListRenderingTest extends EmailTestCase
 
     public function testEmptyListDoesNotAddVisibleMarkup(): void
     {
-        $empty = $this->emails->create();
+        $empty = $this->emails()->create();
 
         self::assertSame($empty->render(), $empty->add(new AttachmentList([]))->render());
     }

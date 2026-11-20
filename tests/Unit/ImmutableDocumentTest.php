@@ -26,7 +26,7 @@ final class ImmutableDocumentTest extends EmailTestCase
     {
         $title = new Translation('emails.title');
         $preheader = new Translation('emails.preview');
-        $base = $this->emails->create(
+        $base = $this->emails()->create(
             locale: 'cs',
             title: $title,
             preheader: $preheader,
@@ -75,10 +75,10 @@ final class ImmutableDocumentTest extends EmailTestCase
                 yield new Group([new Text('Snapshot ' . ++$this->calls)]);
             }
         };
-        $base = $this->emails->create()->group($composition);
+        $base = $this->emails()->create()->group($composition);
         $first = $base->text('First');
         $second = $base->text('Second');
-        $later = $this->emails->create()->add($composition);
+        $later = $this->emails()->create()->add($composition);
 
         self::assertSame('Snapshot 1', self::snapshotText($base));
         self::assertSame('Snapshot 1', self::snapshotText($first));

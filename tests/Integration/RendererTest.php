@@ -26,7 +26,7 @@ final class RendererTest extends EmailTestCase
     public function testDocumentMetadataAndImageAttributesEscapeUntrustedText(): void
     {
         $unsafe = '<script>alert("x")</script> & \'quote\' &lt;b&gt;';
-        $html = $this->emails->create(title: $unsafe, preheader: $unsafe)
+        $html = $this->emails()->create(title: $unsafe, preheader: $unsafe)
             ->image('https://example.com/a.png', $unsafe)
             ->render();
         $xpath = $this->xpath($html);
@@ -40,7 +40,7 @@ final class RendererTest extends EmailTestCase
     public function testTranslatedMarkupIsEscapedAfterTranslation(): void
     {
         $translation = new Translation('emails.html', ['value' => '<img src=x onerror=alert(1)>']);
-        $html = $this->emails->create(locale: 'cs')->text($translation)->render();
+        $html = $this->emails()->create(locale: 'cs')->text($translation)->render();
         $xpath = $this->xpath($html);
 
         self::assertSame(0.0, $xpath->evaluate('count(//b | //*[@onerror])'));
@@ -49,7 +49,7 @@ final class RendererTest extends EmailTestCase
 
     public function testImageDimensionsRespectConfiguredWidthAndAspectRatio(): void
     {
-        $emails = new EmailGenerator(new HtmlRenderer($this->translator, new EmailConfig(width: EmailWidth::Compact)));
+        $emails = new EmailGenerator(new HtmlRenderer($this->translator(), new EmailConfig(width: EmailWidth::Compact)));
         $xpath = $this->xpath($emails->create()->image('https://example.com/banner.png', '', 1000, 500)->render());
         self::assertSame('416', $xpath->evaluate('string(//img/@width)'));
         self::assertSame('208', $xpath->evaluate('string(//img/@height)'));
@@ -57,7 +57,7 @@ final class RendererTest extends EmailTestCase
 
     public function testDesktopWidthFlowsThroughContainersAndWidthSensitiveComponents(): void
     {
-        $emails = new EmailGenerator(new HtmlRenderer($this->translator, new EmailConfig(width: EmailWidth::Desktop)));
+        $emails = new EmailGenerator(new HtmlRenderer($this->translator(), new EmailConfig(width: EmailWidth::Desktop)));
         $html = $emails->create()
             ->image('https://example.com/full.png', 'Full width', 2000, 1000)
             ->add(new Columns(
@@ -90,7 +90,7 @@ final class RendererTest extends EmailTestCase
     public function testConfiguredFontFamilyIsUsedByTheLayoutAndAllTextRenderers(): void
     {
         $fontFamily = FontFamily::Georgia;
-        $emails = new EmailGenerator(new HtmlRenderer($this->translator, new EmailConfig(fontFamily: $fontFamily)));
+        $emails = new EmailGenerator(new HtmlRenderer($this->translator(), new EmailConfig(fontFamily: $fontFamily)));
         $html = $emails->create()
             ->heading('Heading')
             ->image('https://example.com/image.png', 'Image')
@@ -112,7 +112,7 @@ final class RendererTest extends EmailTestCase
 
     public function testSignatureKeepsDesktopImageWidthAndDefinesCompactMobileColumns(): void
     {
-        $html = $this->emails->create()->add(new Signature(
+        $html = $this->emails()->create()->add(new Signature(
             new Contact('Maya Chen', 'Customer Success'),
             new ImageSource('https://example.com/maya.png', 'Maya Chen'),
         ))->render();
@@ -125,7 +125,7 @@ final class RendererTest extends EmailTestCase
 
     public function testStepsExposeTextStatesAndACompactMobileIndicator(): void
     {
-        $html = $this->emails->create()->add(new Steps(['Created', 'Processing', 'Delivered'], currentStep: 2))->render();
+        $html = $this->emails()->create()->add(new Steps(['Created', 'Processing', 'Delivered'], currentStep: 2))->render();
         $xpath = $this->xpath($html);
 
         self::assertSame(1.0, $xpath->evaluate('count(//*[@aria-current="step"])'));
@@ -138,7 +138,7 @@ final class RendererTest extends EmailTestCase
 
     public function testTableUsesLeftAlignmentByDefault(): void
     {
-        $xpath = $this->xpath($this->emails->create()->table(['Item'], [['Plan']])->render());
+        $xpath = $this->xpath($this->emails()->create()->table(['Item'], [['Plan']])->render());
 
         self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//th[@align="left" and contains(@style, "text-align:left;")])'));
         self::assertSame(1.0, $xpath->evaluate('count(//table[thead]//td[@align="left" and contains(@style, "text-align:left;")])'));
@@ -146,7 +146,7 @@ final class RendererTest extends EmailTestCase
 
     public function testTextAndHeadingApplyAlignmentWithoutChangingTypedContent(): void
     {
-        $xpath = $this->xpath($this->emails->create(locale: 'cs')
+        $xpath = $this->xpath($this->emails()->create(locale: 'cs')
             ->text(new RichText(TextRun::strong('Centered')), alignment: HorizontalAlignment::Center)
             ->heading(new Translation('emails.activate'), level: 2, alignment: HorizontalAlignment::Right)
             ->render());
@@ -157,7 +157,7 @@ final class RendererTest extends EmailTestCase
 
     public function testTableAppliesGlobalAlignmentToHeadersAndCells(): void
     {
-        $xpath = $this->xpath($this->emails->create()->table(
+        $xpath = $this->xpath($this->emails()->create()->table(
             ['Item'],
             [['Plan']],
             alignment: HorizontalAlignment::Center,
@@ -169,7 +169,7 @@ final class RendererTest extends EmailTestCase
 
     public function testTableColumnAlignmentOverridesGlobalAlignment(): void
     {
-        $xpath = $this->xpath($this->emails->create()->table(
+        $xpath = $this->xpath($this->emails()->create()->table(
             ['Item', 'Quantity', 'Amount'],
             [['Plan', '3', '$120.00'], ['Support', '1', '$25.00']],
             alignment: HorizontalAlignment::Center,
@@ -183,7 +183,7 @@ final class RendererTest extends EmailTestCase
 
     public function testRtlAndRegionalLocaleAreExplicit(): void
     {
-        $xpath = $this->xpath($this->emails->create(locale: 'ar_EG', direction: Direction::Rtl)->text('مرحبا')->render());
+        $xpath = $this->xpath($this->emails()->create(locale: 'ar_EG', direction: Direction::Rtl)->text('مرحبا')->render());
         self::assertSame('ar-EG', $xpath->evaluate('string(/html/@lang)'));
         self::assertSame('rtl', $xpath->evaluate('string(/html/@dir)'));
         self::assertSame('مرحبا', $xpath->evaluate('string(//p)'));

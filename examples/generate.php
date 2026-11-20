@@ -26,9 +26,19 @@ foreach (EmailWidth::cases() as $width) {
     $variants[strtolower($width->name)] = $width;
 }
 
-$requestedVariant = $argv[1] ?? null;
+$arguments = $_SERVER['argv'] ?? null;
 
-if (count($argv) > 2 || ($requestedVariant !== null && !isset($variants[strtolower($requestedVariant)]))) {
+if (!is_array($arguments)) {
+    throw new RuntimeException('CLI arguments are unavailable. Enable register_argc_argv.');
+}
+
+$requestedVariant = $arguments[1] ?? null;
+
+if ($requestedVariant !== null && !is_string($requestedVariant)) {
+    throw new RuntimeException('The requested example variant must be a string.');
+}
+
+if (count($arguments) > 2 || ($requestedVariant !== null && !isset($variants[strtolower($requestedVariant)]))) {
     throw new RuntimeException(sprintf(
         'Usage: php examples/generate.php [%s]',
         implode('|', array_keys($variants)),

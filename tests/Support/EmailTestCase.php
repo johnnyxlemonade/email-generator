@@ -24,8 +24,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class EmailTestCase extends TestCase
 {
-    protected FileTranslator $translator;
-    protected EmailGenerator $emails;
+    private ?FileTranslator $translator = null;
+    private ?EmailGenerator $emails = null;
 
     /**
      * Creates a testing application context rooted in the fixture directory
@@ -35,12 +35,29 @@ abstract class EmailTestCase extends TestCase
         return new ApplicationContext(Environment::Testing, new Path(__DIR__ . '/../Fixtures', __DIR__ . '/../Fixtures/public'), new DebugMode(false));
     }
 
-    /**
-     * Initializes the test case with fixture translations and an email generator
-     */
-    public function __construct(string $name)
+    protected function translator(): FileTranslator
     {
-        parent::__construct($name);
+        $this->initializeFixtures();
+
+        return $this->translator ?? throw new \LogicException('Email test translator was not initialized.');
+    }
+
+    protected function emails(): EmailGenerator
+    {
+        $this->initializeFixtures();
+
+        return $this->emails ?? throw new \LogicException('Email generator was not initialized.');
+    }
+
+    /**
+     * Initializes fixture translations and an email generator on first use
+     */
+    private function initializeFixtures(): void
+    {
+        if ($this->translator !== null && $this->emails !== null) {
+            return;
+        }
+
         $config = (new LocalizationConfigResolver())->resolve(
             LocalizationConfigDefinition::create()->defaultLocale('cs')->fallbackLocale('en')->supportedLocales(['cs', 'en']),
         );
